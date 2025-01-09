@@ -1,22 +1,29 @@
-# gantt-task-react
+# uay-react-tailwind-gantt
 
-## Interactive Gantt Chart for React with TypeScript.
+This project is based on [MaTeMaTuK/gantt-task-react](https://github.com/MaTeMaTuK/gantt-task-react).
+The original library was no longer maintained. Also, we wanted to move from css to tailwindcss.
 
-![example](https://user-images.githubusercontent.com/26743903/88215863-f35d5f00-cc64-11ea-81db-e829e6e9b5c8.png)
+It provides React components with tailwind styles for building Gantt charts.
 
-## [Live Demo](https://matematuk.github.io/gantt-task-react/)
+## Original Live Demo
+
+Since we do not yet have our own live demo, you can check the original live demo here:
+
+[matematuk.github.io/gantt-task-react/](https://matematuk.github.io/gantt-task-react/)
 
 ## Install
 
 ```
-npm install gantt-task-react
+npm install uay-react-tailwind-gantt
+yarn install uay-react-tailwind-gantt
+pnpm install uay-react-tailwind-gantt
 ```
 
 ## How to use it
 
 ```javascript
-import { Gantt, Task, EventOption, StylingOption, ViewMode, DisplayOption } from 'gantt-task-react';
-import "gantt-task-react/dist/index.css";
+import { Gantt, Task, EventOption, StylingOption, ViewMode, DisplayOption } from 'uay-react-tailwind-gantt';
+import "uay-react-tailwind-gantt/dist/index.css";
 
 let tasks: Task[] = [
     {
@@ -144,6 +151,17 @@ npm start
 
 \*Required
 
+## Roadmap
+
+[ ] Move from css to tailwindcss
+[ ] Rename types and prefix with `Gantt`
+[ ] Update docs
+[ ] Remove example
+[ ] Optional: Add vite example
+[ ] Move types to `./docs` folder
+[ ] Fix CI/CD
+[ ] Release to npm registry
+
 ## License
 
-[MIT](https://oss.ninja/mit/jaredpalmer/)
+[MIT](./LICENSE)
