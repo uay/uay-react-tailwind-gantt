@@ -11,7 +11,7 @@ import {
 import { DateSetup } from '../../types/date-setup';
 import styles from './calendar.module.css';
 
-export type CalendarProps = {
+type CalendarProps = {
   dateSetup: DateSetup;
   locale: string;
   viewMode: ViewMode;

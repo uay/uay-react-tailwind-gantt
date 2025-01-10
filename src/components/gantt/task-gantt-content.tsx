@@ -11,7 +11,7 @@ import {
   GanttEvent,
 } from '../../types/gantt-task-actions';
 
-export type TaskGanttContentProps = {
+type TaskGanttContentProps = {
   tasks: BarTask[];
   dates: Date[];
   ganttEvent: GanttEvent;

@@ -7,7 +7,7 @@ import { Milestone } from './milestone/milestone';
 import { Project } from './project/project';
 import style from './task-list.module.css';
 
-export type TaskItemProps = {
+type TaskItemProps = {
   task: BarTask;
   arrowIndent: number;
   taskHeight: number;
