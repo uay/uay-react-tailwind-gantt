@@ -1,6 +1,6 @@
-import React from "react";
-import { TaskItemProps } from "../task-item";
-import styles from "./project.module.css";
+import React from 'react';
+import { TaskItemProps } from '../task-item';
+import styles from './project.module.css';
 
 export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
   const barColor = isSelected
@@ -18,7 +18,7 @@ export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
     task.y + task.height,
     task.x1 + 15,
     task.y + task.height / 2 - 1,
-  ].join(",");
+  ].join(',');
   const projectRightTriangle = [
     task.x2,
     task.y + task.height / 2 - 1,
@@ -26,7 +26,7 @@ export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
     task.y + task.height,
     task.x2 - 15,
     task.y + task.height / 2 - 1,
-  ].join(",");
+  ].join(',');
 
   return (
     <g tabIndex={0} className={styles.projectWrapper}>

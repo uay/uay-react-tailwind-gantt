@@ -1,9 +1,9 @@
-import React, { ReactChild } from "react";
-import { Task } from "../../types/public-types";
-import { addToDate } from "../../helpers/date-helper";
-import styles from "./grid.module.css";
+import React, { ReactChild } from 'react';
+import { Task } from '../../types/public-types';
+import { addToDate } from '../../helpers/date-helper';
+import styles from './grid.module.css';
 
-export type GridBodyProps = {
+type GridBodyProps = {
   tasks: Task[];
   dates: Date[];
   svgWidth: number;
@@ -36,23 +36,23 @@ export const GridBody: React.FC<GridBodyProps> = ({
   for (const task of tasks) {
     gridRows.push(
       <rect
-        key={"Row" + task.id}
+        key={'Row' + task.id}
         x="0"
         y={y}
         width={svgWidth}
         height={rowHeight}
         className={styles.gridRow}
-      />
+      />,
     );
     rowLines.push(
       <line
-        key={"RowLine" + task.id}
+        key={'RowLine' + task.id}
         x="0"
         y1={y + rowHeight}
         x2={svgWidth}
         y2={y + rowHeight}
         className={styles.gridRowLine}
-      />
+      />,
     );
     y += rowHeight;
   }
@@ -71,7 +71,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
         x2={tickX}
         y2={y}
         className={styles.gridTick}
-      />
+      />,
     );
     if (
       (i + 1 !== dates.length &&
@@ -84,7 +84,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
         addToDate(
           date,
           date.getTime() - dates[i - 1].getTime(),
-          "millisecond"
+          'millisecond',
         ).getTime() >= now.getTime())
     ) {
       today = (

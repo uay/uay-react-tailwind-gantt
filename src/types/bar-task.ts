@@ -1,4 +1,4 @@
-import { Task, TaskType } from "./public-types";
+import { Task, TaskType } from './public-types';
 
 export interface BarTask extends Task {
   index: number;
@@ -20,4 +20,4 @@ export interface BarTask extends Task {
   };
 }
 
-export type TaskTypeInternal = TaskType | "smalltask";
+export type TaskTypeInternal = TaskType | 'smalltask';

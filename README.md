@@ -69,6 +69,10 @@ npm start
 
 You find the configuration docs here: [./docs/Configuration.md](./docs/Configuration.md)
 
+## Guidelines
+
+You find the guidelines for contributions and code here: [./docs/Guidelines.md](./docs/Guidelines.md)
+
 ## Roadmap
 
 You find the roadmap docs here: [./docs/Roadmap.md](./docs/Roadmap.md)

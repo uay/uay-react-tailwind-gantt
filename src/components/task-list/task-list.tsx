@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import { BarTask } from "../../types/bar-task";
-import { Task } from "../../types/public-types";
+import React, { useEffect, useRef } from 'react';
+import { BarTask } from '../../types/bar-task';
+import { Task } from '../../types/public-types';
 
-export type TaskListProps = {
+type TaskListProps = {
   headerHeight: number;
   rowWidth: string;
   fontFamily: string;
@@ -67,7 +67,7 @@ export const TaskList: React.FC<TaskListProps> = ({
     fontSize,
     rowWidth,
   };
-  const selectedTaskId = selectedTask ? selectedTask.id : "";
+  const selectedTaskId = selectedTask ? selectedTask.id : '';
   const tableProps = {
     rowHeight,
     rowWidth,
