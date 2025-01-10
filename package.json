@@ -26,8 +26,12 @@
   ],
   "scripts": {
     "build": "microbundle-crl --no-compress --format modern,cjs",
-    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "format:ci": "prettier --check \"**/*.{ts,tsx}\"",
+    "lint": "eslint --fix . && turbo run lint",
+    "lint:ci": "eslint --quiet . && turbo run lint",
     "prepare": "run-s build",
+    "start": "microbundle-crl watch --no-compress --format modern,cjs",
     "test": "run-s test:*",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:lint": "eslint --ext .tsx src/**/*",
