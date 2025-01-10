@@ -1,6 +1,6 @@
-import React from "react";
-import { TaskItemProps } from "../task-item";
-import styles from "./milestone.module.css";
+import React from 'react';
+import { TaskItemProps } from '../task-item';
+import styles from './milestone.module.css';
 
 export const Milestone: React.FC<TaskItemProps> = ({
   task,
@@ -29,7 +29,7 @@ export const Milestone: React.FC<TaskItemProps> = ({
         transform={transform}
         className={styles.milestoneBackground}
         onMouseDown={e => {
-          isDateChangeable && onEventStart("move", task, e);
+          isDateChangeable && onEventStart('move', task, e);
         }}
       />
     </g>

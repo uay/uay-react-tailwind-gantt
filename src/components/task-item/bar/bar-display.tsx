@@ -1,5 +1,5 @@
-import React from "react";
-import style from "./bar.module.css";
+import React from 'react';
+import style from './bar.module.css';
 
 type BarDisplayProps = {
   x: number;
