@@ -2,7 +2,7 @@ import {
   seedDates,
   addToDate,
   getWeekNumberISO8601,
-} from '../helpers/date-helper';
+} from './date-helper';
 import { ViewMode } from '../types/public-types';
 
 describe('seed date', () => {

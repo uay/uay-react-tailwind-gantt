@@ -213,3 +213,7 @@ above).
 
 We cannot use `<T>` in every context, and then we would have to use both in some cases, or we are not consistent
 everywhere.
+
+## Test-files location
+
+Test-files should be located in the same folder as the file to be tested. This makes it easier to understand the context.

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Gantt } from '../index';
+import { Gantt } from './gantt';
 
 describe('gantt', () => {
   it('renders without crashing', () => {
