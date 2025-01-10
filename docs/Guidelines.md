@@ -154,7 +154,7 @@ would be, for example, a separate function or an IF-Else statement.
 
 ## Prefer type (with readonly) over interface
 
-We prefer types to interfaces when defining object structures. In addition, we always want to use readonly. (See
+We prefer types over when defining object structures. In addition, we always want to use readonly. (See
 `Read-only by default`)
 
 **Preferred**:
@@ -172,6 +172,33 @@ interface Demo {
   readonly name: string;
 }
 ```
+
+**Lecture**:
+
+- https://www.youtube.com/watch?v=zM9UPcIyyhQ
+- https://www.youtube.com/watch?v=Idf0zh9f3qQ
+
+## Arrow functions vs. function expressions
+
+For most cases, arrow functions are preferred over function expressions.
+Arrow functions are more concise and easier to read.
+
+It's recommended to use regular function in any of the following cases:
+
+- when you need to use a constructor with the new keyword
+- when you need the binding to be dynamically scoped
+- when you want to use the arguments object
+
+And you can use arrow functions in any of the following cases:
+
+- when you want a more concise syntax for the function
+- when you need to maintain the lexical scope of this
+- **for non-method functions (in most cases)**
+
+**Lecture**:
+- https://www.freecodecamp.org/news/regular-vs-arrow-functions-javascript/
+- https://www.freecodecamp.org/news/the-difference-between-arrow-functions-and-normal-functions/
+
 
 ## Readonly Data Classes
 
