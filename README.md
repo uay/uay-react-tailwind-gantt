@@ -5,6 +5,8 @@ The original library was no longer maintained. Also, we wanted to move from css 
 
 It provides React components with tailwind styles for building Gantt charts.
 
+**IMPORTANT**: This library is meant to be styled by tailwindcss. Therefore, a tailwindcss configuration is required in your project.
+
 ## Original Live Demo
 
 Since we do not yet have our own live demo, you can check the original live demo here:
