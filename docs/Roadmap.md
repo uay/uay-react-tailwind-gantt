@@ -1,10 +1,10 @@
 # Roadmap
 
-- [x] Move from css to tailwindcss
+- [x] ~~Move types to `./docs` folder~~
 - [ ] Rename types and prefix with `Gantt`
 - [ ] Update docs
 - [ ] Remove example
 - [ ] Optional: Add vite example
-- [ ] Move types to `./docs` folder
 - [ ] Fix CI/CD
+- [ ] Move from css to tailwindcss
 - [ ] Release to npm registry
