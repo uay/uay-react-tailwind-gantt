@@ -153,7 +153,7 @@ npm start
 
 ## Roadmap
 
-- [ ] Move from css to tailwindcss
+- [x] Move from css to tailwindcss
 - [ ] Rename types and prefix with `Gantt`
 - [ ] Update docs
 - [ ] Remove example
