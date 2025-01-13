@@ -1,7 +1,6 @@
 import React, { ReactChild } from 'react';
 import { Task } from '../../types/public-types';
 import { addToDate } from '../../helpers/date-helper';
-import styles from './grid.module.css';
 
 type GridBodyProps = {
   tasks: Task[];
@@ -12,15 +11,16 @@ type GridBodyProps = {
   todayColor: string;
   rtl: boolean;
 };
+
 export const GridBody: React.FC<GridBodyProps> = ({
-  tasks,
-  dates,
-  rowHeight,
-  svgWidth,
-  columnWidth,
-  todayColor,
-  rtl,
-}) => {
+                                                    tasks,
+                                                    dates,
+                                                    rowHeight,
+                                                    svgWidth,
+                                                    columnWidth,
+                                                    todayColor,
+                                                    rtl,
+                                                  }) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
   const rowLines: ReactChild[] = [
@@ -30,9 +30,10 @@ export const GridBody: React.FC<GridBodyProps> = ({
       y1={0}
       x2={svgWidth}
       y2={0}
-      className={styles.gridRowLine}
+      className="stroke-gray-200"
     />,
   ];
+
   for (const task of tasks) {
     gridRows.push(
       <rect
@@ -41,8 +42,8 @@ export const GridBody: React.FC<GridBodyProps> = ({
         y={y}
         width={svgWidth}
         height={rowHeight}
-        className={styles.gridRow}
-      />,
+        className={y % (2 * rowHeight) === 0 ? 'fill-white' : 'fill-gray-100'}
+      />
     );
     rowLines.push(
       <line
@@ -51,8 +52,8 @@ export const GridBody: React.FC<GridBodyProps> = ({
         y1={y + rowHeight}
         x2={svgWidth}
         y2={y + rowHeight}
-        className={styles.gridRowLine}
-      />,
+        className="stroke-gray-200"
+      />
     );
     y += rowHeight;
   }
@@ -70,21 +71,21 @@ export const GridBody: React.FC<GridBodyProps> = ({
         y1={0}
         x2={tickX}
         y2={y}
-        className={styles.gridTick}
-      />,
+        className="stroke-gray-300"
+      />
     );
+
     if (
       (i + 1 !== dates.length &&
         date.getTime() < now.getTime() &&
         dates[i + 1].getTime() >= now.getTime()) ||
-      // if current date is last
       (i !== 0 &&
         i + 1 === dates.length &&
         date.getTime() < now.getTime() &&
         addToDate(
           date,
           date.getTime() - dates[i - 1].getTime(),
-          'millisecond',
+          'millisecond'
         ).getTime() >= now.getTime())
     ) {
       today = (
@@ -116,6 +117,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
     }
     tickX += columnWidth;
   }
+
   return (
     <g className="gridBody">
       <g className="rows">{gridRows}</g>

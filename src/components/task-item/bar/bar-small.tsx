@@ -3,7 +3,6 @@ import { getProgressPoint } from '../../../helpers/bar-helper';
 import { BarDisplay } from './bar-display';
 import { BarProgressHandle } from './bar-progress-handle';
 import { TaskItemProps } from '../task-item';
-import styles from './bar.module.css';
 
 export const BarSmall: React.FC<TaskItemProps> = ({
   task,
@@ -18,7 +17,7 @@ export const BarSmall: React.FC<TaskItemProps> = ({
     task.height,
   );
   return (
-    <g className={styles.barWrapper} tabIndex={0}>
+    <g className="cursor-pointer outline-none" tabIndex={0}>
       <BarDisplay
         x={task.x1}
         y={task.y}

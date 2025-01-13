@@ -22,7 +22,6 @@ import { GanttEvent } from '../../types/gantt-task-actions';
 import { DateSetup } from '../../types/date-setup';
 import { HorizontalScroll } from '../other/horizontal-scroll';
 import { removeHiddenTasks, sortTasks } from '../../helpers/other-helper';
-import styles from './gantt.module.css';
 
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
@@ -441,7 +440,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     headerHeight,
     scrollY,
     ganttHeight,
-    horizontalContainerClass: styles.horizontalContainer,
+    horizontalContainerClass: "overflow-hidden m-0 p-0",
     selectedTask,
     taskListRef,
     setSelectedTask: handleSelectedTask,
@@ -452,7 +451,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   return (
     <div>
       <div
-        className={styles.wrapper}
+        className="flex p-0 m-0 list-none outline-none relative"
         onKeyDown={handleKeyDown}
         tabIndex={0}
         ref={wrapperRef}

@@ -1,6 +1,22 @@
 import React from 'react';
-import { TaskItemProps } from '../task-item';
-import styles from './project.module.css';
+import { BarTask } from '../../../types/bar-task';
+import { GanttContentMoveAction } from '../../../types/gantt-task-actions';
+
+type TaskItemProps = {
+  task: BarTask;
+  arrowIndent: number;
+  taskHeight: number;
+  isProgressChangeable: boolean;
+  isDateChangeable: boolean;
+  isDelete: boolean;
+  isSelected: boolean;
+  rtl: boolean;
+  onEventStart: (
+    action: GanttContentMoveAction,
+    selectedTask: BarTask,
+    event?: React.MouseEvent | React.KeyboardEvent
+  ) => any;
+};
 
 export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
   const barColor = isSelected
@@ -9,7 +25,7 @@ export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
   const processColor = isSelected
     ? task.styles.progressSelectedColor
     : task.styles.progressColor;
-  const projectWith = task.x2 - task.x1;
+  const projectWidth = task.x2 - task.x1;
 
   const projectLeftTriangle = [
     task.x1,
@@ -29,45 +45,48 @@ export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
   ].join(',');
 
   return (
-    <g tabIndex={0} className={styles.projectWrapper}>
+    <g
+      tabIndex={0}
+      className="cursor-pointer outline-none"
+    >
       <rect
         fill={barColor}
         x={task.x1}
-        width={projectWith}
+        width={projectWidth}
         y={task.y}
         height={task.height}
         rx={task.barCornerRadius}
         ry={task.barCornerRadius}
-        className={styles.projectBackground}
+        className="opacity-60 select-none"
       />
       <rect
         x={task.progressX}
         width={task.progressWidth}
         y={task.y}
         height={task.height}
-        ry={task.barCornerRadius}
         rx={task.barCornerRadius}
+        ry={task.barCornerRadius}
         fill={processColor}
       />
       <rect
         fill={barColor}
         x={task.x1}
-        width={projectWith}
+        width={projectWidth}
         y={task.y}
         height={task.height / 2}
         rx={task.barCornerRadius}
         ry={task.barCornerRadius}
-        className={styles.projectTop}
+        className="select-none"
       />
       <polygon
-        className={styles.projectTop}
         points={projectLeftTriangle}
         fill={barColor}
+        className="select-none"
       />
       <polygon
-        className={styles.projectTop}
         points={projectRightTriangle}
         fill={barColor}
+        className="select-none"
       />
     </g>
   );

@@ -5,7 +5,6 @@ import { Bar } from './bar/bar';
 import { BarSmall } from './bar/bar-small';
 import { Milestone } from './milestone/milestone';
 import { Project } from './project/project';
-import style from './task-list.module.css';
 
 type TaskItemProps = {
   task: BarTask;
@@ -19,11 +18,11 @@ type TaskItemProps = {
   onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent,
+    event?: React.MouseEvent | React.KeyboardEvent
   ) => any;
 };
 
-export const TaskItem: React.FC<TaskItemProps> = props => {
+export const TaskItem: React.FC<TaskItemProps> = (props) => {
   const {
     task,
     arrowIndent,
@@ -32,9 +31,8 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
     isSelected,
     rtl,
     onEventStart,
-  } = {
-    ...props,
-  };
+  } = props;
+
   const textRef = useRef<SVGTextElement>(null);
   const [taskItem, setTaskItem] = useState<JSX.Element>(<div />);
   const [isTextInside, setIsTextInside] = useState(true);
@@ -82,40 +80,27 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
 
   return (
     <g
-      onKeyDown={e => {
-        switch (e.key) {
-          case 'Delete': {
-            if (isDelete) onEventStart('delete', task, e);
-            break;
-          }
+      onKeyDown={(e) => {
+        if (e.key === 'Delete' && isDelete) {
+          onEventStart('delete', task, e);
         }
         e.stopPropagation();
       }}
-      onMouseEnter={e => {
-        onEventStart('mouseenter', task, e);
-      }}
-      onMouseLeave={e => {
-        onEventStart('mouseleave', task, e);
-      }}
-      onDoubleClick={e => {
-        onEventStart('dblclick', task, e);
-      }}
-      onClick={e => {
-        onEventStart('click', task, e);
-      }}
-      onFocus={() => {
-        onEventStart('select', task);
-      }}
+      onMouseEnter={(e) => onEventStart('mouseenter', task, e)}
+      onMouseLeave={(e) => onEventStart('mouseleave', task, e)}
+      onDoubleClick={(e) => onEventStart('dblclick', task, e)}
+      onClick={(e) => onEventStart('click', task, e)}
+      onFocus={() => onEventStart('select', task)}
     >
       {taskItem}
       <text
         x={getX()}
         y={task.y + taskHeight * 0.5}
-        className={
+        className={`${
           isTextInside
-            ? style.barLabel
-            : style.barLabel && style.barLabelOutside
-        }
+            ? 'fill-white text-center font-light select-none pointer-events-none'
+            : 'fill-gray-700 text-start select-none pointer-events-none'
+        }`}
         ref={textRef}
       >
         {task.name}

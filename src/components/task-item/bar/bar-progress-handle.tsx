@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './bar.module.css';
 
 type BarProgressHandleProps = {
   progressPoint: string;
@@ -11,7 +10,7 @@ export const BarProgressHandle: React.FC<BarProgressHandleProps> = ({
 }) => {
   return (
     <polygon
-      className={styles.barHandle}
+      className="fill-gray-300 cursor-ew-resize opacity-0 invisible"
       points={progressPoint}
       onMouseDown={onMouseDown}
     />

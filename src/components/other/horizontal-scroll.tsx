@@ -1,5 +1,4 @@
 import React, { SyntheticEvent, useRef, useEffect } from 'react';
-import styles from './horizontal-scroll.module.css';
 
 export const HorizontalScroll: React.FC<{
   scroll: number;
@@ -24,11 +23,11 @@ export const HorizontalScroll: React.FC<{
           ? `0px ${taskListWidth}px 0px 0px`
           : `0px 0px 0px ${taskListWidth}px`,
       }}
-      className={styles.scrollWrapper}
+      className="overflow-auto max-w-full h-5 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent scrollbar-thumb-rounded-lg"
       onScroll={onScroll}
       ref={scrollRef}
     >
-      <div style={{ width: svgWidth }} className={styles.scroll} />
+      <div style={{ width: svgWidth }} className="h-1" />
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import React, { SyntheticEvent, useRef, useEffect } from 'react';
-import styles from './vertical-scroll.module.css';
 
 export const VerticalScroll: React.FC<{
   scroll: number;
@@ -9,13 +8,13 @@ export const VerticalScroll: React.FC<{
   rtl: boolean;
   onScroll: (event: SyntheticEvent<HTMLDivElement>) => void;
 }> = ({
-  scroll,
-  ganttHeight,
-  ganttFullHeight,
-  headerHeight,
-  rtl,
-  onScroll,
-}) => {
+        scroll,
+        ganttHeight,
+        ganttFullHeight,
+        headerHeight,
+        rtl,
+        onScroll,
+      }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,7 +30,7 @@ export const VerticalScroll: React.FC<{
         marginTop: headerHeight,
         marginLeft: rtl ? '' : '-1rem',
       }}
-      className={styles.scroll}
+      className="overflow-y-auto w-4 flex-shrink-0 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent scrollbar-thumb-rounded-lg"
       onScroll={onScroll}
       ref={scrollRef}
     >
