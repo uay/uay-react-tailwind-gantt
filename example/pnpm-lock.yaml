@@ -1274,7 +1274,7 @@ packages:
 
   uay-react-tailwind-gantt@file:..:
     resolution: {directory: .., type: directory}
-    engines: {node: '>=10'}
+    engines: {node: '>=18'}
     peerDependencies:
       react: ^18.0.0
 
