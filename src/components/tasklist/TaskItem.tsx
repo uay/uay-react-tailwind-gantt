@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { GanttContentMoveAction } from '../../model/GanttContentMoveAction';
 import { BarTask } from '../../model/BarTask';
 import { getProgressPoint } from '../../helpers/getProgressPoint';
@@ -15,7 +15,7 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
   } = props;
 
   const textRef = useRef<SVGTextElement>(null);
-  const [taskItem, setTaskItem] = useState<JSX.Element>(<div />);
+  const [taskItem, setTaskItem] = useState<ReactElement>(<div />);
   const [isTextInside, setIsTextInside] = useState(true);
 
   useEffect(() => {
