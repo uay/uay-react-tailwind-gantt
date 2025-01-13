@@ -7,15 +7,15 @@ import * as fs from 'fs';
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
 export default {
-  input: 'src/index.ts',
+  input: 'src/index.tsx',
   output: [
     {
-      file: 'dist/index.cjs.js',
+      file: 'dist/index.cjs.jsx',
       format: 'cjs',
       sourcemap: true,
     },
     {
-      file: 'dist/index.esm.js',
+      file: 'dist/index.esm.jsx',
       format: 'es',
       sourcemap: true,
     },
