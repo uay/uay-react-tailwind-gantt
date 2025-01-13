@@ -1276,7 +1276,7 @@ packages:
     resolution: {directory: .., type: directory}
     engines: {node: '>=18'}
     peerDependencies:
-      react: ^18.0.0
+      react: '>=18.0.0'
 
   update-browserslist-db@1.1.2:
     resolution: {integrity: sha512-PPypAm5qvlD7XMZC3BujecnaOxwhrtoFR+Dqkk5Aa/6DssiH0ibKoketaj9w8LP7Bont1rYeoV5plxD7RTEPRg==}
