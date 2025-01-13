@@ -196,9 +196,9 @@ And you can use arrow functions in any of the following cases:
 - **for non-method functions (in most cases)**
 
 **Lecture**:
+
 - https://www.freecodecamp.org/news/regular-vs-arrow-functions-javascript/
 - https://www.freecodecamp.org/news/the-difference-between-arrow-functions-and-normal-functions/
-
 
 ## Readonly Data Classes
 
@@ -243,4 +243,17 @@ everywhere.
 
 ## Test-files location
 
-Test-files should be located in the same folder as the file to be tested. This makes it easier to understand the context.
+Test-files should be located in the same folder as the file to be tested. This makes it easier to understand the
+context.
+
+## Avoid prop drilling
+
+Prop drilling can tightly couple components together, making it harder to refactor or restructure the component
+hierarchy without affecting other parts of the application. This can result in decreased maintainability and
+flexibility.
+
+**Lecture**:
+
+- https://www.freecodecamp.org/news/prop-drilling-in-react-explained-with-examples/
+- https://alexsidorenko.com/blog/react-prop-drilling-composition
+- https://dev.to/paulocappa/understanding-prop-drilling-and-how-to-solve-it-2bnd

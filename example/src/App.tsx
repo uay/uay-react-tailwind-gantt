@@ -1,11 +1,11 @@
 import React from 'react';
-import { Task, ViewMode, Gantt } from 'gantt-task-react';
-import { ViewSwitcher } from './components/view-switcher';
-import { getStartEndDateForProject, initTasks } from './helper';
-import 'gantt-task-react/dist/index.css';
+import { Task, ViewMode, Gantt } from 'uay-react-tailwind-gantt';
+import { ViewSwitcher } from './components/ViewSwitcher';
+import { initTasks } from './helper/initTasks';
+import { getStartEndDateForProject } from './helper/getStartEndDateForProject';
 
 // Init
-const App = () => {
+export const App = () => {
   const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
@@ -68,8 +68,9 @@ const App = () => {
   };
 
   return (
-    <div className="Wrapper">
+    <div className="mb-8">
       <ViewSwitcher
+        viewMode={view}
         onViewModeChange={viewMode => setView(viewMode)}
         onViewListChange={setIsChecked}
         isChecked={isChecked}
@@ -107,4 +108,3 @@ const App = () => {
   );
 };
 
-export default App;

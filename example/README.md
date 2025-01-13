@@ -1,5 +1,9 @@
-This example was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# uay-react-tailwind-gantt-example
+
+**Tech-Stack**: React + TypeScript + Vite + Tailwind
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 It is linked to the gantt-task-react package in the parent directory for development purposes.
 
-You can run `npm install` and then `npm start` to test your package.
+You can run `pnpm install` and then `pnpm dev` to test your package.
