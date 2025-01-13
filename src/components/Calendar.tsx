@@ -1,14 +1,14 @@
 import React, { ReactChild } from 'react';
-import { ViewMode } from '../../types/public-types';
-import { TopPartOfCalendar } from './top-part-of-calendar';
+import { TopPartOfCalendar } from './TopPartOfCalendar';
 import {
   getCachedDateTimeFormat,
   getDaysInMonth,
   getLocalDayOfWeek,
   getLocaleMonth,
   getWeekNumberISO8601,
-} from '../../helpers/date-helper';
-import { DateSetup } from '../../types/date-setup';
+} from '../helpers/date-helper';
+import { ViewMode } from '../model/ViewMode';
+import { DateSetup } from '../model/DateSetup';
 
 export const Calendar: React.FC<CalendarProps> = ({
   dateSetup,
@@ -383,12 +383,12 @@ export const Calendar: React.FC<CalendarProps> = ({
 };
 
 type CalendarProps = {
-  dateSetup: DateSetup;
-  locale: string;
-  viewMode: ViewMode;
-  rtl: boolean;
-  headerHeight: number;
-  columnWidth: number;
-  fontFamily: string;
-  fontSize: string;
+ readonly dateSetup: DateSetup;
+ readonly locale: string;
+ readonly viewMode: ViewMode;
+ readonly rtl: boolean;
+ readonly headerHeight: number;
+ readonly columnWidth: number;
+ readonly fontFamily: string;
+ readonly fontSize: string;
 };

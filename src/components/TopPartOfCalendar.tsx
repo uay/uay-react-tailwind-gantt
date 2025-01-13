@@ -9,7 +9,7 @@ export const TopPartOfCalendar: React.FC<TopPartOfCalendarProps> = ({
   yText,
 }) => {
   return (
-    <g className="calendarTop">
+    <g>
       <line
         x1={x1Line}
         y1={y1Line}
@@ -31,10 +31,10 @@ export const TopPartOfCalendar: React.FC<TopPartOfCalendarProps> = ({
 };
 
 type TopPartOfCalendarProps = {
-  value: string;
-  x1Line: number;
-  y1Line: number;
-  y2Line: number;
-  xText: number;
-  yText: number;
+  readonly value: string;
+  readonly x1Line: number;
+  readonly y1Line: number;
+  readonly y2Line: number;
+  readonly xText: number;
+  readonly yText: number;
 };
