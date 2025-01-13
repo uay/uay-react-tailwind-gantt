@@ -1,14 +1,14 @@
-import React from 'react';
 import { Task, ViewMode, Gantt } from 'uay-react-tailwind-gantt';
 import { ViewSwitcher } from './components/ViewSwitcher';
 import { initTasks } from './helper/initTasks';
 import { getStartEndDateForProject } from './helper/getStartEndDateForProject';
+import { useState } from 'react';
 
 // Init
 export const App = () => {
-  const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
-  const [tasks, setTasks] = React.useState<Task[]>(initTasks());
-  const [isChecked, setIsChecked] = React.useState(true);
+  const [view, setView] = useState<ViewMode>(ViewMode.Day);
+  const [tasks, setTasks] = useState<Task[]>(initTasks());
+  const [isChecked, setIsChecked] = useState(true);
   let columnWidth = 65;
   if (view === ViewMode.Year) {
     columnWidth = 350;
@@ -107,4 +107,3 @@ export const App = () => {
     </div>
   );
 };
-
