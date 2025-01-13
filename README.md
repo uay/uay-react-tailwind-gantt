@@ -13,6 +13,24 @@ Since we do not yet have our own live demo, you can check the original live demo
 
 [matematuk.github.io/gantt-task-react/](https://matematuk.github.io/gantt-task-react/)
 
+## Features
+
+- [x] Gantt chart
+  - [x] Date view mode
+  - [x] Task list toggle
+  - [x] Tasks
+    - [x] Task progress
+    - [x] Task dependencies
+    - [x] Move tasks
+    - [x] Resize tasks
+  - [x] Milestones
+    - [x] Move milestones
+  - [x] Projects
+    - [x] Project progress
+    - [x] Automatically size and move project
+- [x] Tailwind support
+- [ ] Customize styling
+
 ## Install
 
 ```

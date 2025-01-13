@@ -10,3 +10,4 @@
 - [ ] Rename types and prefix with `Gantt`
 - [ ] Fix CI/CD
 - [ ] Release to npm registry
+- [ ] Add possibility for custom styling
