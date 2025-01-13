@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './bar.module.css';
 
 type BarDateHandleProps = {
   x: number;
@@ -23,7 +22,7 @@ export const BarDateHandle: React.FC<BarDateHandleProps> = ({
       y={y}
       width={width}
       height={height}
-      className={styles.barHandle}
+      className="fill-gray-300 cursor-ew-resize opacity-0 invisible"
       ry={barCornerRadius}
       rx={barCornerRadius}
       onMouseDown={onMouseDown}
