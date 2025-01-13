@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarTask } from '../../types/bar-task';
+import { BarTask } from '../model/BarTask';
 
 export const Arrow: React.FC<ArrowProps> = ({
   taskFrom,
@@ -98,10 +98,10 @@ const drownPathAndTriangleRTL = (
 };
 
 type ArrowProps = {
-  taskFrom: BarTask;
-  taskTo: BarTask;
-  rowHeight: number;
-  taskHeight: number;
-  arrowIndent: number;
-  rtl: boolean;
+  readonly taskFrom: BarTask;
+  readonly taskTo: BarTask;
+  readonly rowHeight: number;
+  readonly taskHeight: number;
+  readonly arrowIndent: number;
+  readonly rtl: boolean;
 };

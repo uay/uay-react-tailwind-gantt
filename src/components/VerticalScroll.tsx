@@ -33,10 +33,10 @@ export const VerticalScroll: React.FC<VerticalScrollProps> = ({
 };
 
 type VerticalScrollProps = {
-  scroll: number;
-  ganttHeight: number;
-  ganttFullHeight: number;
-  headerHeight: number;
-  rtl: boolean;
-  onScroll: (event: SyntheticEvent<HTMLDivElement>) => void;
+  readonly scroll: number;
+  readonly ganttHeight: number;
+  readonly ganttFullHeight: number;
+  readonly headerHeight: number;
+  readonly rtl: boolean;
+  readonly onScroll: (event: SyntheticEvent<HTMLDivElement>) => void;
 };

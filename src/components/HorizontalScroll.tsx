@@ -33,9 +33,9 @@ export const HorizontalScroll: React.FC<HorizontalScrollProps> = ({
 };
 
 type HorizontalScrollProps = {
-  scroll: number;
-  svgWidth: number;
-  taskListWidth: number;
-  rtl: boolean;
-  onScroll: (event: SyntheticEvent<HTMLDivElement>) => void;
+  readonly scroll: number;
+  readonly svgWidth: number;
+  readonly taskListWidth: number;
+  readonly rtl: boolean;
+  readonly onScroll: (event: SyntheticEvent<HTMLDivElement>) => void;
 };

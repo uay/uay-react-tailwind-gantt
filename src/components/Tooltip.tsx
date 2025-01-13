@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Task } from '../../types/public-types';
-import { BarTask } from '../../types/bar-task';
+import { BarTask } from '../model/BarTask';
+import { Task } from '../model/Task';
 
 export const Tooltip: React.FC<TooltipProps> = ({
   task,
@@ -91,49 +91,22 @@ export const Tooltip: React.FC<TooltipProps> = ({
 };
 
 type TooltipProps = {
-  task: BarTask;
-  arrowIndent: number;
-  rtl: boolean;
-  svgContainerHeight: number;
-  svgContainerWidth: number;
-  svgWidth: number;
-  headerHeight: number;
-  taskListWidth: number;
-  scrollX: number;
-  scrollY: number;
-  rowHeight: number;
-  fontSize: string;
-  fontFamily: string;
-  TooltipContent: React.FC<{
-    task: Task;
-    fontSize: string;
-    fontFamily: string;
+  readonly task: BarTask;
+  readonly arrowIndent: number;
+  readonly rtl: boolean;
+  readonly svgContainerHeight: number;
+  readonly svgContainerWidth: number;
+  readonly svgWidth: number;
+  readonly headerHeight: number;
+  readonly taskListWidth: number;
+  readonly scrollX: number;
+  readonly scrollY: number;
+  readonly rowHeight: number;
+  readonly fontSize: string;
+  readonly fontFamily: string;
+  readonly TooltipContent: React.FC<{
+    readonly task: Task;
+    readonly fontSize: string;
+    readonly fontFamily: string;
   }>;
-};
-
-export const StandardTooltipContent: React.FC<{
-  task: Task;
-  fontSize: string;
-  fontFamily: string;
-}> = ({ task, fontSize, fontFamily }) => {
-  return (
-    <div className="bg-white p-3 shadow-md" style={{ fontSize, fontFamily }}>
-      <b
-        style={{ fontSize: parseInt(fontSize) + 6 }}
-      >{`${task.name}: ${task.start.getDate()}-${
-        task.start.getMonth() + 1
-      }-${task.start.getFullYear()} - ${task.end.getDate()}-${
-        task.end.getMonth() + 1
-      }-${task.end.getFullYear()}`}</b>
-      {task.end.getTime() - task.start.getTime() !== 0 && (
-        <p className="text-sm mb-1 text-gray-600">{`Duration: ${~~(
-          (task.end.getTime() - task.start.getTime()) /
-          (1000 * 60 * 60 * 24)
-        )} day(s)`}</p>
-      )}
-      <p className="text-sm text-gray-600">
-        {!!task.progress && `Progress: ${task.progress} %`}
-      </p>
-    </div>
-  );
 };
