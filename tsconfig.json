@@ -16,10 +16,7 @@
     "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
     "target": "es2022",
-    "lib": [
-      "es2021",
-      "dom"
-    ],
+    "lib": ["es2021", "dom"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -31,12 +28,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "example"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "example"]
 }
