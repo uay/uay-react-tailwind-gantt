@@ -9,5 +9,5 @@
 - [x] ~~Implement new guidelines (at least naming)~~
 - [x] ~~Rename types and prefix with `Gantt`~~
 - [x] ~~Fix CI/CD~~
-- [ ] Add possibility for custom styling
-- [ ] Release to npm registry
+- [x] ~~Add possibility for custom styling~~
+- [x] ~~Release to npm registry~~
