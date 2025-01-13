@@ -1,6 +1,6 @@
 import React, { ReactChild } from 'react';
 import { Task } from '../../model/Task';
-import { addToDate } from '../../helpers/date-helper';
+import { addToDate } from '../../helpers/date/addToDate';
 
 export const Grid: React.FC<GridProps> = props => {
   return (

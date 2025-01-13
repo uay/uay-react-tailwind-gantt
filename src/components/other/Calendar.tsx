@@ -1,13 +1,11 @@
 import React, { ReactChild } from 'react';
-import {
-  getCachedDateTimeFormat,
-  getDaysInMonth,
-  getLocalDayOfWeek,
-  getLocaleMonth,
-  getWeekNumberISO8601,
-} from '../../helpers/date-helper';
 import { ViewMode } from '../../model/ViewMode';
 import { DateSetup } from '../../model/DateSetup';
+import { getLocaleMonth } from '../../helpers/date/getLocaleMonth';
+import { getWeekNumberISO8601 } from '../../helpers/date/getWeekNumberISO8601';
+import { getLocalDayOfWeek } from '../../helpers/date/getLocalDayOfWeek';
+import { getDaysInMonth } from '../../helpers/date/getDaysInMonth';
+import { getCachedDateTimeFormat } from '../../helpers/date/getCachedDateTimeFormat';
 
 export const Calendar: React.FC<CalendarProps> = ({
   dateSetup,

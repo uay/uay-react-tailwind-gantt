@@ -12,10 +12,8 @@ import { Task } from '../model/Task';
 import { ViewMode } from '../model/ViewMode';
 import { StandardTooltipContent } from './other/StandardTooltipContent';
 import { DateSetup } from '../model/DateSetup';
-import { ganttDateRange, seedDates } from '../helpers/date-helper';
 import { BarTask } from '../model/BarTask';
 import { GanttEvent } from '../model/GanttEvent';
-import { isKeyboardEvent, removeHiddenTasks, sortTasks } from '../helpers/other-helper';
 import { convertToBarTasks } from '../helpers/convertToBarTasks';
 import { TaskList } from './tasklist/TaskList';
 import { Tooltip } from './other/Tooltip';
@@ -30,6 +28,11 @@ import { handleTaskBySVGMouseEvent } from '../helpers/handleTaskBySVGMouseEvent'
 import { BarMoveAction } from '../model/BarMoveAction';
 import { GanttContentMoveAction } from '../model/GanttContentMoveAction';
 import { TaskItem } from './tasklist/TaskItem';
+import { ganttDateRange } from '../helpers/date/ganttDateRange';
+import { seedDates } from '../helpers/date/seedDates';
+import { removeHiddenTasks } from '../helpers/removeHiddenTasks';
+import { sortTasks } from '../helpers/sortTasks';
+import { isKeyboardEvent } from '../helpers/isKeyboardEvent';
 
 export const Gantt: React.FunctionComponent<GanttProps> = ({
   tasks,
