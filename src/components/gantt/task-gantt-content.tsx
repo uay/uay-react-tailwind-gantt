@@ -122,6 +122,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
             operationSuccess = result;
           }
         } catch (error) {
+          console.error('Error on Date Change. ' + error);
           operationSuccess = false;
         }
       } else if (onProgressChange && isNotLikeOriginal) {
@@ -134,6 +135,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
             operationSuccess = result;
           }
         } catch (error) {
+          console.error('Error on Progress Change. ' + error);
           operationSuccess = false;
         }
       }

@@ -32,8 +32,8 @@
     "clean:dist": "rm -rf dist",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "format:ci": "prettier --check \"**/*.{ts,tsx}\"",
-    "lint": "eslint --fix . && turbo run lint",
-    "lint:ci": "eslint --quiet . && turbo run lint",
+    "lint": "eslint --fix .",
+    "lint:ci": "eslint --quiet .",
     "prepare": "run-s build"
   },
   "peerDependencies": {
@@ -46,6 +46,9 @@
     "@types/node": "^18.11.18",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "eslint": "^9.18.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.4.2",
     "react": "^18.2.0",
