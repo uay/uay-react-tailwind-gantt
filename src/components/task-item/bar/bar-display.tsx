@@ -46,20 +46,22 @@ export const BarDisplay: React.FC<BarDisplayProps> = ({
 };
 
 type BarDisplayProps = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  isSelected: boolean;
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+  readonly isSelected: boolean;
   /* progress start point */
-  progressX: number;
-  progressWidth: number;
-  barCornerRadius: number;
-  styles: {
-    backgroundColor: string;
-    backgroundSelectedColor: string;
-    progressColor: string;
-    progressSelectedColor: string;
+  readonly progressX: number;
+  readonly progressWidth: number;
+  readonly barCornerRadius: number;
+  readonly styles: {
+    readonly backgroundColor: string;
+    readonly backgroundSelectedColor: string;
+    readonly progressColor: string;
+    readonly progressSelectedColor: string;
   };
-  onMouseDown: (event: React.MouseEvent<SVGPolygonElement, MouseEvent>) => void;
+  readonly onMouseDown: (
+    event: React.MouseEvent<SVGPolygonElement, MouseEvent>,
+  ) => void;
 };

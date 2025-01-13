@@ -14,6 +14,8 @@ export const BarProgressHandle: React.FC<BarProgressHandleProps> = ({
 };
 
 type BarProgressHandleProps = {
-  progressPoint: string;
-  onMouseDown: (event: React.MouseEvent<SVGPolygonElement, MouseEvent>) => void;
+  readonly progressPoint: string;
+  readonly onMouseDown: (
+    event: React.MouseEvent<SVGPolygonElement, MouseEvent>,
+  ) => void;
 };

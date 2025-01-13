@@ -39,15 +39,15 @@ export const Milestone: React.FC<MilestoneProps> = ({
 };
 
 type MilestoneProps = {
-  task: BarTask;
-  arrowIndent: number;
-  taskHeight: number;
-  isProgressChangeable: boolean;
-  isDateChangeable: boolean;
-  isDelete: boolean;
-  isSelected: boolean;
-  rtl: boolean;
-  onEventStart: (
+  readonly task: BarTask;
+  readonly arrowIndent: number;
+  readonly taskHeight: number;
+  readonly isProgressChangeable: boolean;
+  readonly isDateChangeable: boolean;
+  readonly isDelete: boolean;
+  readonly isSelected: boolean;
+  readonly rtl: boolean;
+  readonly onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
     event?: React.MouseEvent | React.KeyboardEvent,

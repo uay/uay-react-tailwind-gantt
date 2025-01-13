@@ -23,10 +23,10 @@ export const BarDateHandle: React.FC<BarDateHandleProps> = ({
 };
 
 type BarDateHandleProps = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  barCornerRadius: number;
-  onMouseDown: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+ readonly x: number;
+ readonly y: number;
+ readonly width: number;
+ readonly height: number;
+ readonly barCornerRadius: number;
+ readonly onMouseDown: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
 };
