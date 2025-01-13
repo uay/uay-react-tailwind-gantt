@@ -1,7 +1,7 @@
-import type { Task } from '../../model/Task';
-import { ViewMode } from '../../model/ViewMode';
-import { addToDate } from './addToDate';
-import { startOfDate } from './startOfDate';
+import type { Task } from '~/model/public/Task';
+import { ViewMode } from '~/model/public/ViewMode';
+import { addToDate } from '~/helpers/date/addToDate';
+import { startOfDate } from '~/helpers/date/startOfDate';
 
 export const ganttDateRange = (
   tasks: Task[],

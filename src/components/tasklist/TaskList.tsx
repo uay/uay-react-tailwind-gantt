@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { ReactNode, RefObject } from 'react';
-import type { Task } from '../../model/Task';
-import type { BarTask } from '../../model/BarTask';
+import type { Task } from '~/model/public/Task';
+import type { BarTask } from '~/model/BarTask';
 
 export const TaskList = ({
   headerHeight,

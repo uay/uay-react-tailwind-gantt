@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
-import { ViewMode } from '../../model/ViewMode';
-import type { DateSetup } from '../../model/DateSetup';
-import { getLocaleMonth } from '../../helpers/date/getLocaleMonth';
-import { getWeekNumberISO8601 } from '../../helpers/date/getWeekNumberISO8601';
-import { getLocalDayOfWeek } from '../../helpers/date/getLocalDayOfWeek';
-import { getDaysInMonth } from '../../helpers/date/getDaysInMonth';
-import { getCachedDateTimeFormat } from '../../helpers/date/getCachedDateTimeFormat';
+import { ViewMode } from '~/model/public/ViewMode';
+import type { DateSetup } from '~/model/DateSetup';
+import { getLocaleMonth } from '~/helpers/date/getLocaleMonth';
+import { getWeekNumberISO8601 } from '~/helpers/date/getWeekNumberISO8601';
+import { getLocalDayOfWeek } from '~/helpers/date/getLocalDayOfWeek';
+import { getDaysInMonth } from '~/helpers/date/getDaysInMonth';
+import { getCachedDateTimeFormat } from '~/helpers/date/getCachedDateTimeFormat';
 
 export const Calendar = ({
   dateSetup,
@@ -412,7 +412,7 @@ const TopPartOfCalendar = ({
         key={value + 'text'}
         y={yText}
         x={xText}
-        className="stroke-gray-200"
+        className="fill-gray-200"
       >
         {value}
       </text>

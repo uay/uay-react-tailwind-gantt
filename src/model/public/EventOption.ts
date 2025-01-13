@@ -1,4 +1,4 @@
-import type { Task } from './Task';
+import type { Task } from '~/model/public/Task';
 
 export interface EventOption {
   /**

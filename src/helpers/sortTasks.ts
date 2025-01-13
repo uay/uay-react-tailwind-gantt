@@ -1,4 +1,4 @@
-import type { Task } from '../model/Task';
+import type { Task } from '~/model/public/Task';
 
 export const sortTasks = (taskA: Task, taskB: Task) => {
   const orderA = taskA.displayOrder || Number.MAX_VALUE;

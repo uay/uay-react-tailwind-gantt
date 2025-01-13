@@ -1,6 +1,6 @@
-import type { BarMoveAction } from '../model/BarMoveAction';
-import type { BarTask } from '../model/BarTask';
-import { progressWithByParams } from './progressWithByParams';
+import type { BarMoveAction } from '~/model/BarMoveAction';
+import type { BarTask } from '~/model/BarTask';
+import { progressWithByParams } from '~/helpers/progressWithByParams';
 
 /**
  * Method handles event in real time(mousemove) and on finish(mouseup)

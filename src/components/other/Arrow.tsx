@@ -1,4 +1,4 @@
-import type { BarTask } from '../../model/BarTask';
+import type { BarTask } from '~/model/BarTask';
 
 export const Arrow = ({
   taskFrom,

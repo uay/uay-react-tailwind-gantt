@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { BarTask } from '../../model/BarTask';
-import type { Task } from '../../model/Task';
+import type { BarTask } from '~/model/BarTask';
+import type { Task } from '~/model/public/Task';
 
 export const Tooltip = ({
   task,

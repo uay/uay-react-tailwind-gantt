@@ -1,5 +1,5 @@
-import type { BarTask } from './BarTask';
-import type { GanttContentMoveAction } from './GanttContentMoveAction';
+import type { BarTask } from '~/model/BarTask';
+import type { GanttContentMoveAction } from '~/model/GanttContentMoveAction';
 
 export type GanttEvent = {
   readonly changedTask?: BarTask;
