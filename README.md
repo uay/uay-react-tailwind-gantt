@@ -43,7 +43,6 @@ pnpm install uay-react-tailwind-gantt
 
 ```javascript
 import { Gantt, Task, EventOption, StylingOption, ViewMode, DisplayOption } from 'uay-react-tailwind-gantt';
-import "uay-react-tailwind-gantt/dist/index.css";
 
 let tasks: Task[] = [
     {
