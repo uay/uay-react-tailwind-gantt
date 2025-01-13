@@ -1,4 +1,7 @@
 import type { BarTask } from '~/model/BarTask';
+import { useTheme } from '~/helpers/hooks/useTheme';
+import { buildThemedProps } from '~/helpers/buildThemedProps';
+import { ThemeEntry } from '~/model/public/ThemeEntry';
 
 export const Arrow = ({
   taskFrom,
@@ -8,6 +11,8 @@ export const Arrow = ({
   arrowIndent,
   rtl,
 }: ArrowProps) => {
+  const theme = useTheme();
+
   let path: string;
   let trianglePoints: string;
   if (rtl) {
@@ -29,7 +34,12 @@ export const Arrow = ({
   }
 
   return (
-    <g className="arrow">
+    <g
+      {...buildThemedProps({
+        theme,
+        entry: ThemeEntry.Arrow,
+      })}
+    >
       <path strokeWidth="1.5" d={path} fill="none" />
       <polygon points={trianglePoints} />
     </g>
