@@ -267,7 +267,7 @@ const dateByX = (
 
   newDate = new Date(
     newDate.getTime() +
-    (newDate.getTimezoneOffset() - taskDate.getTimezoneOffset()) * 60000,
+      (newDate.getTimezoneOffset() - taskDate.getTimezoneOffset()) * 60000,
   );
 
   return newDate;

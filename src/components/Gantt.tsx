@@ -324,7 +324,7 @@ export const Gantt = ({
   /**
    * Handles arrow keys events and transform it to new scroll
    */
-  const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+  const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = event => {
     event.preventDefault();
     let newScrollY = scrollY;
     let newScrollX = scrollX;

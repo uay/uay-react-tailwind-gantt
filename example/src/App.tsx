@@ -1,4 +1,4 @@
-import type { Task} from 'uay-react-tailwind-gantt';
+import type { Task } from 'uay-react-tailwind-gantt';
 import { ViewMode, Gantt } from 'uay-react-tailwind-gantt';
 import { ViewSwitcher } from './components/ViewSwitcher';
 import { initTasks } from './helper/initTasks';

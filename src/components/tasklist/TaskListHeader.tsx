@@ -1,9 +1,9 @@
 export const TaskListHeader = ({
-                                 headerHeight,
-                                 fontFamily,
-                                 fontSize,
-                                 rowWidth,
-                               }: TaskListHeaderProps) => {
+  headerHeight,
+  fontFamily,
+  fontSize,
+  rowWidth,
+}: TaskListHeaderProps) => {
   return (
     <div
       className="table border-y border-l border-gray-200"
