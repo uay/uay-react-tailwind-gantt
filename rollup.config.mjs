@@ -1,10 +1,17 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
+import alias from '@rollup/plugin-alias';
 import { builtinModules } from 'module';
 import * as fs from 'fs';
+import path from 'path';
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+const tsconfig = JSON.parse(fs.readFileSync('./tsconfig.json', 'utf8'));
+
+const peerDependencies = packageJson.peerDependencies || {};
+
+const tsconfigPaths = tsconfig.compilerOptions.paths || {};
 
 export default {
   input: 'src/index.tsx',
@@ -20,9 +27,41 @@ export default {
       sourcemap: true,
     },
   ],
-  plugins: [resolve(), commonjs(), typescript()],
-  external: [
-    ...builtinModules,
-    ...Object.keys(packageJson.peerDependencies || {}),
+  plugins: [
+    alias({
+      entries: Object.entries(tsconfigPaths).map(([key, values]) => {
+        if (values.length !== 1) {
+          throw new Error('Only one path is supported');
+        }
+
+        const value = values[0];
+
+        const postFix = '/*';
+
+        if (!key.endsWith(postFix) || !value.endsWith(postFix)) {
+          throw new Error(
+            `Only paths ending with /* are supported (${key}, ${value})!`,
+          );
+        }
+
+        const alias = key.slice(0, -postFix.length);
+        const targetPath = value.slice(0, -postFix.length);
+
+        const resolvedPath = path.resolve(process.cwd(), targetPath);
+
+        if (!fs.existsSync(resolvedPath)) {
+          throw new Error(`Path does not exist: ${resolvedPath} (${key}, ${value})`);
+        }
+
+        return {
+          find: alias,
+          replacement: resolvedPath,
+        };
+      }),
+    }),
+    resolve(),
+    commonjs(),
+    typescript(),
   ],
+  external: [...builtinModules, ...Object.keys(peerDependencies)],
 };
