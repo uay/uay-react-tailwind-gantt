@@ -3,25 +3,43 @@ import { getProgressPoint } from '../../../helpers/bar-helper';
 import { BarDisplay } from './bar-display';
 import { BarDateHandle } from './bar-date-handle';
 import { BarProgressHandle } from './bar-progress-handle';
-import { TaskItemProps } from '../task-item';
-import styles from './bar.module.css';
+import { BarTask } from '../../../types/bar-task';
+import { GanttContentMoveAction } from '../../../types/gantt-task-actions';
+
+type TaskItemProps = {
+  task: BarTask;
+  arrowIndent: number;
+  taskHeight: number;
+  isProgressChangeable: boolean;
+  isDateChangeable: boolean;
+  isDelete: boolean;
+  isSelected: boolean;
+  rtl: boolean;
+  onEventStart: (
+    action: GanttContentMoveAction,
+    selectedTask: BarTask,
+    event?: React.MouseEvent | React.KeyboardEvent
+  ) => any;
+};
 
 export const Bar: React.FC<TaskItemProps> = ({
-  task,
-  isProgressChangeable,
-  isDateChangeable,
-  rtl,
-  onEventStart,
-  isSelected,
-}) => {
+                                               task,
+                                               isProgressChangeable,
+                                               isDateChangeable,
+                                               rtl,
+                                               onEventStart,
+                                               isSelected,
+                                             }) => {
   const progressPoint = getProgressPoint(
     +!rtl * task.progressWidth + task.progressX,
     task.y,
-    task.height,
+    task.height
   );
   const handleHeight = task.height - 2;
+
   return (
-    <g className={styles.barWrapper} tabIndex={0}>
+    <g className="cursor-pointer outline-none group" tabIndex={0}>
+      {/* Bar Display */}
       <BarDisplay
         x={task.x1}
         y={task.y}
@@ -32,11 +50,12 @@ export const Bar: React.FC<TaskItemProps> = ({
         barCornerRadius={task.barCornerRadius}
         styles={task.styles}
         isSelected={isSelected}
-        onMouseDown={e => {
+        onMouseDown={(e) => {
           isDateChangeable && onEventStart('move', task, e);
         }}
       />
-      <g className="handleGroup">
+
+      <g className="group-hover:visible">
         {isDateChangeable && (
           <g>
             {/* left */}
@@ -46,7 +65,7 @@ export const Bar: React.FC<TaskItemProps> = ({
               width={task.handleWidth}
               height={handleHeight}
               barCornerRadius={task.barCornerRadius}
-              onMouseDown={e => {
+              onMouseDown={(e) => {
                 onEventStart('start', task, e);
               }}
             />
@@ -57,7 +76,7 @@ export const Bar: React.FC<TaskItemProps> = ({
               width={task.handleWidth}
               height={handleHeight}
               barCornerRadius={task.barCornerRadius}
-              onMouseDown={e => {
+              onMouseDown={(e) => {
                 onEventStart('end', task, e);
               }}
             />
@@ -66,7 +85,7 @@ export const Bar: React.FC<TaskItemProps> = ({
         {isProgressChangeable && (
           <BarProgressHandle
             progressPoint={progressPoint}
-            onMouseDown={e => {
+            onMouseDown={(e) => {
               onEventStart('progress', task, e);
             }}
           />
