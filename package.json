@@ -37,7 +37,7 @@
     "prepare": "run-s build"
   },
   "peerDependencies": {
-    "react": "^18.0.0"
+    "react": ">=18.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.2",
