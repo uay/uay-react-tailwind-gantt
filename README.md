@@ -31,6 +31,13 @@ Since we do not yet have our own live demo, you can check the original live demo
 - [x] Tailwind support
 - [ ] Customize styling
 
+## Requirements
+
+- Unix based OS (Windows is not tested, development is done on MacOS)
+- Node 18+
+- React 18+
+- Tailwindcss 3+
+
 ## Install
 
 ```

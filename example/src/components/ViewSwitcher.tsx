@@ -1,5 +1,5 @@
 import React from 'react';
-import {ViewMode} from 'uay-react-tailwind-gantt';
+import { ViewMode } from 'uay-react-tailwind-gantt';
 
 type ViewSwitcherProps = {
   readonly viewMode: ViewMode;
@@ -19,16 +19,20 @@ const viewModes: ViewMode[] = [
   ViewMode.Year,
 ];
 
-export const ViewSwitcher: React.FC<ViewSwitcherProps> = (props) => {
+export const ViewSwitcher: React.FC<ViewSwitcherProps> = props => {
   return (
     <div className="list-none flex justify-end items-center">
-      {viewModes.map((mode) => (
+      {viewModes.map(mode => (
         <button
           key={mode}
           className={[
-            props.viewMode === mode ? 'text-black bg-gray-400' : 'text-black bg-gray-200',
-            "border-none py-1.5 px-4 no-underline m-1 cursor-pointer text-sm text-center",
-          ].filter(Boolean).join(' ')}
+            props.viewMode === mode
+              ? 'text-black bg-gray-400'
+              : 'text-black bg-gray-200',
+            'border-none py-1.5 px-4 no-underline m-1 cursor-pointer text-sm text-center',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           onClick={() => props.onViewModeChange(mode)}
         >
           {mode}
@@ -41,8 +45,7 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = (props) => {
             type="checkbox"
             defaultChecked={props.isChecked}
             onClick={() => props.onViewListChange(!props.isChecked)}
-          />
-          {' '}
+          />{' '}
           Show Task List
         </label>
       </div>

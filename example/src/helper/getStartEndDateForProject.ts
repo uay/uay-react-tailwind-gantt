@@ -1,4 +1,4 @@
-import { Task } from '../../node_modules/uay-react-tailwind-gantt/dist/index';
+import type { Task } from 'uay-react-tailwind-gantt';
 
 export function getStartEndDateForProject(tasks: Task[], projectId: string) {
   const projectTasks = tasks.filter(t => t.project === projectId);
