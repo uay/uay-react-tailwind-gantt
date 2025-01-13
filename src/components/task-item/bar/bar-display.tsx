@@ -1,5 +1,4 @@
 import React from 'react';
-import style from './bar.module.css';
 
 export const BarDisplay: React.FC<BarDisplayProps> = ({
   x,
@@ -31,7 +30,7 @@ export const BarDisplay: React.FC<BarDisplayProps> = ({
         ry={barCornerRadius}
         rx={barCornerRadius}
         fill={getBarColor()}
-        className={style.barBackground}
+        className="select-none stroke-0"
       />
       <rect
         x={progressX}
