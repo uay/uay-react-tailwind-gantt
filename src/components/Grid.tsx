@@ -1,8 +1,26 @@
 import React, { ReactChild } from 'react';
-import { Task } from '../../types/public-types';
-import { addToDate } from '../../helpers/date-helper';
+import { Task } from '../model/Task';
+import { addToDate } from '../helpers/date-helper';
 
-export const GridBody: React.FC<GridBodyProps> = ({
+export const Grid: React.FC<GridProps> = props => {
+  return (
+    <g className="grid">
+      <GridBody {...props} />
+    </g>
+  );
+};
+
+type GridProps = {
+  readonly tasks: Task[];
+  readonly dates: Date[];
+  readonly svgWidth: number;
+  readonly rowHeight: number;
+  readonly columnWidth: number;
+  readonly todayColor: string;
+  readonly rtl: boolean;
+};
+
+const GridBody: React.FC<GridBodyProps> = ({
   tasks,
   dates,
   rowHeight,
@@ -119,11 +137,11 @@ export const GridBody: React.FC<GridBodyProps> = ({
 };
 
 type GridBodyProps = {
-  tasks: Task[];
-  dates: Date[];
-  svgWidth: number;
-  rowHeight: number;
-  columnWidth: number;
-  todayColor: string;
-  rtl: boolean;
+  readonly tasks: Task[];
+  readonly dates: Date[];
+  readonly svgWidth: number;
+  readonly rowHeight: number;
+  readonly columnWidth: number;
+  readonly todayColor: string;
+  readonly rtl: boolean;
 };
