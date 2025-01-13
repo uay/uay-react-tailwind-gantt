@@ -1,11 +1,6 @@
 import React from 'react';
 
-export const TaskListHeaderDefault: React.FC<{
-  headerHeight: number;
-  rowWidth: string;
-  fontFamily: string;
-  fontSize: string;
-}> = ({ headerHeight, fontFamily, fontSize, rowWidth }) => {
+export const TaskListHeaderDefault: React.FC<TaskListHeaderProps> = ({ headerHeight, fontFamily, fontSize, rowWidth }) => {
   return (
     <div
       className="table border-y border-l border-gray-200"
@@ -61,4 +56,11 @@ export const TaskListHeaderDefault: React.FC<{
       </div>
     </div>
   );
+};
+
+type TaskListHeaderProps = {
+  headerHeight: number;
+  rowWidth: string;
+  fontFamily: string;
+  fontSize: string;
 };

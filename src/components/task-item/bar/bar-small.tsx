@@ -2,9 +2,10 @@ import React from 'react';
 import { getProgressPoint } from '../../../helpers/bar-helper';
 import { BarDisplay } from './bar-display';
 import { BarProgressHandle } from './bar-progress-handle';
-import { TaskItemProps } from '../task-item';
+import { BarTask } from '../../../types/bar-task';
+import { GanttContentMoveAction } from '../../../types/gantt-task-actions';
 
-export const BarSmall: React.FC<TaskItemProps> = ({
+export const BarSmall: React.FC<BarSmallProps> = ({
   task,
   isProgressChangeable,
   isDateChangeable,
@@ -44,4 +45,20 @@ export const BarSmall: React.FC<TaskItemProps> = ({
       </g>
     </g>
   );
+};
+
+type BarSmallProps = {
+  task: BarTask;
+  arrowIndent: number;
+  taskHeight: number;
+  isProgressChangeable: boolean;
+  isDateChangeable: boolean;
+  isDelete: boolean;
+  isSelected: boolean;
+  rtl: boolean;
+  onEventStart: (
+    action: GanttContentMoveAction,
+    selectedTask: BarTask,
+    event?: React.MouseEvent | React.KeyboardEvent
+  ) => any;
 };

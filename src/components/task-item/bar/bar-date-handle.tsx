@@ -1,13 +1,5 @@
 import React from 'react';
 
-type BarDateHandleProps = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  barCornerRadius: number;
-  onMouseDown: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
-};
 export const BarDateHandle: React.FC<BarDateHandleProps> = ({
   x,
   y,
@@ -28,4 +20,13 @@ export const BarDateHandle: React.FC<BarDateHandleProps> = ({
       onMouseDown={onMouseDown}
     />
   );
+};
+
+type BarDateHandleProps = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  barCornerRadius: number;
+  onMouseDown: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
 };

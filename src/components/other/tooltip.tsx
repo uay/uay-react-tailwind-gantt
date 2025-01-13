@@ -2,42 +2,21 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Task } from '../../types/public-types';
 import { BarTask } from '../../types/bar-task';
 
-type TooltipProps = {
-  task: BarTask;
-  arrowIndent: number;
-  rtl: boolean;
-  svgContainerHeight: number;
-  svgContainerWidth: number;
-  svgWidth: number;
-  headerHeight: number;
-  taskListWidth: number;
-  scrollX: number;
-  scrollY: number;
-  rowHeight: number;
-  fontSize: string;
-  fontFamily: string;
-  TooltipContent: React.FC<{
-    task: Task;
-    fontSize: string;
-    fontFamily: string;
-  }>;
-};
-
 export const Tooltip: React.FC<TooltipProps> = ({
-                                                  task,
-                                                  rowHeight,
-                                                  rtl,
-                                                  svgContainerHeight,
-                                                  svgContainerWidth,
-                                                  scrollX,
-                                                  scrollY,
-                                                  arrowIndent,
-                                                  fontSize,
-                                                  fontFamily,
-                                                  headerHeight,
-                                                  taskListWidth,
-                                                  TooltipContent,
-                                                }) => {
+  task,
+  rowHeight,
+  rtl,
+  svgContainerHeight,
+  svgContainerWidth,
+  scrollX,
+  scrollY,
+  arrowIndent,
+  fontSize,
+  fontFamily,
+  headerHeight,
+  taskListWidth,
+  TooltipContent,
+}) => {
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [relatedY, setRelatedY] = useState(0);
   const [relatedX, setRelatedX] = useState(0);
@@ -111,16 +90,34 @@ export const Tooltip: React.FC<TooltipProps> = ({
   );
 };
 
+type TooltipProps = {
+  task: BarTask;
+  arrowIndent: number;
+  rtl: boolean;
+  svgContainerHeight: number;
+  svgContainerWidth: number;
+  svgWidth: number;
+  headerHeight: number;
+  taskListWidth: number;
+  scrollX: number;
+  scrollY: number;
+  rowHeight: number;
+  fontSize: string;
+  fontFamily: string;
+  TooltipContent: React.FC<{
+    task: Task;
+    fontSize: string;
+    fontFamily: string;
+  }>;
+};
+
 export const StandardTooltipContent: React.FC<{
   task: Task;
   fontSize: string;
   fontFamily: string;
 }> = ({ task, fontSize, fontFamily }) => {
   return (
-    <div
-      className="bg-white p-3 shadow-md"
-      style={{ fontSize, fontFamily }}
-    >
+    <div className="bg-white p-3 shadow-md" style={{ fontSize, fontFamily }}>
       <b
         style={{ fontSize: parseInt(fontSize) + 6 }}
       >{`${task.name}: ${task.start.getDate()}-${

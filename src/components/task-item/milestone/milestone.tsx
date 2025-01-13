@@ -2,23 +2,7 @@ import React from 'react';
 import { BarTask } from '../../../types/bar-task';
 import { GanttContentMoveAction } from '../../../types/gantt-task-actions';
 
-type TaskItemProps = {
-  task: BarTask;
-  arrowIndent: number;
-  taskHeight: number;
-  isProgressChangeable: boolean;
-  isDateChangeable: boolean;
-  isDelete: boolean;
-  isSelected: boolean;
-  rtl: boolean;
-  onEventStart: (
-    action: GanttContentMoveAction,
-    selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent
-  ) => any;
-};
-
-export const Milestone: React.FC<TaskItemProps> = ({
+export const Milestone: React.FC<MilestoneProps> = ({
                                                      task,
                                                      isDateChangeable,
                                                      onEventStart,
@@ -55,4 +39,20 @@ export const Milestone: React.FC<TaskItemProps> = ({
       />
     </g>
   );
+};
+
+type MilestoneProps = {
+  task: BarTask;
+  arrowIndent: number;
+  taskHeight: number;
+  isProgressChangeable: boolean;
+  isDateChangeable: boolean;
+  isDelete: boolean;
+  isSelected: boolean;
+  rtl: boolean;
+  onEventStart: (
+    action: GanttContentMoveAction,
+    selectedTask: BarTask,
+    event?: React.MouseEvent | React.KeyboardEvent
+  ) => any;
 };

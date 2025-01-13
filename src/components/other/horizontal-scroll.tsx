@@ -1,12 +1,6 @@
 import React, { SyntheticEvent, useRef, useEffect } from 'react';
 
-export const HorizontalScroll: React.FC<{
-  scroll: number;
-  svgWidth: number;
-  taskListWidth: number;
-  rtl: boolean;
-  onScroll: (event: SyntheticEvent<HTMLDivElement>) => void;
-}> = ({ scroll, svgWidth, taskListWidth, rtl, onScroll }) => {
+export const HorizontalScroll: React.FC<HorizontalScrollProps> = ({ scroll, svgWidth, taskListWidth, rtl, onScroll }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,4 +24,12 @@ export const HorizontalScroll: React.FC<{
       <div style={{ width: svgWidth }} className="h-1" />
     </div>
   );
+};
+
+type HorizontalScrollProps = {
+  scroll: number;
+  svgWidth: number;
+  taskListWidth: number;
+  rtl: boolean;
+  onScroll: (event: SyntheticEvent<HTMLDivElement>) => void;
 };

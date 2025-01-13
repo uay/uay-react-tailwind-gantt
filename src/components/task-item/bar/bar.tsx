@@ -6,22 +6,6 @@ import { BarProgressHandle } from './bar-progress-handle';
 import { BarTask } from '../../../types/bar-task';
 import { GanttContentMoveAction } from '../../../types/gantt-task-actions';
 
-type TaskItemProps = {
-  task: BarTask;
-  arrowIndent: number;
-  taskHeight: number;
-  isProgressChangeable: boolean;
-  isDateChangeable: boolean;
-  isDelete: boolean;
-  isSelected: boolean;
-  rtl: boolean;
-  onEventStart: (
-    action: GanttContentMoveAction,
-    selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent
-  ) => any;
-};
-
 export const Bar: React.FC<TaskItemProps> = ({
                                                task,
                                                isProgressChangeable,
@@ -93,4 +77,20 @@ export const Bar: React.FC<TaskItemProps> = ({
       </g>
     </g>
   );
+};
+
+type TaskItemProps = {
+  task: BarTask;
+  arrowIndent: number;
+  taskHeight: number;
+  isProgressChangeable: boolean;
+  isDateChangeable: boolean;
+  isDelete: boolean;
+  isSelected: boolean;
+  rtl: boolean;
+  onEventStart: (
+    action: GanttContentMoveAction,
+    selectedTask: BarTask,
+    event?: React.MouseEvent | React.KeyboardEvent
+  ) => any;
 };

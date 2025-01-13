@@ -2,16 +2,6 @@ import React, { ReactChild } from 'react';
 import { Task } from '../../types/public-types';
 import { addToDate } from '../../helpers/date-helper';
 
-type GridBodyProps = {
-  tasks: Task[];
-  dates: Date[];
-  svgWidth: number;
-  rowHeight: number;
-  columnWidth: number;
-  todayColor: string;
-  rtl: boolean;
-};
-
 export const GridBody: React.FC<GridBodyProps> = ({
                                                     tasks,
                                                     dates,
@@ -126,4 +116,14 @@ export const GridBody: React.FC<GridBodyProps> = ({
       <g className="today">{today}</g>
     </g>
   );
+};
+
+type GridBodyProps = {
+  tasks: Task[];
+  dates: Date[];
+  svgWidth: number;
+  rowHeight: number;
+  columnWidth: number;
+  todayColor: string;
+  rtl: boolean;
 };

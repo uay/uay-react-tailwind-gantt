@@ -1,9 +1,5 @@
 import React from 'react';
 
-type BarProgressHandleProps = {
-  progressPoint: string;
-  onMouseDown: (event: React.MouseEvent<SVGPolygonElement, MouseEvent>) => void;
-};
 export const BarProgressHandle: React.FC<BarProgressHandleProps> = ({
   progressPoint,
   onMouseDown,
@@ -15,4 +11,9 @@ export const BarProgressHandle: React.FC<BarProgressHandleProps> = ({
       onMouseDown={onMouseDown}
     />
   );
+};
+
+type BarProgressHandleProps = {
+  progressPoint: string;
+  onMouseDown: (event: React.MouseEvent<SVGPolygonElement, MouseEvent>) => void;
 };

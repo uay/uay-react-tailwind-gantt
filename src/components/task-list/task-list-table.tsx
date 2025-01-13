@@ -1,37 +1,7 @@
 import React, { useMemo } from 'react';
 import { Task } from '../../types/public-types';
 
-const localeDateStringCache = {};
-const toLocaleDateStringFactory =
-  (locale: string) =>
-    (date: Date, dateTimeOptions: Intl.DateTimeFormatOptions) => {
-      const key = date.toString();
-      let lds = localeDateStringCache[key];
-      if (!lds) {
-        lds = date.toLocaleDateString(locale, dateTimeOptions);
-        localeDateStringCache[key] = lds;
-      }
-      return lds;
-    };
-
-const dateTimeOptions: Intl.DateTimeFormatOptions = {
-  weekday: 'short',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-};
-
-export const TaskListTableDefault: React.FC<{
-  rowHeight: number;
-  rowWidth: string;
-  fontFamily: string;
-  fontSize: string;
-  locale: string;
-  tasks: Task[];
-  selectedTaskId: string;
-  setSelectedTask: (taskId: string) => void;
-  onExpanderClick: (task: Task) => void;
-}> = ({
+export const TaskListTableDefault: React.FC<TaskListTableDefaultProps> = ({
         rowHeight,
         rowWidth,
         tasks,
@@ -114,4 +84,36 @@ export const TaskListTableDefault: React.FC<{
       })}
     </div>
   );
+};
+
+type TaskListTableDefaultProps = {
+  rowHeight: number;
+  rowWidth: string;
+  fontFamily: string;
+  fontSize: string;
+  locale: string;
+  tasks: Task[];
+  selectedTaskId: string;
+  setSelectedTask: (taskId: string) => void;
+  onExpanderClick: (task: Task) => void;
+};
+
+const localeDateStringCache = {};
+const toLocaleDateStringFactory =
+  (locale: string) =>
+    (date: Date, dateTimeOptions: Intl.DateTimeFormatOptions) => {
+      const key = date.toString();
+      let lds = localeDateStringCache[key];
+      if (!lds) {
+        lds = date.toLocaleDateString(locale, dateTimeOptions);
+        localeDateStringCache[key] = lds;
+      }
+      return lds;
+    };
+
+const dateTimeOptions: Intl.DateTimeFormatOptions = {
+  weekday: 'short',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
 };
