@@ -8,6 +8,6 @@
 - [x] ~~Fix Props and public types~~
 - [x] ~~Implement new guidelines (at least naming)~~
 - [x] ~~Rename types and prefix with `Gantt`~~
-- [ ] Fix CI/CD
+- [x] ~~Fix CI/CD~~
 - [ ] Add possibility for custom styling
 - [ ] Release to npm registry
