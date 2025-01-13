@@ -9,6 +9,7 @@ export const App = () => {
   const [view, setView] = useState<ViewMode>(ViewMode.Day);
   const [tasks, setTasks] = useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = useState(true);
+
   let columnWidth = 65;
   if (view === ViewMode.Year) {
     columnWidth = 350;
