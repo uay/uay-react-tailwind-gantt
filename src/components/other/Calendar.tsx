@@ -412,7 +412,7 @@ const TopPartOfCalendar = ({
         key={value + 'text'}
         y={yText}
         x={xText}
-        className="stroke-gray-200"
+        className="fill-gray-200"
       >
         {value}
       </text>
