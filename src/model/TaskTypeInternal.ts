@@ -1,3 +1,3 @@
-import type { TaskType } from './TaskType';
+import type { TaskType } from '~/model/public/TaskType';
 
 export type TaskTypeInternal = TaskType | 'smalltask';

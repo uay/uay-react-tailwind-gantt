@@ -1,4 +1,4 @@
-import type { ViewMode } from './ViewMode';
+import type { ViewMode } from '~/model/public/ViewMode';
 
 export interface DateSetup {
   readonly dates: Date[];

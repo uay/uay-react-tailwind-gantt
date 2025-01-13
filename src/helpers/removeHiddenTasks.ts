@@ -1,4 +1,4 @@
-import type { Task } from '~/model/Task';
+import type { Task } from '~/model/public/Task';
 
 export function removeHiddenTasks(tasks: Task[]) {
   const groupedTasks = tasks.filter(

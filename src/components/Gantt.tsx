@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import type { KeyboardEventHandler, RefObject, SyntheticEvent } from 'react';
-import type { EventOption } from '~/model/EventOption';
-import type { DisplayOption } from '~/model/DisplayOption';
-import type { StylingOption } from '~/model/StylingOption';
-import type { Task } from '~/model/Task';
-import { ViewMode } from '~/model/ViewMode';
+import type { EventOption } from '~/model/public/EventOption';
+import type { DisplayOption } from '~/model/public/DisplayOption';
+import type { StylingOption } from '~/model/public/StylingOption';
+import type { Task } from '~/model/public/Task';
+import { ViewMode } from '~/model/public/ViewMode';
 import { StandardTooltipContent } from '~/components/other/StandardTooltipContent';
 import type { DateSetup } from '~/model/DateSetup';
 import type { BarTask } from '~/model/BarTask';

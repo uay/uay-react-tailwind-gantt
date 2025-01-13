@@ -1,4 +1,4 @@
-import type { Task } from './Task';
+import type { Task } from '~/model/public/Task';
 import type { ReactNode } from 'react';
 
 export interface StylingOption {

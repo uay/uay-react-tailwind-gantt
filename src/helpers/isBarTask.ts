@@ -1,4 +1,4 @@
-import type { Task } from '~/model/Task';
+import type { Task } from '~/model/public/Task';
 import type { BarTask } from '~/model/BarTask';
 
 export function isBarTask(task: Task | BarTask): task is BarTask {

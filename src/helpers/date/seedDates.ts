@@ -1,5 +1,5 @@
-import { ViewMode } from '~/model/ViewMode';
-import { addToDate } from './addToDate';
+import { ViewMode } from '~/model/public/ViewMode';
+import { addToDate } from '~/helpers/date/addToDate';
 
 export const seedDates = (
   startDate: Date,

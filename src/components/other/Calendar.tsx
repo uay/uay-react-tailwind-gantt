@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { ViewMode } from '~/model/ViewMode';
+import { ViewMode } from '~/model/public/ViewMode';
 import type { DateSetup } from '~/model/DateSetup';
 import { getLocaleMonth } from '~/helpers/date/getLocaleMonth';
 import { getWeekNumberISO8601 } from '~/helpers/date/getWeekNumberISO8601';
