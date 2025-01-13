@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const TaskListHeaderDefault: React.FC<TaskListHeaderProps> = ({
+export const TaskListHeader: React.FC<TaskListHeaderProps> = ({
   headerHeight,
   fontFamily,
   fontSize,
@@ -64,8 +64,8 @@ export const TaskListHeaderDefault: React.FC<TaskListHeaderProps> = ({
 };
 
 type TaskListHeaderProps = {
-  headerHeight: number;
-  rowWidth: string;
-  fontFamily: string;
-  fontSize: string;
+  readonly headerHeight: number;
+  readonly rowWidth: string;
+  readonly fontFamily: string;
+  readonly fontSize: string;
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { BarTask } from '../../types/bar-task';
-import { Task } from '../../types/public-types';
+import { Task } from '../../model/Task';
+import { BarTask } from '../../model/BarTask';
 
 export const TaskList: React.FC<TaskListProps> = ({
   headerHeight,
@@ -21,6 +21,7 @@ export const TaskList: React.FC<TaskListProps> = ({
   TaskListTable,
 }) => {
   const horizontalContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (horizontalContainerRef.current) {
       horizontalContainerRef.current.scrollTop = scrollY;
@@ -61,35 +62,35 @@ export const TaskList: React.FC<TaskListProps> = ({
 };
 
 type TaskListProps = {
-  headerHeight: number;
-  rowWidth: string;
-  fontFamily: string;
-  fontSize: string;
-  rowHeight: number;
-  ganttHeight: number;
-  scrollY: number;
-  locale: string;
-  tasks: Task[];
-  taskListRef: React.RefObject<HTMLDivElement>;
-  horizontalContainerClass?: string;
-  selectedTask: BarTask | undefined;
-  setSelectedTask: (task: string) => void;
-  onExpanderClick: (task: Task) => void;
-  TaskListHeader: React.FC<{
-    headerHeight: number;
-    rowWidth: string;
-    fontFamily: string;
-    fontSize: string;
+  readonly headerHeight: number;
+  readonly rowWidth: string;
+  readonly fontFamily: string;
+  readonly fontSize: string;
+  readonly rowHeight: number;
+  readonly ganttHeight: number;
+  readonly scrollY: number;
+  readonly locale: string;
+  readonly tasks: Task[];
+  readonly taskListRef: React.RefObject<HTMLDivElement>;
+  readonly horizontalContainerClass?: string;
+  readonly selectedTask: BarTask | undefined;
+  readonly setSelectedTask: (task: string) => void;
+  readonly onExpanderClick: (task: Task) => void;
+  readonly TaskListHeader: React.FC<{
+    readonly headerHeight: number;
+    readonly rowWidth: string;
+    readonly fontFamily: string;
+    readonly fontSize: string;
   }>;
-  TaskListTable: React.FC<{
-    rowHeight: number;
-    rowWidth: string;
-    fontFamily: string;
-    fontSize: string;
-    locale: string;
-    tasks: Task[];
-    selectedTaskId: string;
-    setSelectedTask: (taskId: string) => void;
-    onExpanderClick: (task: Task) => void;
+  readonly TaskListTable: React.FC<{
+    readonly rowHeight: number;
+    readonly rowWidth: string;
+    readonly fontFamily: string;
+    readonly fontSize: string;
+    readonly locale: string;
+    readonly tasks: Task[];
+    readonly selectedTaskId: string;
+    readonly setSelectedTask: (taskId: string) => void;
+    readonly onExpanderClick: (task: Task) => void;
   }>;
 };

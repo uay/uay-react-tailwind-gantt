@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { Task } from '../../types/public-types';
+import { Task } from '../../model/Task';
 
-export const TaskListTableDefault: React.FC<TaskListTableDefaultProps> = ({
+export const TaskListTable: React.FC<TaskListTableDefaultProps> = ({
   rowHeight,
   rowWidth,
   tasks,
@@ -87,27 +87,29 @@ export const TaskListTableDefault: React.FC<TaskListTableDefaultProps> = ({
 };
 
 type TaskListTableDefaultProps = {
-  rowHeight: number;
-  rowWidth: string;
-  fontFamily: string;
-  fontSize: string;
-  locale: string;
-  tasks: Task[];
-  selectedTaskId: string;
-  setSelectedTask: (taskId: string) => void;
-  onExpanderClick: (task: Task) => void;
+  readonly rowHeight: number;
+  readonly rowWidth: string;
+  readonly fontFamily: string;
+  readonly fontSize: string;
+  readonly locale: string;
+  readonly tasks: Task[];
+  readonly selectedTaskId: string;
+  readonly setSelectedTask: (taskId: string) => void;
+  readonly onExpanderClick: (task: Task) => void;
 };
 
-const localeDateStringCache = {};
+const localeDateStringCache: Record<string, string> = {};
 const toLocaleDateStringFactory =
   (locale: string) =>
   (date: Date, dateTimeOptions: Intl.DateTimeFormatOptions) => {
     const key = date.toString();
     let lds = localeDateStringCache[key];
+
     if (!lds) {
       lds = date.toLocaleDateString(locale, dateTimeOptions);
       localeDateStringCache[key] = lds;
     }
+
     return lds;
   };
 
