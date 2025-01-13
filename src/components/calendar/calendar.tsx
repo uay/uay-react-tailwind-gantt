@@ -9,7 +9,6 @@ import {
   getWeekNumberISO8601,
 } from '../../helpers/date-helper';
 import { DateSetup } from '../../types/date-setup';
-import styles from './calendar.module.css';
 
 type CalendarProps = {
   dateSetup: DateSetup;
@@ -44,7 +43,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           key={date.getTime()}
           y={headerHeight * 0.8}
           x={columnWidth * i + columnWidth * 0.5}
-          className={styles.calendarBottomText}
+          className="text-center text-gray-800 select-none pointer-events-none"
         >
           {bottomValue}
         </text>,
@@ -89,7 +88,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           key={date.getTime()}
           y={headerHeight * 0.8}
           x={columnWidth * i + columnWidth * 0.5}
-          className={styles.calendarBottomText}
+          className="text-center text-gray-800 select-none pointer-events-none"
         >
           {quarter}
         </text>,
@@ -133,7 +132,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           key={bottomValue + date.getFullYear()}
           y={headerHeight * 0.8}
           x={columnWidth * i + columnWidth * 0.5}
-          className={styles.calendarBottomText}
+          className="text-center text-gray-800 select-none pointer-events-none"
         >
           {bottomValue}
         </text>,
@@ -186,7 +185,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           key={date.getTime()}
           y={headerHeight * 0.8}
           x={columnWidth * (i + +rtl)}
-          className={styles.calendarBottomText}
+          className="text-center text-gray-800 select-none pointer-events-none"
         >
           {bottomValue}
         </text>,
@@ -230,7 +229,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           key={date.getTime()}
           y={headerHeight * 0.8}
           x={columnWidth * i + columnWidth * 0.5}
-          className={styles.calendarBottomText}
+          className="text-center text-gray-800 select-none pointer-events-none"
         >
           {bottomValue}
         </text>,
@@ -279,7 +278,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           key={date.getTime()}
           y={headerHeight * 0.8}
           x={columnWidth * (i + +rtl)}
-          className={styles.calendarBottomText}
+          className="text-center text-gray-800 select-none pointer-events-none"
           fontFamily={fontFamily}
         >
           {bottomValue}
@@ -324,7 +323,7 @@ export const Calendar: React.FC<CalendarProps> = ({
           key={date.getTime()}
           y={headerHeight * 0.8}
           x={columnWidth * (i + +rtl)}
-          className={styles.calendarBottomText}
+          className="text-center text-gray-800 select-none pointer-events-none"
           fontFamily={fontFamily}
         >
           {bottomValue}
@@ -387,7 +386,7 @@ export const Calendar: React.FC<CalendarProps> = ({
         y={0}
         width={columnWidth * dateSetup.dates.length}
         height={headerHeight}
-        className={styles.calendarHeader}
+        className="bg-white stroke-gray-300 stroke-[1.4]"
       />
       {bottomValues} {topValues}
     </g>
