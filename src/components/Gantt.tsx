@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
 import type { KeyboardEventHandler, RefObject, SyntheticEvent } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { EventOption } from '~/model/public/EventOption';
 import type { DisplayOption } from '~/model/public/DisplayOption';
 import type { StylingOption } from '~/model/public/StylingOption';
@@ -28,9 +28,12 @@ import { seedDates } from '~/helpers/date/seedDates';
 import { removeHiddenTasks } from '~/helpers/removeHiddenTasks';
 import { sortTasks } from '~/helpers/sortTasks';
 import { isKeyboardEvent } from '~/helpers/isKeyboardEvent';
+import type { ThemeOptions } from '~/model/public/ThemeOptions';
+import { ThemeContext } from '~/context/ThemeContext';
 
 export const Gantt = ({
   tasks,
+  themeOptions,
   headerHeight = 50,
   columnWidth = 60,
   listCellWidth = '155px',
@@ -392,123 +395,126 @@ export const Gantt = ({
   };
 
   return (
-    <div>
-      <div
-        className="flex p-0 m-0 list-none outline-none relative"
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-        ref={wrapperRef}
-      >
-        {listCellWidth && (
-          <TaskList
-            {...{
+    <ThemeContext.Provider value={themeOptions || {}}>
+      <div>
+        <div
+          className="flex p-0 m-0 list-none outline-none relative"
+          onKeyDown={handleKeyDown}
+          tabIndex={0}
+          ref={wrapperRef}
+        >
+          {listCellWidth && (
+            <TaskList
+              {...{
+                rowHeight,
+                rowWidth: listCellWidth,
+                fontFamily,
+                fontSize,
+                tasks: barTasks,
+                locale,
+                headerHeight,
+                scrollY,
+                ganttHeight,
+                horizontalContainerClass: 'overflow-hidden m-0 p-0',
+                selectedTask,
+                taskListRef,
+                setSelectedTask: handleSelectedTask,
+                onExpanderClick: handleExpanderClick,
+                TaskListHeader,
+                TaskListTable,
+              }}
+            />
+          )}
+          <TaskGantt
+            gridProps={{
+              columnWidth,
+              svgWidth,
+              tasks: tasks,
               rowHeight,
-              rowWidth: listCellWidth,
+              dates: dateSetup.dates,
+              todayColor,
+              rtl,
+            }}
+            calendarProps={{
+              dateSetup,
+              locale,
+              viewMode,
+              headerHeight,
+              columnWidth,
               fontFamily,
               fontSize,
-              tasks: barTasks,
-              locale,
-              headerHeight,
-              scrollY,
-              ganttHeight,
-              horizontalContainerClass: 'overflow-hidden m-0 p-0',
-              selectedTask,
-              taskListRef,
-              setSelectedTask: handleSelectedTask,
-              onExpanderClick: handleExpanderClick,
-              TaskListHeader,
-              TaskListTable,
+              rtl,
             }}
-          />
-        )}
-        <TaskGantt
-          gridProps={{
-            columnWidth,
-            svgWidth,
-            tasks: tasks,
-            rowHeight,
-            dates: dateSetup.dates,
-            todayColor,
-            rtl,
-          }}
-          calendarProps={{
-            dateSetup,
-            locale,
-            viewMode,
-            headerHeight,
-            columnWidth,
-            fontFamily,
-            fontSize,
-            rtl,
-          }}
-          barProps={{
-            tasks: barTasks,
-            dates: dateSetup.dates,
-            ganttEvent,
-            selectedTask,
-            rowHeight,
-            taskHeight,
-            columnWidth,
-            arrowColor,
-            timeStep,
-            fontFamily,
-            fontSize,
-            arrowIndent,
-            svgWidth,
-            rtl,
-            setGanttEvent,
-            setFailedTask,
-            setSelectedTask: handleSelectedTask,
-            onDateChange,
-            onProgressChange,
-            onDoubleClick,
-            onClick,
-            onDelete,
-          }}
-          ganttHeight={ganttHeight}
-          scrollY={scrollY}
-          scrollX={scrollX}
-        />
-        {ganttEvent.changedTask && (
-          <Tooltip
-            arrowIndent={arrowIndent}
-            rowHeight={rowHeight}
-            svgContainerHeight={svgContainerHeight}
-            svgContainerWidth={svgContainerWidth}
-            fontFamily={fontFamily}
-            fontSize={fontSize}
-            scrollX={scrollX}
+            barProps={{
+              tasks: barTasks,
+              dates: dateSetup.dates,
+              ganttEvent,
+              selectedTask,
+              rowHeight,
+              taskHeight,
+              columnWidth,
+              arrowColor,
+              timeStep,
+              fontFamily,
+              fontSize,
+              arrowIndent,
+              svgWidth,
+              rtl,
+              setGanttEvent,
+              setFailedTask,
+              setSelectedTask: handleSelectedTask,
+              onDateChange,
+              onProgressChange,
+              onDoubleClick,
+              onClick,
+              onDelete,
+            }}
+            ganttHeight={ganttHeight}
             scrollY={scrollY}
-            task={ganttEvent.changedTask}
-            headerHeight={headerHeight}
-            taskListWidth={taskListWidth}
-            TooltipContent={TooltipContent}
-            rtl={rtl}
-            svgWidth={svgWidth}
+            scrollX={scrollX}
           />
-        )}
-        <VerticalScroll
-          ganttFullHeight={ganttFullHeight}
-          ganttHeight={ganttHeight}
-          headerHeight={headerHeight}
-          scroll={scrollY}
-          onScroll={handleScrollY}
+          {ganttEvent.changedTask && (
+            <Tooltip
+              arrowIndent={arrowIndent}
+              rowHeight={rowHeight}
+              svgContainerHeight={svgContainerHeight}
+              svgContainerWidth={svgContainerWidth}
+              fontFamily={fontFamily}
+              fontSize={fontSize}
+              scrollX={scrollX}
+              scrollY={scrollY}
+              task={ganttEvent.changedTask}
+              headerHeight={headerHeight}
+              taskListWidth={taskListWidth}
+              TooltipContent={TooltipContent}
+              rtl={rtl}
+              svgWidth={svgWidth}
+            />
+          )}
+          <VerticalScroll
+            ganttFullHeight={ganttFullHeight}
+            ganttHeight={ganttHeight}
+            headerHeight={headerHeight}
+            scroll={scrollY}
+            onScroll={handleScrollY}
+            rtl={rtl}
+          />
+        </div>
+        <HorizontalScroll
+          svgWidth={svgWidth}
+          taskListWidth={taskListWidth}
+          scroll={scrollX}
           rtl={rtl}
+          onScroll={handleScrollX}
         />
       </div>
-      <HorizontalScroll
-        svgWidth={svgWidth}
-        taskListWidth={taskListWidth}
-        scroll={scrollX}
-        rtl={rtl}
-        onScroll={handleScrollX}
-      />
-    </div>
+    </ThemeContext.Provider>
   );
 };
 
 interface GanttProps extends EventOption, DisplayOption, StylingOption {
   readonly tasks: Task[];
+  readonly themeOptions?: ThemeOptions;
 }
 
 const TaskGantt = ({
