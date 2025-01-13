@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import type { Task } from '../../model/Task';
-import { addToDate } from '../../helpers/date/addToDate';
+import type { Task } from '~/model/Task';
+import { addToDate } from '~/helpers/date/addToDate';
 
 export const Grid = (props: GridProps) => {
   return (

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { Task } from '../../model/Task';
+import type { Task } from '~/model/Task';
 
 export const TaskListTable = ({
   rowHeight,

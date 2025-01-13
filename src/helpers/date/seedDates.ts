@@ -1,4 +1,4 @@
-import { ViewMode } from '../../model/ViewMode';
+import { ViewMode } from '~/model/ViewMode';
 import { addToDate } from './addToDate';
 
 export const seedDates = (
