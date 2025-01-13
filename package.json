@@ -30,8 +30,8 @@
     "build:rollup": "rollup -c",
     "clean": "run-s clean:*",
     "clean:dist": "rm -rf dist",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "format:ci": "prettier --check \"**/*.{ts,tsx}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,js,mjs,cjs}\"",
+    "format:ci": "prettier --check \"**/*.{ts,tsx,js,mjs,cjs}\"",
     "lint": "eslint --fix .",
     "lint:ci": "eslint --quiet .",
     "prepare": "run-s build"
