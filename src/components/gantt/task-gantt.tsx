@@ -1,16 +1,12 @@
 import React, { useRef, useEffect } from 'react';
-import { GridProps, Grid } from '../grid/grid';
-import { CalendarProps, Calendar } from '../calendar/calendar';
-import { TaskGanttContentProps, TaskGanttContent } from './task-gantt-content';
+import { Grid } from '../grid/grid';
+import { Calendar } from '../calendar/calendar';
+import { TaskGanttContent } from './task-gantt-content';
+import { EventOption, Task, ViewMode } from '../../types/public-types';
+import { DateSetup } from '../../types/date-setup';
+import { BarTask } from '../../types/bar-task';
+import { GanttEvent } from '../../types/gantt-task-actions';
 
-type TaskGanttProps = {
-  gridProps: GridProps;
-  calendarProps: CalendarProps;
-  barProps: TaskGanttContentProps;
-  ganttHeight: number;
-  scrollY: number;
-  scrollX: number;
-};
 export const TaskGantt: React.FC<TaskGanttProps> = ({
   gridProps,
   calendarProps,
@@ -72,4 +68,49 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
       </div>
     </div>
   );
+};
+
+type TaskGanttProps = {
+  gridProps: {
+    tasks: Task[];
+    dates: Date[];
+    svgWidth: number;
+    rowHeight: number;
+    columnWidth: number;
+    todayColor: string;
+    rtl: boolean;
+  };
+  calendarProps: {
+    dateSetup: DateSetup;
+    locale: string;
+    viewMode: ViewMode;
+    rtl: boolean;
+    headerHeight: number;
+    columnWidth: number;
+    fontFamily: string;
+    fontSize: string;
+  };
+  barProps: {
+    tasks: BarTask[];
+    dates: Date[];
+    ganttEvent: GanttEvent;
+    selectedTask: BarTask | undefined;
+    rowHeight: number;
+    columnWidth: number;
+    timeStep: number;
+    svg?: React.RefObject<SVGSVGElement>;
+    svgWidth: number;
+    taskHeight: number;
+    arrowColor: string;
+    arrowIndent: number;
+    fontSize: string;
+    fontFamily: string;
+    rtl: boolean;
+    setGanttEvent: (value: GanttEvent) => void;
+    setFailedTask: (value: BarTask | null) => void;
+    setSelectedTask: (taskId: string) => void;
+  } & EventOption;
+  ganttHeight: number;
+  scrollY: number;
+  scrollX: number;
 };

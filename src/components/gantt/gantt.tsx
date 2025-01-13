@@ -5,16 +5,19 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
-import { ViewMode, GanttProps, Task } from '../../types/public-types';
-import { GridProps } from '../grid/grid';
+import {
+  ViewMode,
+  Task,
+  EventOption,
+  DisplayOption,
+  StylingOption,
+} from '../../types/public-types';
 import { ganttDateRange, seedDates } from '../../helpers/date-helper';
-import { CalendarProps } from '../calendar/calendar';
-import { TaskGanttContentProps } from './task-gantt-content';
 import { TaskListHeaderDefault } from '../task-list/task-list-header';
 import { TaskListTableDefault } from '../task-list/task-list-table';
 import { StandardTooltipContent, Tooltip } from '../other/tooltip';
 import { VerticalScroll } from '../other/vertical-scroll';
-import { TaskListProps, TaskList } from '../task-list/task-list';
+import { TaskList } from '../task-list/task-list';
 import { TaskGantt } from './task-gantt';
 import { BarTask } from '../../types/bar-task';
 import { convertToBarTasks } from '../../helpers/bar-helper';
@@ -386,68 +389,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       onExpanderClick({ ...task, hideChildren: !task.hideChildren });
     }
   };
-  const gridProps: GridProps = {
-    columnWidth,
-    svgWidth,
-    tasks: tasks,
-    rowHeight,
-    dates: dateSetup.dates,
-    todayColor,
-    rtl,
-  };
-  const calendarProps: CalendarProps = {
-    dateSetup,
-    locale,
-    viewMode,
-    headerHeight,
-    columnWidth,
-    fontFamily,
-    fontSize,
-    rtl,
-  };
-  const barProps: TaskGanttContentProps = {
-    tasks: barTasks,
-    dates: dateSetup.dates,
-    ganttEvent,
-    selectedTask,
-    rowHeight,
-    taskHeight,
-    columnWidth,
-    arrowColor,
-    timeStep,
-    fontFamily,
-    fontSize,
-    arrowIndent,
-    svgWidth,
-    rtl,
-    setGanttEvent,
-    setFailedTask,
-    setSelectedTask: handleSelectedTask,
-    onDateChange,
-    onProgressChange,
-    onDoubleClick,
-    onClick,
-    onDelete,
-  };
 
-  const tableProps: TaskListProps = {
-    rowHeight,
-    rowWidth: listCellWidth,
-    fontFamily,
-    fontSize,
-    tasks: barTasks,
-    locale,
-    headerHeight,
-    scrollY,
-    ganttHeight,
-    horizontalContainerClass: "overflow-hidden m-0 p-0",
-    selectedTask,
-    taskListRef,
-    setSelectedTask: handleSelectedTask,
-    onExpanderClick: handleExpanderClick,
-    TaskListHeader,
-    TaskListTable,
-  };
   return (
     <div>
       <div
@@ -456,11 +398,68 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         tabIndex={0}
         ref={wrapperRef}
       >
-        {listCellWidth && <TaskList {...tableProps} />}
+        {listCellWidth && <TaskList {...{
+          rowHeight,
+          rowWidth: listCellWidth,
+          fontFamily,
+          fontSize,
+          tasks: barTasks,
+          locale,
+          headerHeight,
+          scrollY,
+          ganttHeight,
+          horizontalContainerClass: 'overflow-hidden m-0 p-0',
+          selectedTask,
+          taskListRef,
+          setSelectedTask: handleSelectedTask,
+          onExpanderClick: handleExpanderClick,
+          TaskListHeader,
+          TaskListTable,
+        }} />}
         <TaskGantt
-          gridProps={gridProps}
-          calendarProps={calendarProps}
-          barProps={barProps}
+          gridProps={{
+            columnWidth,
+            svgWidth,
+            tasks: tasks,
+            rowHeight,
+            dates: dateSetup.dates,
+            todayColor,
+            rtl,
+          }}
+          calendarProps={{
+            dateSetup,
+            locale,
+            viewMode,
+            headerHeight,
+            columnWidth,
+            fontFamily,
+            fontSize,
+            rtl,
+          }}
+          barProps={{
+            tasks: barTasks,
+            dates: dateSetup.dates,
+            ganttEvent,
+            selectedTask,
+            rowHeight,
+            taskHeight,
+            columnWidth,
+            arrowColor,
+            timeStep,
+            fontFamily,
+            fontSize,
+            arrowIndent,
+            svgWidth,
+            rtl,
+            setGanttEvent,
+            setFailedTask,
+            setSelectedTask: handleSelectedTask,
+            onDateChange,
+            onProgressChange,
+            onDoubleClick,
+            onClick,
+            onDelete,
+          }}
           ganttHeight={ganttHeight}
           scrollY={scrollY}
           scrollX={scrollX}
@@ -502,3 +501,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     </div>
   );
 };
+
+interface GanttProps extends EventOption, DisplayOption, StylingOption {
+  tasks: Task[];
+}

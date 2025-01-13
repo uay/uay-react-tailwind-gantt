@@ -2,23 +2,7 @@ import React from 'react';
 import { BarTask } from '../../../types/bar-task';
 import { GanttContentMoveAction } from '../../../types/gantt-task-actions';
 
-type TaskItemProps = {
-  task: BarTask;
-  arrowIndent: number;
-  taskHeight: number;
-  isProgressChangeable: boolean;
-  isDateChangeable: boolean;
-  isDelete: boolean;
-  isSelected: boolean;
-  rtl: boolean;
-  onEventStart: (
-    action: GanttContentMoveAction,
-    selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent
-  ) => any;
-};
-
-export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
+export const Project: React.FC<ProjectProps> = ({ task, isSelected }) => {
   const barColor = isSelected
     ? task.styles.backgroundSelectedColor
     : task.styles.backgroundColor;
@@ -90,4 +74,20 @@ export const Project: React.FC<TaskItemProps> = ({ task, isSelected }) => {
       />
     </g>
   );
+};
+
+type ProjectProps = {
+  task: BarTask;
+  arrowIndent: number;
+  taskHeight: number;
+  isProgressChangeable: boolean;
+  isDateChangeable: boolean;
+  isDelete: boolean;
+  isSelected: boolean;
+  rtl: boolean;
+  onEventStart: (
+    action: GanttContentMoveAction,
+    selectedTask: BarTask,
+    event?: React.MouseEvent | React.KeyboardEvent
+  ) => any;
 };

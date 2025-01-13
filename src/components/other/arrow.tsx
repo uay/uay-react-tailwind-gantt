@@ -1,14 +1,6 @@
 import React from 'react';
 import { BarTask } from '../../types/bar-task';
 
-type ArrowProps = {
-  taskFrom: BarTask;
-  taskTo: BarTask;
-  rowHeight: number;
-  taskHeight: number;
-  arrowIndent: number;
-  rtl: boolean;
-};
 export const Arrow: React.FC<ArrowProps> = ({
   taskFrom,
   taskTo,
@@ -62,15 +54,15 @@ const drownPathAndTriangle = (
       ? arrowIndent
       : taskTo.x1 - taskFrom.x2 - arrowIndent;
 
-  const path = `M ${taskFrom.x2} ${taskFrom.y + taskHeight / 2} 
-  h ${arrowIndent} 
-  v ${(indexCompare * rowHeight) / 2} 
+  const path = `M ${taskFrom.x2} ${taskFrom.y + taskHeight / 2}
+  h ${arrowIndent}
+  v ${(indexCompare * rowHeight) / 2}
   ${taskFromHorizontalOffsetValue}
-  V ${taskToEndPosition} 
+  V ${taskToEndPosition}
   h ${taskToHorizontalOffsetValue}`;
 
-  const trianglePoints = `${taskTo.x1},${taskToEndPosition} 
-  ${taskTo.x1 - 5},${taskToEndPosition - 5} 
+  const trianglePoints = `${taskTo.x1},${taskToEndPosition}
+  ${taskTo.x1 - 5},${taskToEndPosition - 5}
   ${taskTo.x1 - 5},${taskToEndPosition + 5}`;
   return [path, trianglePoints];
 };
@@ -92,15 +84,24 @@ const drownPathAndTriangleRTL = (
       ? -arrowIndent
       : taskTo.x2 - taskFrom.x1 + arrowIndent;
 
-  const path = `M ${taskFrom.x1} ${taskFrom.y + taskHeight / 2} 
-  h ${-arrowIndent} 
-  v ${(indexCompare * rowHeight) / 2} 
+  const path = `M ${taskFrom.x1} ${taskFrom.y + taskHeight / 2}
+  h ${-arrowIndent}
+  v ${(indexCompare * rowHeight) / 2}
   ${taskFromHorizontalOffsetValue}
-  V ${taskToEndPosition} 
+  V ${taskToEndPosition}
   h ${taskToHorizontalOffsetValue}`;
 
-  const trianglePoints = `${taskTo.x2},${taskToEndPosition} 
-  ${taskTo.x2 + 5},${taskToEndPosition + 5} 
+  const trianglePoints = `${taskTo.x2},${taskToEndPosition}
+  ${taskTo.x2 + 5},${taskToEndPosition + 5}
   ${taskTo.x2 + 5},${taskToEndPosition - 5}`;
   return [path, trianglePoints];
+};
+
+type ArrowProps = {
+  taskFrom: BarTask;
+  taskTo: BarTask;
+  rowHeight: number;
+  taskHeight: number;
+  arrowIndent: number;
+  rtl: boolean;
 };

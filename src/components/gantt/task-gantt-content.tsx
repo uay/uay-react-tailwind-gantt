@@ -11,27 +11,6 @@ import {
   GanttEvent,
 } from '../../types/gantt-task-actions';
 
-type TaskGanttContentProps = {
-  tasks: BarTask[];
-  dates: Date[];
-  ganttEvent: GanttEvent;
-  selectedTask: BarTask | undefined;
-  rowHeight: number;
-  columnWidth: number;
-  timeStep: number;
-  svg?: React.RefObject<SVGSVGElement>;
-  svgWidth: number;
-  taskHeight: number;
-  arrowColor: string;
-  arrowIndent: number;
-  fontSize: string;
-  fontFamily: string;
-  rtl: boolean;
-  setGanttEvent: (value: GanttEvent) => void;
-  setFailedTask: (value: BarTask | null) => void;
-  setSelectedTask: (taskId: string) => void;
-} & EventOption;
-
 export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   tasks,
   dates,
@@ -300,3 +279,24 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
     </g>
   );
 };
+
+type TaskGanttContentProps = {
+  tasks: BarTask[];
+  dates: Date[];
+  ganttEvent: GanttEvent;
+  selectedTask: BarTask | undefined;
+  rowHeight: number;
+  columnWidth: number;
+  timeStep: number;
+  svg?: React.RefObject<SVGSVGElement>;
+  svgWidth: number;
+  taskHeight: number;
+  arrowColor: string;
+  arrowIndent: number;
+  fontSize: string;
+  fontFamily: string;
+  rtl: boolean;
+  setGanttEvent: (value: GanttEvent) => void;
+  setFailedTask: (value: BarTask | null) => void;
+  setSelectedTask: (taskId: string) => void;
+} & EventOption;

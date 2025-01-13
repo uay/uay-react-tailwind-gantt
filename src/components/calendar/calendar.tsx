@@ -10,17 +10,6 @@ import {
 } from '../../helpers/date-helper';
 import { DateSetup } from '../../types/date-setup';
 
-type CalendarProps = {
-  dateSetup: DateSetup;
-  locale: string;
-  viewMode: ViewMode;
-  rtl: boolean;
-  headerHeight: number;
-  columnWidth: number;
-  fontFamily: string;
-  fontSize: string;
-};
-
 export const Calendar: React.FC<CalendarProps> = ({
   dateSetup,
   locale,
@@ -391,4 +380,15 @@ export const Calendar: React.FC<CalendarProps> = ({
       {bottomValues} {topValues}
     </g>
   );
+};
+
+type CalendarProps = {
+  dateSetup: DateSetup;
+  locale: string;
+  viewMode: ViewMode;
+  rtl: boolean;
+  headerHeight: number;
+  columnWidth: number;
+  fontFamily: string;
+  fontSize: string;
 };
