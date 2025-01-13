@@ -1,6 +1,6 @@
 import { ViewMode } from './ViewMode';
 
 export interface DateSetup {
-  dates: Date[];
-  viewMode: ViewMode;
+  readonly dates: Date[];
+  readonly viewMode: ViewMode;
 }

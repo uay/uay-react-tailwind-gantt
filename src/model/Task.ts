@@ -1,24 +1,24 @@
 import { TaskType } from './TaskType';
 
 export interface Task {
-  id: string;
-  type: TaskType;
-  name: string;
-  start: Date;
-  end: Date;
+  readonly id: string;
+  readonly type: TaskType;
+  readonly name: string;
+  readonly start: Date;
+  readonly end: Date;
   /**
    * From 0 to 100
    */
-  progress: number;
-  styles?: {
-    backgroundColor?: string;
-    backgroundSelectedColor?: string;
-    progressColor?: string;
-    progressSelectedColor?: string;
+  readonly progress: number;
+  readonly styles?: {
+    readonly backgroundColor?: string;
+    readonly backgroundSelectedColor?: string;
+    readonly progressColor?: string;
+    readonly progressSelectedColor?: string;
   };
-  isDisabled?: boolean;
-  project?: string;
-  dependencies?: string[];
-  hideChildren?: boolean;
-  displayOrder?: number;
+  readonly isDisabled?: boolean;
+  readonly project?: string;
+  readonly dependencies?: string[];
+  readonly hideChildren?: boolean;
+  readonly displayOrder?: number;
 }

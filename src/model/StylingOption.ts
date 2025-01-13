@@ -2,56 +2,56 @@ import React from 'react';
 import { Task } from './Task';
 
 export interface StylingOption {
-  headerHeight?: number;
-  columnWidth?: number;
-  listCellWidth?: string;
-  rowHeight?: number;
-  ganttHeight?: number;
-  barCornerRadius?: number;
-  handleWidth?: number;
-  fontFamily?: string;
-  fontSize?: string;
+  readonly headerHeight?: number;
+  readonly columnWidth?: number;
+  readonly listCellWidth?: string;
+  readonly rowHeight?: number;
+  readonly ganttHeight?: number;
+  readonly barCornerRadius?: number;
+  readonly handleWidth?: number;
+  readonly fontFamily?: string;
+  readonly fontSize?: string;
   /**
    * How many of row width can be taken by task.
    * From 0 to 100
    */
-  barFill?: number;
-  barProgressColor?: string;
-  barProgressSelectedColor?: string;
-  barBackgroundColor?: string;
-  barBackgroundSelectedColor?: string;
-  projectProgressColor?: string;
-  projectProgressSelectedColor?: string;
-  projectBackgroundColor?: string;
-  projectBackgroundSelectedColor?: string;
-  milestoneBackgroundColor?: string;
-  milestoneBackgroundSelectedColor?: string;
-  arrowColor?: string;
-  arrowIndent?: number;
-  todayColor?: string;
-  TooltipContent?: React.FC<{
-    task: Task;
-    fontSize: string;
-    fontFamily: string;
+  readonly barFill?: number;
+  readonly barProgressColor?: string;
+  readonly barProgressSelectedColor?: string;
+  readonly barBackgroundColor?: string;
+  readonly barBackgroundSelectedColor?: string;
+  readonly projectProgressColor?: string;
+  readonly projectProgressSelectedColor?: string;
+  readonly projectBackgroundColor?: string;
+  readonly projectBackgroundSelectedColor?: string;
+  readonly milestoneBackgroundColor?: string;
+  readonly milestoneBackgroundSelectedColor?: string;
+  readonly arrowColor?: string;
+  readonly arrowIndent?: number;
+  readonly todayColor?: string;
+  readonly TooltipContent?: React.FC<{
+    readonly task: Task;
+    readonly fontSize: string;
+    readonly fontFamily: string;
   }>;
-  TaskListHeader?: React.FC<{
-    headerHeight: number;
-    rowWidth: string;
-    fontFamily: string;
-    fontSize: string;
+  readonly TaskListHeader?: React.FC<{
+    readonly headerHeight: number;
+    readonly rowWidth: string;
+    readonly fontFamily: string;
+    readonly fontSize: string;
   }>;
-  TaskListTable?: React.FC<{
-    rowHeight: number;
-    rowWidth: string;
-    fontFamily: string;
-    fontSize: string;
-    locale: string;
-    tasks: Task[];
-    selectedTaskId: string;
+  readonly TaskListTable?: React.FC<{
+    readonly rowHeight: number;
+    readonly rowWidth: string;
+    readonly fontFamily: string;
+    readonly fontSize: string;
+    readonly locale: string;
+    readonly tasks: Task[];
+    readonly selectedTaskId: string;
     /**
      * Sets selected task by id
      */
-    setSelectedTask: (taskId: string) => void;
-    onExpanderClick: (task: Task) => void;
+    readonly setSelectedTask: (taskId: string) => void;
+    readonly onExpanderClick: (task: Task) => void;
   }>;
 }

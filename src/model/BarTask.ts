@@ -1,22 +1,22 @@
-import { TaskTypeInternal } from '../types/bar-task';
 import { Task } from './Task';
+import { TaskTypeInternal } from './TaskTypeInternal';
 
 export interface BarTask extends Task {
-  index: number;
-  typeInternal: TaskTypeInternal;
-  x1: number;
-  x2: number;
-  y: number;
-  height: number;
-  progressX: number;
-  progressWidth: number;
-  barCornerRadius: number;
-  handleWidth: number;
-  barChildren: BarTask[];
-  styles: {
-    backgroundColor: string;
-    backgroundSelectedColor: string;
-    progressColor: string;
-    progressSelectedColor: string;
+  readonly index: number;
+  readonly typeInternal: TaskTypeInternal;
+  readonly x1: number;
+  readonly x2: number;
+  readonly y: number;
+  readonly height: number;
+  readonly progressX: number;
+  readonly progressWidth: number;
+  readonly barCornerRadius: number;
+  readonly handleWidth: number;
+  readonly barChildren: BarTask[];
+  readonly styles: {
+    readonly backgroundColor: string;
+    readonly backgroundSelectedColor: string;
+    readonly progressColor: string;
+    readonly progressSelectedColor: string;
   };
 }
