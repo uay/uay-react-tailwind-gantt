@@ -2,7 +2,9 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import { builtinModules } from 'module';
-import * as packageJson from './package.json' with { type: 'json' };
+import * as fs from 'fs';
+
+const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
 
 export default {
   input: 'src/index.ts',
