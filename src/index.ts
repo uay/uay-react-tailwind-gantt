@@ -1,4 +1,4 @@
-export { Gantt } from './components/gantt/gantt';
+export { Gantt } from './components/Gantt';
 export type { DisplayOption } from './model/DisplayOption';
 export type { EventOption } from './model/EventOption';
 export type { StylingOption } from './model/StylingOption';
