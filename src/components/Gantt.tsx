@@ -1,10 +1,5 @@
-import React, {
-  useState,
-  SyntheticEvent,
-  useRef,
-  useEffect,
-  useMemo,
-} from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
+import type { KeyboardEventHandler, RefObject, SyntheticEvent } from 'react';
 import { EventOption } from '../model/EventOption';
 import { DisplayOption } from '../model/DisplayOption';
 import { StylingOption } from '../model/StylingOption';
@@ -34,7 +29,7 @@ import { removeHiddenTasks } from '../helpers/removeHiddenTasks';
 import { sortTasks } from '../helpers/sortTasks';
 import { isKeyboardEvent } from '../helpers/isKeyboardEvent';
 
-export const Gantt: React.FunctionComponent<GanttProps> = ({
+export const Gantt = ({
   tasks,
   headerHeight = 50,
   columnWidth = 60,
@@ -73,7 +68,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   onDelete,
   onSelect,
   onExpanderClick,
-}) => {
+}: GanttProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
   const [dateSetup, setDateSetup] = useState<DateSetup>(() => {
@@ -329,7 +324,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   /**
    * Handles arrow keys events and transform it to new scroll
    */
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
     let newScrollY = scrollY;
     let newScrollX = scrollX;
@@ -516,14 +511,14 @@ interface GanttProps extends EventOption, DisplayOption, StylingOption {
   readonly tasks: Task[];
 }
 
-const TaskGantt: React.FC<TaskGanttProps> = ({
-                                               gridProps,
-                                               calendarProps,
-                                               barProps,
-                                               ganttHeight,
-                                               scrollY,
-                                               scrollX,
-                                             }) => {
+const TaskGantt = ({
+  gridProps,
+  calendarProps,
+  barProps,
+  ganttHeight,
+  scrollY,
+  scrollX,
+}: TaskGanttProps) => {
   const ganttSVGRef = useRef<SVGSVGElement>(null);
   const horizontalContainerRef = useRef<HTMLDivElement>(null);
   const verticalGanttContainerRef = useRef<HTMLDivElement>(null);
@@ -607,7 +602,7 @@ type TaskGanttProps = {
     readonly rowHeight: number;
     readonly columnWidth: number;
     readonly timeStep: number;
-    readonly svg?: React.RefObject<SVGSVGElement>;
+    readonly svg?: RefObject<SVGSVGElement>;
     readonly svgWidth: number;
     readonly taskHeight: number;
     readonly arrowColor: string;
@@ -624,30 +619,30 @@ type TaskGanttProps = {
   readonly scrollX: number;
 };
 
-const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
-                                                             tasks,
-                                                             dates,
-                                                             ganttEvent,
-                                                             selectedTask,
-                                                             rowHeight,
-                                                             columnWidth,
-                                                             timeStep,
-                                                             svg,
-                                                             taskHeight,
-                                                             arrowColor,
-                                                             arrowIndent,
-                                                             fontFamily,
-                                                             fontSize,
-                                                             rtl,
-                                                             setGanttEvent,
-                                                             setFailedTask,
-                                                             setSelectedTask,
-                                                             onDateChange,
-                                                             onProgressChange,
-                                                             onDoubleClick,
-                                                             onClick,
-                                                             onDelete,
-                                                           }) => {
+const TaskGanttContent = ({
+  tasks,
+  dates,
+  ganttEvent,
+  selectedTask,
+  rowHeight,
+  columnWidth,
+  timeStep,
+  svg,
+  taskHeight,
+  arrowColor,
+  arrowIndent,
+  fontFamily,
+  fontSize,
+  rtl,
+  setGanttEvent,
+  setFailedTask,
+  setSelectedTask,
+  onDateChange,
+  onProgressChange,
+  onDoubleClick,
+  onClick,
+  onDelete,
+}: TaskGanttContentProps) => {
   const point = svg?.current?.createSVGPoint();
   const [xStep, setXStep] = useState(0);
   const [initEventX1Delta, setInitEventX1Delta] = useState(0);
@@ -792,7 +787,7 @@ const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   const handleBarEventStart = async (
     action: GanttContentMoveAction,
     task: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent,
+    event?: MouseEvent | KeyboardEvent,
   ) => {
     if (!event) {
       if (action === 'select') {
@@ -883,7 +878,7 @@ const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
               isProgressChangeable={!!onProgressChange && !task.isDisabled}
               isDateChangeable={!!onDateChange && !task.isDisabled}
               isDelete={!task.isDisabled}
-              onEventStart={handleBarEventStart}
+              onEventStart={handleBarEventStart as any} // FIXME: Type issue
               key={task.id}
               isSelected={!!selectedTask && task.id === selectedTask.id}
               rtl={rtl}
@@ -903,7 +898,7 @@ type TaskGanttContentProps = {
   readonly rowHeight: number;
   readonly columnWidth: number;
   readonly timeStep: number;
-  readonly svg?: React.RefObject<SVGSVGElement>;
+  readonly svg?: RefObject<SVGSVGElement>;
   readonly svgWidth: number;
   readonly taskHeight: number;
   readonly arrowColor: string;

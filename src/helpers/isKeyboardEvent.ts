@@ -1,5 +1,5 @@
 export function isKeyboardEvent(
-  event: React.MouseEvent | React.KeyboardEvent | React.FocusEvent,
-): event is React.KeyboardEvent {
-  return (event as React.KeyboardEvent).key !== undefined;
+  event: MouseEvent | KeyboardEvent | FocusEvent,
+): event is KeyboardEvent {
+  return (event as KeyboardEvent).key !== undefined;
 }

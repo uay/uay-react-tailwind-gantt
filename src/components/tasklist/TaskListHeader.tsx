@@ -1,11 +1,9 @@
-import React from 'react';
-
-export const TaskListHeader: React.FC<TaskListHeaderProps> = ({
-  headerHeight,
-  fontFamily,
-  fontSize,
-  rowWidth,
-}) => {
+export const TaskListHeader = ({
+                                 headerHeight,
+                                 fontFamily,
+                                 fontSize,
+                                 rowWidth,
+                               }: TaskListHeaderProps) => {
   return (
     <div
       className="table border-y border-l border-gray-200"

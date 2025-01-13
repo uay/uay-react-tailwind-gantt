@@ -3,7 +3,7 @@
     "outDir": "dist",
     "module": "esnext",
     "moduleResolution": "node",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "sourceMap": true,
     "declaration": true,
     "esModuleInterop": true,

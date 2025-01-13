@@ -1,8 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 import { BarTask } from '../../model/BarTask';
 import { Task } from '../../model/Task';
 
-export const Tooltip: React.FC<TooltipProps> = ({
+export const Tooltip = ({
   task,
   rowHeight,
   rtl,
@@ -16,7 +17,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   headerHeight,
   taskListWidth,
   TooltipContent,
-}) => {
+}: TooltipProps) => {
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [relatedY, setRelatedY] = useState(0);
   const [relatedX, setRelatedX] = useState(0);
@@ -104,9 +105,9 @@ type TooltipProps = {
   readonly rowHeight: number;
   readonly fontSize: string;
   readonly fontFamily: string;
-  readonly TooltipContent: React.FC<{
+  readonly TooltipContent: (props: {
     readonly task: Task;
     readonly fontSize: string;
     readonly fontFamily: string;
-  }>;
+  }) => ReactNode;
 };

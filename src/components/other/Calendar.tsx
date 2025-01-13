@@ -1,4 +1,4 @@
-import React, { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import { ViewMode } from '../../model/ViewMode';
 import { DateSetup } from '../../model/DateSetup';
 import { getLocaleMonth } from '../../helpers/date/getLocaleMonth';
@@ -7,7 +7,7 @@ import { getLocalDayOfWeek } from '../../helpers/date/getLocalDayOfWeek';
 import { getDaysInMonth } from '../../helpers/date/getDaysInMonth';
 import { getCachedDateTimeFormat } from '../../helpers/date/getCachedDateTimeFormat';
 
-export const Calendar: React.FC<CalendarProps> = ({
+export const Calendar = ({
   dateSetup,
   locale,
   viewMode,
@@ -16,10 +16,10 @@ export const Calendar: React.FC<CalendarProps> = ({
   columnWidth,
   fontFamily,
   fontSize,
-}) => {
+}: CalendarProps) => {
   const getCalendarValuesForYear = () => {
-    const topValues: ReactChild[] = [];
-    const bottomValues: ReactChild[] = [];
+    const topValues: ReactNode[] = [];
+    const bottomValues: ReactNode[] = [];
     const topDefaultHeight = headerHeight * 0.5;
     for (let i = 0; i < dateSetup.dates.length; i++) {
       const date = dateSetup.dates[i];
@@ -62,8 +62,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   };
 
   const getCalendarValuesForQuarterYear = () => {
-    const topValues: ReactChild[] = [];
-    const bottomValues: ReactChild[] = [];
+    const topValues: ReactNode[] = [];
+    const bottomValues: ReactNode[] = [];
     const topDefaultHeight = headerHeight * 0.5;
     for (let i = 0; i < dateSetup.dates.length; i++) {
       const date = dateSetup.dates[i];
@@ -107,8 +107,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   };
 
   const getCalendarValuesForMonth = () => {
-    const topValues: ReactChild[] = [];
-    const bottomValues: ReactChild[] = [];
+    const topValues: ReactNode[] = [];
+    const bottomValues: ReactNode[] = [];
     const topDefaultHeight = headerHeight * 0.5;
     for (let i = 0; i < dateSetup.dates.length; i++) {
       const date = dateSetup.dates[i];
@@ -151,8 +151,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   };
 
   const getCalendarValuesForWeek = () => {
-    const topValues: ReactChild[] = [];
-    const bottomValues: ReactChild[] = [];
+    const topValues: ReactNode[] = [];
+    const bottomValues: ReactNode[] = [];
     let weeksCount: number = 1;
     const topDefaultHeight = headerHeight * 0.5;
     const dates = dateSetup.dates;
@@ -200,8 +200,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   };
 
   const getCalendarValuesForDay = () => {
-    const topValues: ReactChild[] = [];
-    const bottomValues: ReactChild[] = [];
+    const topValues: ReactNode[] = [];
+    const bottomValues: ReactNode[] = [];
     const topDefaultHeight = headerHeight * 0.5;
     const dates = dateSetup.dates;
     for (let i = 0; i < dates.length; i++) {
@@ -248,8 +248,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   };
 
   const getCalendarValuesForPartOfDay = () => {
-    const topValues: ReactChild[] = [];
-    const bottomValues: ReactChild[] = [];
+    const topValues: ReactNode[] = [];
+    const bottomValues: ReactNode[] = [];
     const ticks = viewMode === ViewMode.HalfDay ? 2 : 4;
     const topDefaultHeight = headerHeight * 0.5;
     const dates = dateSetup.dates;
@@ -294,8 +294,8 @@ export const Calendar: React.FC<CalendarProps> = ({
   };
 
   const getCalendarValuesForHour = () => {
-    const topValues: ReactChild[] = [];
-    const bottomValues: ReactChild[] = [];
+    const topValues: ReactNode[] = [];
+    const bottomValues: ReactNode[] = [];
     const topDefaultHeight = headerHeight * 0.5;
     const dates = dateSetup.dates;
     for (let i = 0; i < dates.length; i++) {
@@ -340,8 +340,8 @@ export const Calendar: React.FC<CalendarProps> = ({
     return [topValues, bottomValues];
   };
 
-  let topValues: ReactChild[] = [];
-  let bottomValues: ReactChild[] = [];
+  let topValues: ReactNode[] = [];
+  let bottomValues: ReactNode[] = [];
   switch (dateSetup.viewMode) {
     case ViewMode.Year:
       [topValues, bottomValues] = getCalendarValuesForYear();
@@ -380,24 +380,24 @@ export const Calendar: React.FC<CalendarProps> = ({
 };
 
 type CalendarProps = {
- readonly dateSetup: DateSetup;
- readonly locale: string;
- readonly viewMode: ViewMode;
- readonly rtl: boolean;
- readonly headerHeight: number;
- readonly columnWidth: number;
- readonly fontFamily: string;
- readonly fontSize: string;
+  readonly dateSetup: DateSetup;
+  readonly locale: string;
+  readonly viewMode: ViewMode;
+  readonly rtl: boolean;
+  readonly headerHeight: number;
+  readonly columnWidth: number;
+  readonly fontFamily: string;
+  readonly fontSize: string;
 };
 
-const TopPartOfCalendar: React.FC<TopPartOfCalendarProps> = ({
-                                                               value,
-                                                               x1Line,
-                                                               y1Line,
-                                                               y2Line,
-                                                               xText,
-                                                               yText,
-                                                             }) => {
+const TopPartOfCalendar = ({
+  value,
+  x1Line,
+  y1Line,
+  y2Line,
+  xText,
+  yText,
+}: TopPartOfCalendarProps) => {
   return (
     <g>
       <line

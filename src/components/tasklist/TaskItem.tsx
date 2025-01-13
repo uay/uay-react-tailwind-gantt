@@ -1,9 +1,10 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import type { ReactElement } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GanttContentMoveAction } from '../../model/GanttContentMoveAction';
 import { BarTask } from '../../model/BarTask';
 import { getProgressPoint } from '../../helpers/getProgressPoint';
 
-export const TaskItem: React.FC<TaskItemProps> = props => {
+export const TaskItem = (props: TaskItemProps) => {
   const {
     task,
     arrowIndent,
@@ -106,12 +107,12 @@ type TaskItemProps = {
   ) => any;
 };
 
-const Milestone: React.FC<MilestoneProps> = ({
+const Milestone = ({
   task,
   isDateChangeable,
   onEventStart,
   isSelected,
-}) => {
+}: MilestoneProps) => {
   const transform = `rotate(45 ${task.x1 + task.height * 0.356} ${
     task.y + task.height * 0.85
   })`;
@@ -158,7 +159,7 @@ type MilestoneProps = {
   ) => any;
 };
 
-const Project: React.FC<ProjectProps> = ({ task, isSelected }) => {
+const Project = ({ task, isSelected }: ProjectProps) => {
   const barColor = isSelected
     ? task.styles.backgroundSelectedColor
     : task.styles.backgroundColor;
@@ -245,13 +246,13 @@ type ProjectProps = {
   ) => any;
 };
 
-const BarSmall: React.FC<BarSmallProps> = ({
-                                             task,
-                                             isProgressChangeable,
-                                             isDateChangeable,
-                                             onEventStart,
-                                             isSelected,
-                                           }) => {
+const BarSmall = ({
+  task,
+  isProgressChangeable,
+  isDateChangeable,
+  onEventStart,
+  isSelected,
+}: BarSmallProps) => {
   const progressPoint = getProgressPoint(
     task.progressWidth + task.x1,
     task.y,
@@ -303,14 +304,14 @@ type BarSmallProps = {
   ) => any;
 };
 
-const Bar: React.FC<BarProps> = ({
-                                   task,
-                                   isProgressChangeable,
-                                   isDateChangeable,
-                                   rtl,
-                                   onEventStart,
-                                   isSelected,
-                                 }) => {
+const Bar = ({
+  task,
+  isProgressChangeable,
+  isDateChangeable,
+  rtl,
+  onEventStart,
+  isSelected,
+}: BarProps) => {
   const progressPoint = getProgressPoint(
     +!rtl * task.progressWidth + task.progressX,
     task.y,
@@ -392,10 +393,10 @@ type BarProps = {
   ) => any;
 };
 
-const BarProgressHandle: React.FC<BarProgressHandleProps> = ({
-                                                               progressPoint,
-                                                               onMouseDown,
-                                                             }) => {
+const BarProgressHandle = ({
+  progressPoint,
+  onMouseDown,
+}: BarProgressHandleProps) => {
   return (
     <polygon
       className="fill-gray-300 cursor-ew-resize opacity-0 invisible"
@@ -412,18 +413,18 @@ type BarProgressHandleProps = {
   ) => void;
 };
 
-const BarDisplay: React.FC<BarDisplayProps> = ({
-                                                 x,
-                                                 y,
-                                                 width,
-                                                 height,
-                                                 isSelected,
-                                                 progressX,
-                                                 progressWidth,
-                                                 barCornerRadius,
-                                                 styles,
-                                                 onMouseDown,
-                                               }) => {
+const BarDisplay = ({
+  x,
+  y,
+  width,
+  height,
+  isSelected,
+  progressX,
+  progressWidth,
+  barCornerRadius,
+  styles,
+  onMouseDown,
+}: BarDisplayProps) => {
   const getProcessColor = () => {
     return isSelected ? styles.progressSelectedColor : styles.progressColor;
   };
@@ -478,14 +479,14 @@ type BarDisplayProps = {
   ) => void;
 };
 
-const BarDateHandle: React.FC<BarDateHandleProps> = ({
-                                                       x,
-                                                       y,
-                                                       width,
-                                                       height,
-                                                       barCornerRadius,
-                                                       onMouseDown,
-                                                     }) => {
+const BarDateHandle = ({
+  x,
+  y,
+  width,
+  height,
+  barCornerRadius,
+  onMouseDown,
+}: BarDateHandleProps) => {
   return (
     <rect
       x={x}
@@ -506,5 +507,7 @@ type BarDateHandleProps = {
   readonly width: number;
   readonly height: number;
   readonly barCornerRadius: number;
-  readonly onMouseDown: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  readonly onMouseDown: (
+    event: React.MouseEvent<SVGRectElement, MouseEvent>,
+  ) => void;
 };

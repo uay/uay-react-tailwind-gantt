@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Task } from '../../model/Task';
 
-export const TaskListTable: React.FC<TaskListTableDefaultProps> = ({
+export const TaskListTable = ({
   rowHeight,
   rowWidth,
   tasks,
@@ -9,7 +9,7 @@ export const TaskListTable: React.FC<TaskListTableDefaultProps> = ({
   fontSize,
   locale,
   onExpanderClick,
-}) => {
+}: TaskListTableDefaultProps) => {
   const toLocaleDateString = useMemo(
     () => toLocaleDateStringFactory(locale),
     [locale],

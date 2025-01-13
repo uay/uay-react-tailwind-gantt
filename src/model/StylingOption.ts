@@ -1,5 +1,5 @@
-import React from 'react';
 import { Task } from './Task';
+import type { ReactNode } from 'react';
 
 export interface StylingOption {
   readonly headerHeight?: number;
@@ -29,18 +29,18 @@ export interface StylingOption {
   readonly arrowColor?: string;
   readonly arrowIndent?: number;
   readonly todayColor?: string;
-  readonly TooltipContent?: React.FC<{
+  readonly TooltipContent?: (props: {
     readonly task: Task;
     readonly fontSize: string;
     readonly fontFamily: string;
-  }>;
-  readonly TaskListHeader?: React.FC<{
+  }) => ReactNode;
+  readonly TaskListHeader?: (props: {
     readonly headerHeight: number;
     readonly rowWidth: string;
     readonly fontFamily: string;
     readonly fontSize: string;
-  }>;
-  readonly TaskListTable?: React.FC<{
+  }) => ReactNode;
+  readonly TaskListTable?: (props: {
     readonly rowHeight: number;
     readonly rowWidth: string;
     readonly fontFamily: string;
@@ -53,5 +53,5 @@ export interface StylingOption {
      */
     readonly setSelectedTask: (taskId: string) => void;
     readonly onExpanderClick: (task: Task) => void;
-  }>;
+  }) => ReactNode;
 }

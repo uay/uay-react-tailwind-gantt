@@ -1,8 +1,8 @@
-import React, { ReactChild } from 'react';
-import { Task } from '../../model/Task';
+import type { ReactNode } from 'react';
+import type { Task } from '../../model/Task';
 import { addToDate } from '../../helpers/date/addToDate';
 
-export const Grid: React.FC<GridProps> = props => {
+export const Grid = (props: GridProps) => {
   return (
     <g className="grid">
       <GridBody {...props} />
@@ -20,7 +20,7 @@ type GridProps = {
   readonly rtl: boolean;
 };
 
-const GridBody: React.FC<GridBodyProps> = ({
+const GridBody = ({
   tasks,
   dates,
   rowHeight,
@@ -28,10 +28,10 @@ const GridBody: React.FC<GridBodyProps> = ({
   columnWidth,
   todayColor,
   rtl,
-}) => {
+}: GridBodyProps) => {
   let y = 0;
-  const gridRows: ReactChild[] = [];
-  const rowLines: ReactChild[] = [
+  const gridRows: ReactNode[] = [];
+  const rowLines: ReactNode[] = [
     <line
       key="RowLineFirst"
       x="0"
@@ -68,8 +68,8 @@ const GridBody: React.FC<GridBodyProps> = ({
 
   const now = new Date();
   let tickX = 0;
-  const ticks: ReactChild[] = [];
-  let today: ReactChild = <rect />;
+  const ticks: ReactNode[] = [];
+  let today: ReactNode = <rect />;
   for (let i = 0; i < dates.length; i++) {
     const date = dates[i];
     ticks.push(

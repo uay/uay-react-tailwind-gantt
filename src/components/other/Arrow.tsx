@@ -1,14 +1,13 @@
-import React from 'react';
 import { BarTask } from '../../model/BarTask';
 
-export const Arrow: React.FC<ArrowProps> = ({
+export const Arrow = ({
   taskFrom,
   taskTo,
   rowHeight,
   taskHeight,
   arrowIndent,
   rtl,
-}) => {
+}: ArrowProps) => {
   let path: string;
   let trianglePoints: string;
   if (rtl) {

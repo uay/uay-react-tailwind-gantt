@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import type { ReactNode, RefObject } from 'react';
 import { Task } from '../../model/Task';
 import { BarTask } from '../../model/BarTask';
 
-export const TaskList: React.FC<TaskListProps> = ({
+export const TaskList = ({
   headerHeight,
   fontFamily,
   fontSize,
@@ -19,7 +20,7 @@ export const TaskList: React.FC<TaskListProps> = ({
   horizontalContainerClass,
   TaskListHeader,
   TaskListTable,
-}) => {
+}: TaskListProps) => {
   const horizontalContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -71,18 +72,18 @@ type TaskListProps = {
   readonly scrollY: number;
   readonly locale: string;
   readonly tasks: Task[];
-  readonly taskListRef: React.RefObject<HTMLDivElement>;
+  readonly taskListRef: RefObject<HTMLDivElement>;
   readonly horizontalContainerClass?: string;
   readonly selectedTask: BarTask | undefined;
   readonly setSelectedTask: (task: string) => void;
   readonly onExpanderClick: (task: Task) => void;
-  readonly TaskListHeader: React.FC<{
+  readonly TaskListHeader: (props: {
     readonly headerHeight: number;
     readonly rowWidth: string;
     readonly fontFamily: string;
     readonly fontSize: string;
-  }>;
-  readonly TaskListTable: React.FC<{
+  }) => ReactNode;
+  readonly TaskListTable: (props: {
     readonly rowHeight: number;
     readonly rowWidth: string;
     readonly fontFamily: string;
@@ -92,5 +93,5 @@ type TaskListProps = {
     readonly selectedTaskId: string;
     readonly setSelectedTask: (taskId: string) => void;
     readonly onExpanderClick: (task: Task) => void;
-  }>;
+  }) => ReactNode;
 };

@@ -1,11 +1,10 @@
-import React from 'react';
 import { Task } from '../../model/Task';
 
-export const StandardTooltipContent: React.FC<StandardTooltipContentProps> = ({
+export const StandardTooltipContent = ({
   task,
   fontSize,
   fontFamily,
-}) => {
+}: StandardTooltipContentProps) => {
   return (
     <div className="bg-white p-3 shadow-md" style={{ fontSize, fontFamily }}>
       <b
