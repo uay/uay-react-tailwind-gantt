@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './calendar.module.css';
 
 type TopPartOfCalendarProps = {
   value: string;
@@ -25,14 +24,14 @@ export const TopPartOfCalendar: React.FC<TopPartOfCalendarProps> = ({
         y1={y1Line}
         x2={x1Line}
         y2={y2Line}
-        className={styles.calendarTopTick}
+        className="stroke-gray-200"
         key={value + 'line'}
       />
       <text
         key={value + 'text'}
         y={yText}
         x={xText}
-        className={styles.calendarTopText}
+        className="stroke-gray-200"
       >
         {value}
       </text>
