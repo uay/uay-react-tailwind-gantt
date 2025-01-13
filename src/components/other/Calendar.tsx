@@ -5,9 +5,9 @@ import {
   getLocalDayOfWeek,
   getLocaleMonth,
   getWeekNumberISO8601,
-} from '../helpers/date-helper';
-import { ViewMode } from '../model/ViewMode';
-import { DateSetup } from '../model/DateSetup';
+} from '../../helpers/date-helper';
+import { ViewMode } from '../../model/ViewMode';
+import { DateSetup } from '../../model/DateSetup';
 
 export const Calendar: React.FC<CalendarProps> = ({
   dateSetup,

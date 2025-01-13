@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarTask } from '../model/BarTask';
+import { BarTask } from '../../model/BarTask';
 
 export const Arrow: React.FC<ArrowProps> = ({
   taskFrom,

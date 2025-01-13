@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { BarTask } from '../model/BarTask';
-import { Task } from '../model/Task';
+import { BarTask } from '../../model/BarTask';
+import { Task } from '../../model/Task';
 
 export const Tooltip: React.FC<TooltipProps> = ({
   task,

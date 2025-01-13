@@ -1,5 +1,5 @@
 import React from 'react';
-import { Task } from '../model/Task';
+import { Task } from '../../model/Task';
 
 export const StandardTooltipContent: React.FC<StandardTooltipContentProps> = ({
   task,
