@@ -1,13 +1,13 @@
 import React, { SyntheticEvent, useRef, useEffect } from 'react';
 
 export const VerticalScroll: React.FC<VerticalScrollProps> = ({
-        scroll,
-        ganttHeight,
-        ganttFullHeight,
-        headerHeight,
-        rtl,
-        onScroll,
-      }) => {
+  scroll,
+  ganttHeight,
+  ganttFullHeight,
+  headerHeight,
+  rtl,
+  onScroll,
+}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

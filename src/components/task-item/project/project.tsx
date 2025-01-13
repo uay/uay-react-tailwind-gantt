@@ -29,10 +29,7 @@ export const Project: React.FC<ProjectProps> = ({ task, isSelected }) => {
   ].join(',');
 
   return (
-    <g
-      tabIndex={0}
-      className="cursor-pointer outline-none"
-    >
+    <g tabIndex={0} className="cursor-pointer outline-none">
       <rect
         fill={barColor}
         x={task.x1}
@@ -88,6 +85,6 @@ type ProjectProps = {
   onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent
+    event?: React.MouseEvent | React.KeyboardEvent,
   ) => any;
 };

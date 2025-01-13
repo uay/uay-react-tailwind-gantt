@@ -7,17 +7,17 @@ import { BarTask } from '../../../types/bar-task';
 import { GanttContentMoveAction } from '../../../types/gantt-task-actions';
 
 export const Bar: React.FC<TaskItemProps> = ({
-                                               task,
-                                               isProgressChangeable,
-                                               isDateChangeable,
-                                               rtl,
-                                               onEventStart,
-                                               isSelected,
-                                             }) => {
+  task,
+  isProgressChangeable,
+  isDateChangeable,
+  rtl,
+  onEventStart,
+  isSelected,
+}) => {
   const progressPoint = getProgressPoint(
     +!rtl * task.progressWidth + task.progressX,
     task.y,
-    task.height
+    task.height,
   );
   const handleHeight = task.height - 2;
 
@@ -34,7 +34,7 @@ export const Bar: React.FC<TaskItemProps> = ({
         barCornerRadius={task.barCornerRadius}
         styles={task.styles}
         isSelected={isSelected}
-        onMouseDown={(e) => {
+        onMouseDown={e => {
           isDateChangeable && onEventStart('move', task, e);
         }}
       />
@@ -49,7 +49,7 @@ export const Bar: React.FC<TaskItemProps> = ({
               width={task.handleWidth}
               height={handleHeight}
               barCornerRadius={task.barCornerRadius}
-              onMouseDown={(e) => {
+              onMouseDown={e => {
                 onEventStart('start', task, e);
               }}
             />
@@ -60,7 +60,7 @@ export const Bar: React.FC<TaskItemProps> = ({
               width={task.handleWidth}
               height={handleHeight}
               barCornerRadius={task.barCornerRadius}
-              onMouseDown={(e) => {
+              onMouseDown={e => {
                 onEventStart('end', task, e);
               }}
             />
@@ -69,7 +69,7 @@ export const Bar: React.FC<TaskItemProps> = ({
         {isProgressChangeable && (
           <BarProgressHandle
             progressPoint={progressPoint}
-            onMouseDown={(e) => {
+            onMouseDown={e => {
               onEventStart('progress', task, e);
             }}
           />
@@ -91,6 +91,6 @@ type TaskItemProps = {
   onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent
+    event?: React.MouseEvent | React.KeyboardEvent,
   ) => any;
 };

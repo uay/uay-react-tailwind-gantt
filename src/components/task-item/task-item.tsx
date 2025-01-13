@@ -6,7 +6,7 @@ import { BarSmall } from './bar/bar-small';
 import { Milestone } from './milestone/milestone';
 import { Project } from './project/project';
 
-export const TaskItem: React.FC<TaskItemProps> = (props) => {
+export const TaskItem: React.FC<TaskItemProps> = props => {
   const {
     task,
     arrowIndent,
@@ -64,16 +64,16 @@ export const TaskItem: React.FC<TaskItemProps> = (props) => {
 
   return (
     <g
-      onKeyDown={(e) => {
+      onKeyDown={e => {
         if (e.key === 'Delete' && isDelete) {
           onEventStart('delete', task, e);
         }
         e.stopPropagation();
       }}
-      onMouseEnter={(e) => onEventStart('mouseenter', task, e)}
-      onMouseLeave={(e) => onEventStart('mouseleave', task, e)}
-      onDoubleClick={(e) => onEventStart('dblclick', task, e)}
-      onClick={(e) => onEventStart('click', task, e)}
+      onMouseEnter={e => onEventStart('mouseenter', task, e)}
+      onMouseLeave={e => onEventStart('mouseleave', task, e)}
+      onDoubleClick={e => onEventStart('dblclick', task, e)}
+      onClick={e => onEventStart('click', task, e)}
       onFocus={() => onEventStart('select', task)}
     >
       {taskItem}
@@ -105,6 +105,6 @@ type TaskItemProps = {
   onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent
+    event?: React.MouseEvent | React.KeyboardEvent,
   ) => any;
 };

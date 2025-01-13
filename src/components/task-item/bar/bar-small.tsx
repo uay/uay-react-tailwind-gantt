@@ -59,6 +59,6 @@ type BarSmallProps = {
   onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent
+    event?: React.MouseEvent | React.KeyboardEvent,
   ) => any;
 };

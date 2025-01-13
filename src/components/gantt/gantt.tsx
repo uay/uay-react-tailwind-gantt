@@ -398,24 +398,28 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         tabIndex={0}
         ref={wrapperRef}
       >
-        {listCellWidth && <TaskList {...{
-          rowHeight,
-          rowWidth: listCellWidth,
-          fontFamily,
-          fontSize,
-          tasks: barTasks,
-          locale,
-          headerHeight,
-          scrollY,
-          ganttHeight,
-          horizontalContainerClass: 'overflow-hidden m-0 p-0',
-          selectedTask,
-          taskListRef,
-          setSelectedTask: handleSelectedTask,
-          onExpanderClick: handleExpanderClick,
-          TaskListHeader,
-          TaskListTable,
-        }} />}
+        {listCellWidth && (
+          <TaskList
+            {...{
+              rowHeight,
+              rowWidth: listCellWidth,
+              fontFamily,
+              fontSize,
+              tasks: barTasks,
+              locale,
+              headerHeight,
+              scrollY,
+              ganttHeight,
+              horizontalContainerClass: 'overflow-hidden m-0 p-0',
+              selectedTask,
+              taskListRef,
+              setSelectedTask: handleSelectedTask,
+              onExpanderClick: handleExpanderClick,
+              TaskListHeader,
+              TaskListTable,
+            }}
+          />
+        )}
         <TaskGantt
           gridProps={{
             columnWidth,

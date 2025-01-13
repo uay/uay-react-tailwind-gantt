@@ -2,17 +2,17 @@ import React, { useMemo } from 'react';
 import { Task } from '../../types/public-types';
 
 export const TaskListTableDefault: React.FC<TaskListTableDefaultProps> = ({
-        rowHeight,
-        rowWidth,
-        tasks,
-        fontFamily,
-        fontSize,
-        locale,
-        onExpanderClick,
-      }) => {
+  rowHeight,
+  rowWidth,
+  tasks,
+  fontFamily,
+  fontSize,
+  locale,
+  onExpanderClick,
+}) => {
   const toLocaleDateString = useMemo(
     () => toLocaleDateStringFactory(locale),
-    [locale]
+    [locale],
   );
 
   return (
@@ -101,15 +101,15 @@ type TaskListTableDefaultProps = {
 const localeDateStringCache = {};
 const toLocaleDateStringFactory =
   (locale: string) =>
-    (date: Date, dateTimeOptions: Intl.DateTimeFormatOptions) => {
-      const key = date.toString();
-      let lds = localeDateStringCache[key];
-      if (!lds) {
-        lds = date.toLocaleDateString(locale, dateTimeOptions);
-        localeDateStringCache[key] = lds;
-      }
-      return lds;
-    };
+  (date: Date, dateTimeOptions: Intl.DateTimeFormatOptions) => {
+    const key = date.toString();
+    let lds = localeDateStringCache[key];
+    if (!lds) {
+      lds = date.toLocaleDateString(locale, dateTimeOptions);
+      localeDateStringCache[key] = lds;
+    }
+    return lds;
+  };
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
   weekday: 'short',

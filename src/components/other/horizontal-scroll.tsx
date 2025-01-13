@@ -1,6 +1,12 @@
 import React, { SyntheticEvent, useRef, useEffect } from 'react';
 
-export const HorizontalScroll: React.FC<HorizontalScrollProps> = ({ scroll, svgWidth, taskListWidth, rtl, onScroll }) => {
+export const HorizontalScroll: React.FC<HorizontalScrollProps> = ({
+  scroll,
+  svgWidth,
+  taskListWidth,
+  rtl,
+  onScroll,
+}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

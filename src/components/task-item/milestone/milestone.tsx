@@ -3,11 +3,11 @@ import { BarTask } from '../../../types/bar-task';
 import { GanttContentMoveAction } from '../../../types/gantt-task-actions';
 
 export const Milestone: React.FC<MilestoneProps> = ({
-                                                     task,
-                                                     isDateChangeable,
-                                                     onEventStart,
-                                                     isSelected,
-                                                   }) => {
+  task,
+  isDateChangeable,
+  onEventStart,
+  isSelected,
+}) => {
   const transform = `rotate(45 ${task.x1 + task.height * 0.356} ${
     task.y + task.height * 0.85
   })`;
@@ -19,10 +19,7 @@ export const Milestone: React.FC<MilestoneProps> = ({
   };
 
   return (
-    <g
-      tabIndex={0}
-      className="cursor-pointer outline-none"
-    >
+    <g tabIndex={0} className="cursor-pointer outline-none">
       <rect
         fill={getBarColor()}
         x={task.x1}
@@ -33,7 +30,7 @@ export const Milestone: React.FC<MilestoneProps> = ({
         ry={task.barCornerRadius}
         transform={transform}
         className="select-none"
-        onMouseDown={(e) => {
+        onMouseDown={e => {
           isDateChangeable && onEventStart('move', task, e);
         }}
       />
@@ -53,6 +50,6 @@ type MilestoneProps = {
   onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent
+    event?: React.MouseEvent | React.KeyboardEvent,
   ) => any;
 };

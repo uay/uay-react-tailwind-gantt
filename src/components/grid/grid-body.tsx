@@ -3,14 +3,14 @@ import { Task } from '../../types/public-types';
 import { addToDate } from '../../helpers/date-helper';
 
 export const GridBody: React.FC<GridBodyProps> = ({
-                                                    tasks,
-                                                    dates,
-                                                    rowHeight,
-                                                    svgWidth,
-                                                    columnWidth,
-                                                    todayColor,
-                                                    rtl,
-                                                  }) => {
+  tasks,
+  dates,
+  rowHeight,
+  svgWidth,
+  columnWidth,
+  todayColor,
+  rtl,
+}) => {
   let y = 0;
   const gridRows: ReactChild[] = [];
   const rowLines: ReactChild[] = [
@@ -33,7 +33,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
         width={svgWidth}
         height={rowHeight}
         className={y % (2 * rowHeight) === 0 ? 'fill-white' : 'fill-gray-100'}
-      />
+      />,
     );
     rowLines.push(
       <line
@@ -43,7 +43,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
         x2={svgWidth}
         y2={y + rowHeight}
         className="stroke-gray-200"
-      />
+      />,
     );
     y += rowHeight;
   }
@@ -62,7 +62,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
         x2={tickX}
         y2={y}
         className="stroke-gray-300"
-      />
+      />,
     );
 
     if (
@@ -75,7 +75,7 @@ export const GridBody: React.FC<GridBodyProps> = ({
         addToDate(
           date,
           date.getTime() - dates[i - 1].getTime(),
-          'millisecond'
+          'millisecond',
         ).getTime() >= now.getTime())
     ) {
       today = (
