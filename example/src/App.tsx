@@ -68,8 +68,9 @@ export const App = () => {
   };
 
   return (
-    <div className="Wrapper">
+    <div className="mb-8">
       <ViewSwitcher
+        viewMode={view}
         onViewModeChange={viewMode => setView(viewMode)}
         onViewListChange={setIsChecked}
         isChecked={isChecked}

@@ -1,74 +1,50 @@
 import React from 'react';
-import { ViewMode } from 'uay-react-tailwind-gantt';
+import {ViewMode} from 'uay-react-tailwind-gantt';
 
 type ViewSwitcherProps = {
-  isChecked: boolean;
-  onViewListChange: (isChecked: boolean) => void;
-  onViewModeChange: (viewMode: ViewMode) => void;
+  readonly viewMode: ViewMode;
+  readonly isChecked: boolean;
+  readonly onViewListChange: (isChecked: boolean) => void;
+  readonly onViewModeChange: (viewMode: ViewMode) => void;
 };
 
-export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
-  onViewModeChange,
-  onViewListChange,
-  isChecked,
-}) => {
+const viewModes: ViewMode[] = [
+  ViewMode.Hour,
+  ViewMode.QuarterDay,
+  ViewMode.HalfDay,
+  ViewMode.Day,
+  ViewMode.Week,
+  ViewMode.Month,
+  ViewMode.QuarterYear,
+  ViewMode.Year,
+];
+
+export const ViewSwitcher: React.FC<ViewSwitcherProps> = (props) => {
   return (
-    <div className="ViewContainer">
-      <button
-        className="Button"
-        onClick={() => onViewModeChange(ViewMode.Hour)}
-      >
-        Hour
-      </button>
-      <button
-        className="Button"
-        onClick={() => onViewModeChange(ViewMode.QuarterDay)}
-      >
-        Quarter of Day
-      </button>
-      <button
-        className="Button"
-        onClick={() => onViewModeChange(ViewMode.HalfDay)}
-      >
-        Half of Day
-      </button>
-      <button className="Button" onClick={() => onViewModeChange(ViewMode.Day)}>
-        Day
-      </button>
-      <button
-        className="Button"
-        onClick={() => onViewModeChange(ViewMode.Week)}
-      >
-        Week
-      </button>
-      <button
-        className="Button"
-        onClick={() => onViewModeChange(ViewMode.Month)}
-      >
-        Month
-      </button>
-      <button
-        className="Button"
-        onClick={() => onViewModeChange(ViewMode.Year)}
-      >
-        Year
-      </button>
-      <button
-        className="Button"
-        onClick={() => onViewModeChange(ViewMode.QuarterYear)}
-      >
-        Year
-      </button>
-      <div className="Switch">
-        <label className="Switch_Toggle">
+    <div className="list-none flex justify-end items-center">
+      {viewModes.map((mode) => (
+        <button
+          key={mode}
+          className={[
+            props.viewMode === mode ? 'text-black bg-gray-400' : 'text-black bg-gray-200',
+            "border-none py-1.5 px-4 no-underline m-1 cursor-pointer text-sm text-center",
+          ].filter(Boolean).join(' ')}
+          onClick={() => props.onViewModeChange(mode)}
+        >
+          {mode}
+        </button>
+      ))}
+      <div className="m-1 mx-4 text-sm font-sans flex justify-center items-center">
+        <label className="relative inline-block w-15 h-7.5 mr-1.5 cursor-pointer">
           <input
+            className="focus:shadow-[0_0_1px_#2196f3]"
             type="checkbox"
-            defaultChecked={isChecked}
-            onClick={() => onViewListChange(!isChecked)}
+            defaultChecked={props.isChecked}
+            onClick={() => props.onViewListChange(!props.isChecked)}
           />
-          <span className="Slider" />
+          {' '}
+          Show Task List
         </label>
-        Show Task List
       </div>
     </div>
   );
