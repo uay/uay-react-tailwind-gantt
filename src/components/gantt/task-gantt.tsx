@@ -71,46 +71,46 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
 };
 
 type TaskGanttProps = {
-  gridProps: {
-    tasks: Task[];
-    dates: Date[];
-    svgWidth: number;
-    rowHeight: number;
-    columnWidth: number;
-    todayColor: string;
-    rtl: boolean;
+  readonly gridProps: {
+    readonly tasks: Task[];
+    readonly dates: Date[];
+    readonly svgWidth: number;
+    readonly rowHeight: number;
+    readonly columnWidth: number;
+    readonly todayColor: string;
+    readonly rtl: boolean;
   };
-  calendarProps: {
-    dateSetup: DateSetup;
-    locale: string;
-    viewMode: ViewMode;
-    rtl: boolean;
-    headerHeight: number;
-    columnWidth: number;
-    fontFamily: string;
-    fontSize: string;
+  readonly calendarProps: {
+    readonly dateSetup: DateSetup;
+    readonly locale: string;
+    readonly viewMode: ViewMode;
+    readonly rtl: boolean;
+    readonly headerHeight: number;
+    readonly columnWidth: number;
+    readonly fontFamily: string;
+    readonly fontSize: string;
   };
-  barProps: {
-    tasks: BarTask[];
-    dates: Date[];
-    ganttEvent: GanttEvent;
-    selectedTask: BarTask | undefined;
-    rowHeight: number;
-    columnWidth: number;
-    timeStep: number;
-    svg?: React.RefObject<SVGSVGElement>;
-    svgWidth: number;
-    taskHeight: number;
-    arrowColor: string;
-    arrowIndent: number;
-    fontSize: string;
-    fontFamily: string;
-    rtl: boolean;
-    setGanttEvent: (value: GanttEvent) => void;
-    setFailedTask: (value: BarTask | null) => void;
-    setSelectedTask: (taskId: string) => void;
+  readonly barProps: {
+    readonly tasks: BarTask[];
+    readonly dates: Date[];
+    readonly ganttEvent: GanttEvent;
+    readonly selectedTask: BarTask | undefined;
+    readonly rowHeight: number;
+    readonly columnWidth: number;
+    readonly timeStep: number;
+    readonly svg?: React.RefObject<SVGSVGElement>;
+    readonly svgWidth: number;
+    readonly taskHeight: number;
+    readonly arrowColor: string;
+    readonly arrowIndent: number;
+    readonly fontSize: string;
+    readonly fontFamily: string;
+    readonly rtl: boolean;
+    readonly setGanttEvent: (value: GanttEvent) => void;
+    readonly setFailedTask: (value: BarTask | null) => void;
+    readonly setSelectedTask: (taskId: string) => void;
   } & EventOption;
-  ganttHeight: number;
-  scrollY: number;
-  scrollX: number;
+  readonly ganttHeight: number;
+  readonly scrollY: number;
+  readonly scrollX: number;
 };

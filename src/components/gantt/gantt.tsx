@@ -507,5 +507,5 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
 };
 
 interface GanttProps extends EventOption, DisplayOption, StylingOption {
-  tasks: Task[];
+ readonly tasks: Task[];
 }
