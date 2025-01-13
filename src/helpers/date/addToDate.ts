@@ -1,4 +1,4 @@
-import { DateHelperScales } from '../../model/DateHelperScales';
+import type { DateHelperScales } from '../../model/DateHelperScales';
 
 export const addToDate = (
   date: Date,

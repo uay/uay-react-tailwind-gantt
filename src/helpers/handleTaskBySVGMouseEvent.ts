@@ -1,5 +1,5 @@
-import { BarMoveAction } from '../model/BarMoveAction';
-import { BarTask } from '../model/BarTask';
+import type { BarMoveAction } from '../model/BarMoveAction';
+import type { BarTask } from '../model/BarTask';
 import { progressWithByParams } from './progressWithByParams';
 
 /**

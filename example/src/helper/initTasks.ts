@@ -1,4 +1,4 @@
-import { Task } from 'uay-react-tailwind-gantt';
+import type { Task } from 'uay-react-tailwind-gantt';
 
 export function initTasks() {
   const currentDate = new Date();

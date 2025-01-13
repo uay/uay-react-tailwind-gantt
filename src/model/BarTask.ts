@@ -1,5 +1,5 @@
-import { Task } from './Task';
-import { TaskTypeInternal } from './TaskTypeInternal';
+import type { Task } from './Task';
+import type { TaskTypeInternal } from './TaskTypeInternal';
 
 export interface BarTask extends Task {
   readonly index: number;

@@ -1,4 +1,4 @@
-import { BarMoveAction } from './BarMoveAction';
+import type { BarMoveAction } from './BarMoveAction';
 
 export type GanttContentMoveAction =
   | 'mouseenter'

@@ -1,4 +1,4 @@
-import { TaskType } from './TaskType';
+import type { TaskType } from './TaskType';
 
 export interface Task {
   readonly id: string;

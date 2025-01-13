@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { GanttContentMoveAction } from '../../model/GanttContentMoveAction';
-import { BarTask } from '../../model/BarTask';
+import type { GanttContentMoveAction } from '../../model/GanttContentMoveAction';
+import type { BarTask } from '../../model/BarTask';
 import { getProgressPoint } from '../../helpers/getProgressPoint';
 
 export const TaskItem = (props: TaskItemProps) => {

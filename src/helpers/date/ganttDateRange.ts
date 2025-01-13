@@ -1,4 +1,4 @@
-import { Task } from '../../model/Task';
+import type { Task } from '../../model/Task';
 import { ViewMode } from '../../model/ViewMode';
 import { addToDate } from './addToDate';
 import { startOfDate } from './startOfDate';

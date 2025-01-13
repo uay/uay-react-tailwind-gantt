@@ -1,4 +1,4 @@
-import { Task } from '../../model/Task';
+import type { Task } from '../../model/Task';
 
 export const StandardTooltipContent = ({
   task,

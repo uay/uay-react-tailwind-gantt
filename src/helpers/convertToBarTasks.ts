@@ -1,6 +1,6 @@
-import { Task } from '../model/Task';
-import { BarTask } from '../model/BarTask';
-import { TaskTypeInternal } from '../model/TaskTypeInternal';
+import type { Task } from '../model/Task';
+import type { BarTask } from '../model/BarTask';
+import type { TaskTypeInternal } from '../model/TaskTypeInternal';
 import { progressWithByParams } from './progressWithByParams';
 
 export const convertToBarTasks = (

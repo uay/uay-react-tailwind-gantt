@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { ViewMode } from '../../model/ViewMode';
-import { DateSetup } from '../../model/DateSetup';
+import type { DateSetup } from '../../model/DateSetup';
 import { getLocaleMonth } from '../../helpers/date/getLocaleMonth';
 import { getWeekNumberISO8601 } from '../../helpers/date/getWeekNumberISO8601';
 import { getLocalDayOfWeek } from '../../helpers/date/getLocalDayOfWeek';
