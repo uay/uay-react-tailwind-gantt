@@ -30,7 +30,7 @@ export default [
     },
     settings: {
       react: {
-        version: "16",
+        version: "18",
       },
     },
     rules: {
@@ -43,6 +43,7 @@ export default [
       "no-unused-vars": "off",
       "no-use-before-define": "off",
       "@typescript-eslint/no-unused-vars": "error",
+      '@typescript-eslint/consistent-type-imports': 'error',
     },
   },
 ];
