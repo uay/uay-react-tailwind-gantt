@@ -68,14 +68,15 @@ export const App = () => {
   };
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 flex flex-col gap-4">
+      <h1 className="text-2xl font-bold">uay-react-tailwind-gantt-example</h1>
       <ViewSwitcher
         viewMode={view}
         onViewModeChange={viewMode => setView(viewMode)}
         onViewListChange={setIsChecked}
         isChecked={isChecked}
       />
-      <h3>Gantt With Unlimited Height</h3>
+      <h2 className="text-xl font-bold">Gantt With Unlimited Height</h2>
       <Gantt
         tasks={tasks}
         viewMode={view}
@@ -89,7 +90,7 @@ export const App = () => {
         listCellWidth={isChecked ? '155px' : ''}
         columnWidth={columnWidth}
       />
-      <h3>Gantt With Limited Height</h3>
+      <h2>Gantt With Limited Height</h2>
       <Gantt
         tasks={tasks}
         viewMode={view}
