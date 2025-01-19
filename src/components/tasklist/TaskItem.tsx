@@ -5,22 +5,12 @@ import type { BarTask } from '~/model/BarTask';
 import { getProgressPoint } from '~/helpers/getProgressPoint';
 
 export const TaskItem = (props: TaskItemProps) => {
-  const {
-    task,
-    arrowIndent,
-    isDelete,
-    taskHeight,
-    isSelected,
-    rtl,
-    onEventStart,
-  } = props;
-
   const textRef = useRef<SVGTextElement>(null);
   const [taskItem, setTaskItem] = useState<ReactElement>(<div />);
   const [isTextInside, setIsTextInside] = useState(true);
 
   useEffect(() => {
-    switch (task.typeInternal) {
+    switch (props.task.typeInternal) {
       case 'milestone':
         setTaskItem(<Milestone {...props} />);
         break;
@@ -34,50 +24,57 @@ export const TaskItem = (props: TaskItemProps) => {
         setTaskItem(<Bar {...props} />);
         break;
     }
-  }, [task, isSelected]);
+  }, [props.task, props.isSelected]);
 
   useEffect(() => {
     if (textRef.current) {
-      setIsTextInside(textRef.current.getBBox().width < task.x2 - task.x1);
+      setIsTextInside(
+        textRef.current.getBBox().width < props.task.x2 - props.task.x1,
+      );
     }
-  }, [textRef, task]);
+  }, [textRef, props.task]);
 
   const getX = () => {
-    const width = task.x2 - task.x1;
-    const hasChild = task.barChildren.length > 0;
+    const width = props.task.x2 - props.task.x1;
+    const hasChild = props.task.barChildren.length > 0;
     if (isTextInside) {
-      return task.x1 + width * 0.5;
+      return props.task.x1 + width * 0.5;
     }
-    if (rtl && textRef.current) {
+    if (props.rtl && textRef.current) {
       return (
-        task.x1 -
+        props.task.x1 -
         textRef.current.getBBox().width -
-        arrowIndent * +hasChild -
-        arrowIndent * 0.2
+        props.arrowIndent * +hasChild -
+        props.arrowIndent * 0.2
       );
     } else {
-      return task.x1 + width + arrowIndent * +hasChild + arrowIndent * 0.2;
+      return (
+        props.task.x1 +
+        width +
+        props.arrowIndent * +hasChild +
+        props.arrowIndent * 0.2
+      );
     }
   };
 
   return (
     <g
       onKeyDown={e => {
-        if (e.key === 'Delete' && isDelete) {
-          onEventStart('delete', task, e);
+        if (e.key === 'Delete' && props.isDelete) {
+          props.onEventStart('delete', props.task, e);
         }
         e.stopPropagation();
       }}
-      onMouseEnter={e => onEventStart('mouseenter', task, e)}
-      onMouseLeave={e => onEventStart('mouseleave', task, e)}
-      onDoubleClick={e => onEventStart('dblclick', task, e)}
-      onClick={e => onEventStart('click', task, e)}
-      onFocus={() => onEventStart('select', task)}
+      onMouseEnter={e => props.onEventStart('mouseenter', props.task, e)}
+      onMouseLeave={e => props.onEventStart('mouseleave', props.task, e)}
+      onDoubleClick={e => props.onEventStart('dblclick', props.task, e)}
+      onClick={e => props.onEventStart('click', props.task, e)}
+      onFocus={() => props.onEventStart('select', props.task)}
     >
       {taskItem}
       <text
         x={getX()}
-        y={task.y + taskHeight * 0.5}
+        y={props.task.y + props.taskHeight * 0.5}
         className={`${
           isTextInside
             ? 'fill-white text-center font-light select-none pointer-events-none'
@@ -85,7 +82,7 @@ export const TaskItem = (props: TaskItemProps) => {
         }`}
         ref={textRef}
       >
-        {task.name}
+        {props.task.name}
       </text>
     </g>
   );
@@ -107,36 +104,31 @@ type TaskItemProps = {
   ) => any;
 };
 
-const Milestone = ({
-  task,
-  isDateChangeable,
-  onEventStart,
-  isSelected,
-}: MilestoneProps) => {
-  const transform = `rotate(45 ${task.x1 + task.height * 0.356} ${
-    task.y + task.height * 0.85
+const Milestone = (props: MilestoneProps) => {
+  const transform = `rotate(45 ${props.task.x1 + props.task.height * 0.356} ${
+    props.task.y + props.task.height * 0.85
   })`;
 
   const getBarColor = () => {
-    return isSelected
-      ? task.styles.backgroundSelectedColor
-      : task.styles.backgroundColor;
+    return props.isSelected
+      ? props.task.styles.backgroundSelectedColor
+      : props.task.styles.backgroundColor;
   };
 
   return (
     <g tabIndex={0} className="cursor-pointer outline-none">
       <rect
         fill={getBarColor()}
-        x={task.x1}
-        width={task.height}
-        y={task.y}
-        height={task.height}
-        rx={task.barCornerRadius}
-        ry={task.barCornerRadius}
+        x={props.task.x1}
+        width={props.task.height}
+        y={props.task.y}
+        height={props.task.height}
+        rx={props.task.barCornerRadius}
+        ry={props.task.barCornerRadius}
         transform={transform}
         className="select-none"
         onMouseDown={e => {
-          isDateChangeable && onEventStart('move', task, e);
+          props.isDateChangeable && props.onEventStart('move', props.task, e);
         }}
       />
     </g>
@@ -159,61 +151,61 @@ type MilestoneProps = {
   ) => any;
 };
 
-const Project = ({ task, isSelected }: ProjectProps) => {
-  const barColor = isSelected
-    ? task.styles.backgroundSelectedColor
-    : task.styles.backgroundColor;
-  const processColor = isSelected
-    ? task.styles.progressSelectedColor
-    : task.styles.progressColor;
-  const projectWidth = task.x2 - task.x1;
+const Project = (props: ProjectProps) => {
+  const barColor = props.isSelected
+    ? props.task.styles.backgroundSelectedColor
+    : props.task.styles.backgroundColor;
+  const processColor = props.isSelected
+    ? props.task.styles.progressSelectedColor
+    : props.task.styles.progressColor;
+  const projectWidth = props.task.x2 - props.task.x1;
 
   const projectLeftTriangle = [
-    task.x1,
-    task.y + task.height / 2 - 1,
-    task.x1,
-    task.y + task.height,
-    task.x1 + 15,
-    task.y + task.height / 2 - 1,
+    props.task.x1,
+    props.task.y + props.task.height / 2 - 1,
+    props.task.x1,
+    props.task.y + props.task.height,
+    props.task.x1 + 15,
+    props.task.y + props.task.height / 2 - 1,
   ].join(',');
   const projectRightTriangle = [
-    task.x2,
-    task.y + task.height / 2 - 1,
-    task.x2,
-    task.y + task.height,
-    task.x2 - 15,
-    task.y + task.height / 2 - 1,
+    props.task.x2,
+    props.task.y + props.task.height / 2 - 1,
+    props.task.x2,
+    props.task.y + props.task.height,
+    props.task.x2 - 15,
+    props.task.y + props.task.height / 2 - 1,
   ].join(',');
 
   return (
     <g tabIndex={0} className="cursor-pointer outline-none">
       <rect
         fill={barColor}
-        x={task.x1}
+        x={props.task.x1}
         width={projectWidth}
-        y={task.y}
-        height={task.height}
-        rx={task.barCornerRadius}
-        ry={task.barCornerRadius}
+        y={props.task.y}
+        height={props.task.height}
+        rx={props.task.barCornerRadius}
+        ry={props.task.barCornerRadius}
         className="opacity-60 select-none"
       />
       <rect
-        x={task.progressX}
-        width={task.progressWidth}
-        y={task.y}
-        height={task.height}
-        rx={task.barCornerRadius}
-        ry={task.barCornerRadius}
+        x={props.task.progressX}
+        width={props.task.progressWidth}
+        y={props.task.y}
+        height={props.task.height}
+        rx={props.task.barCornerRadius}
+        ry={props.task.barCornerRadius}
         fill={processColor}
       />
       <rect
         fill={barColor}
-        x={task.x1}
+        x={props.task.x1}
         width={projectWidth}
-        y={task.y}
-        height={task.height / 2}
-        rx={task.barCornerRadius}
-        ry={task.barCornerRadius}
+        y={props.task.y}
+        height={props.task.height / 2}
+        rx={props.task.barCornerRadius}
+        ry={props.task.barCornerRadius}
         className="select-none"
       />
       <polygon
@@ -246,40 +238,35 @@ type ProjectProps = {
   ) => any;
 };
 
-const BarSmall = ({
-  task,
-  isProgressChangeable,
-  isDateChangeable,
-  onEventStart,
-  isSelected,
-}: BarSmallProps) => {
+const BarSmall = (props: BarSmallProps) => {
   const progressPoint = getProgressPoint(
-    task.progressWidth + task.x1,
-    task.y,
-    task.height,
+    props.task.progressWidth + props.task.x1,
+    props.task.y,
+    props.task.height,
   );
+
   return (
     <g className="cursor-pointer outline-none" tabIndex={0}>
       <BarDisplay
-        x={task.x1}
-        y={task.y}
-        width={task.x2 - task.x1}
-        height={task.height}
-        progressX={task.progressX}
-        progressWidth={task.progressWidth}
-        barCornerRadius={task.barCornerRadius}
-        styles={task.styles}
-        isSelected={isSelected}
+        x={props.task.x1}
+        y={props.task.y}
+        width={props.task.x2 - props.task.x1}
+        height={props.task.height}
+        progressX={props.task.progressX}
+        progressWidth={props.task.progressWidth}
+        barCornerRadius={props.task.barCornerRadius}
+        styles={props.task.styles}
+        isSelected={props.isSelected}
         onMouseDown={e => {
-          isDateChangeable && onEventStart('move', task, e);
+          props.isDateChangeable && props.onEventStart('move', props.task, e);
         }}
       />
       <g className="handleGroup">
-        {isProgressChangeable && (
+        {props.isProgressChangeable && (
           <BarProgressHandle
             progressPoint={progressPoint}
             onMouseDown={e => {
-              onEventStart('progress', task, e);
+              props.onEventStart('progress', props.task, e);
             }}
           />
         )}
@@ -304,71 +291,64 @@ type BarSmallProps = {
   ) => any;
 };
 
-const Bar = ({
-  task,
-  isProgressChangeable,
-  isDateChangeable,
-  rtl,
-  onEventStart,
-  isSelected,
-}: BarProps) => {
+const Bar = (props: BarProps) => {
   const progressPoint = getProgressPoint(
-    +!rtl * task.progressWidth + task.progressX,
-    task.y,
-    task.height,
+    +!props.rtl * props.task.progressWidth + props.task.progressX,
+    props.task.y,
+    props.task.height,
   );
-  const handleHeight = task.height - 2;
+  const handleHeight = props.task.height - 2;
 
   return (
     <g className="cursor-pointer outline-none group" tabIndex={0}>
       {/* Bar Display */}
       <BarDisplay
-        x={task.x1}
-        y={task.y}
-        width={task.x2 - task.x1}
-        height={task.height}
-        progressX={task.progressX}
-        progressWidth={task.progressWidth}
-        barCornerRadius={task.barCornerRadius}
-        styles={task.styles}
-        isSelected={isSelected}
+        x={props.task.x1}
+        y={props.task.y}
+        width={props.task.x2 - props.task.x1}
+        height={props.task.height}
+        progressX={props.task.progressX}
+        progressWidth={props.task.progressWidth}
+        barCornerRadius={props.task.barCornerRadius}
+        styles={props.task.styles}
+        isSelected={props.isSelected}
         onMouseDown={e => {
-          isDateChangeable && onEventStart('move', task, e);
+          props.isDateChangeable && props.onEventStart('move', props.task, e);
         }}
       />
 
       <g className="group-hover:visible">
-        {isDateChangeable && (
+        {props.isDateChangeable && (
           <g>
             {/* left */}
             <BarDateHandle
-              x={task.x1 + 1}
-              y={task.y + 1}
-              width={task.handleWidth}
+              x={props.task.x1 + 1}
+              y={props.task.y + 1}
+              width={props.task.handleWidth}
               height={handleHeight}
-              barCornerRadius={task.barCornerRadius}
+              barCornerRadius={props.task.barCornerRadius}
               onMouseDown={e => {
-                onEventStart('start', task, e);
+                props.onEventStart('start', props.task, e);
               }}
             />
             {/* right */}
             <BarDateHandle
-              x={task.x2 - task.handleWidth - 1}
-              y={task.y + 1}
-              width={task.handleWidth}
+              x={props.task.x2 - props.task.handleWidth - 1}
+              y={props.task.y + 1}
+              width={props.task.handleWidth}
               height={handleHeight}
-              barCornerRadius={task.barCornerRadius}
+              barCornerRadius={props.task.barCornerRadius}
               onMouseDown={e => {
-                onEventStart('end', task, e);
+                props.onEventStart('end', props.task, e);
               }}
             />
           </g>
         )}
-        {isProgressChangeable && (
+        {props.isProgressChangeable && (
           <BarProgressHandle
             progressPoint={progressPoint}
             onMouseDown={e => {
-              onEventStart('progress', task, e);
+              props.onEventStart('progress', props.task, e);
             }}
           />
         )}
@@ -393,15 +373,12 @@ type BarProps = {
   ) => any;
 };
 
-const BarProgressHandle = ({
-  progressPoint,
-  onMouseDown,
-}: BarProgressHandleProps) => {
+const BarProgressHandle = (props: BarProgressHandleProps) => {
   return (
     <polygon
       className="fill-gray-300 cursor-ew-resize opacity-0 invisible"
-      points={progressPoint}
-      onMouseDown={onMouseDown}
+      points={props.progressPoint}
+      onMouseDown={props.onMouseDown}
     />
   );
 };
@@ -413,45 +390,38 @@ type BarProgressHandleProps = {
   ) => void;
 };
 
-const BarDisplay = ({
-  x,
-  y,
-  width,
-  height,
-  isSelected,
-  progressX,
-  progressWidth,
-  barCornerRadius,
-  styles,
-  onMouseDown,
-}: BarDisplayProps) => {
+const BarDisplay = (props: BarDisplayProps) => {
   const getProcessColor = () => {
-    return isSelected ? styles.progressSelectedColor : styles.progressColor;
+    return props.isSelected
+      ? props.styles.progressSelectedColor
+      : props.styles.progressColor;
   };
 
   const getBarColor = () => {
-    return isSelected ? styles.backgroundSelectedColor : styles.backgroundColor;
+    return props.isSelected
+      ? props.styles.backgroundSelectedColor
+      : props.styles.backgroundColor;
   };
 
   return (
-    <g onMouseDown={onMouseDown}>
+    <g onMouseDown={props.onMouseDown}>
       <rect
-        x={x}
-        width={width}
-        y={y}
-        height={height}
-        ry={barCornerRadius}
-        rx={barCornerRadius}
+        x={props.x}
+        width={props.width}
+        y={props.y}
+        height={props.height}
+        ry={props.barCornerRadius}
+        rx={props.barCornerRadius}
         fill={getBarColor()}
         className="select-none stroke-0"
       />
       <rect
-        x={progressX}
-        width={progressWidth}
-        y={y}
-        height={height}
-        ry={barCornerRadius}
-        rx={barCornerRadius}
+        x={props.progressX}
+        width={props.progressWidth}
+        y={props.y}
+        height={props.height}
+        ry={props.barCornerRadius}
+        rx={props.barCornerRadius}
         fill={getProcessColor()}
       />
     </g>
@@ -479,24 +449,17 @@ type BarDisplayProps = {
   ) => void;
 };
 
-const BarDateHandle = ({
-  x,
-  y,
-  width,
-  height,
-  barCornerRadius,
-  onMouseDown,
-}: BarDateHandleProps) => {
+const BarDateHandle = (props: BarDateHandleProps) => {
   return (
     <rect
-      x={x}
-      y={y}
-      width={width}
-      height={height}
+      x={props.x}
+      y={props.y}
+      width={props.width}
+      height={props.height}
       className="fill-gray-300 cursor-ew-resize opacity-0 invisible"
-      ry={barCornerRadius}
-      rx={barCornerRadius}
-      onMouseDown={onMouseDown}
+      ry={props.barCornerRadius}
+      rx={props.barCornerRadius}
+      onMouseDown={props.onMouseDown}
     />
   );
 };
