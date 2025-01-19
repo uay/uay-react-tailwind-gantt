@@ -2,13 +2,10 @@ import type { Task } from '~/model/public/Task';
 
 export const StandardTooltipContent = ({
   task,
-  fontSize,
 }: StandardTooltipContentProps) => {
   return (
-    <div className="bg-white p-3 shadow-md" style={{ fontSize }}>
-      <b
-        style={{ fontSize: parseInt(fontSize) + 6 }}
-      >{`${task.name}: ${task.start.getDate()}-${
+    <div className="bg-white p-3 shadow-md">
+      <b>{`${task.name}: ${task.start.getDate()}-${
         task.start.getMonth() + 1
       }-${task.start.getFullYear()} - ${task.end.getDate()}-${
         task.end.getMonth() + 1
@@ -28,5 +25,4 @@ export const StandardTooltipContent = ({
 
 type StandardTooltipContentProps = {
   readonly task: Task;
-  readonly fontSize: string;
 };

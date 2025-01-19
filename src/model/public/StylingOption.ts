@@ -9,7 +9,6 @@ export interface StylingOption {
   readonly ganttHeight?: number;
   readonly barCornerRadius?: number;
   readonly handleWidth?: number;
-  readonly fontSize?: string;
   /**
    * How many of row width can be taken by task.
    * From 0 to 100
@@ -28,19 +27,14 @@ export interface StylingOption {
   readonly arrowColor?: string;
   readonly arrowIndent?: number;
   readonly todayColor?: string;
-  readonly TooltipContent?: (props: {
-    readonly task: Task;
-    readonly fontSize: string;
-  }) => ReactNode;
+  readonly TooltipContent?: (props: { readonly task: Task }) => ReactNode;
   readonly TaskListHeader?: (props: {
     readonly headerHeight: number;
     readonly rowWidth: string;
-    readonly fontSize: string;
   }) => ReactNode;
   readonly TaskListTable?: (props: {
     readonly rowHeight: number;
     readonly rowWidth: string;
-    readonly fontSize: string;
     readonly locale: string;
     readonly tasks: Task[];
     readonly selectedTaskId: string;

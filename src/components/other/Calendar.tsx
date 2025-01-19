@@ -14,7 +14,6 @@ export const Calendar = ({
   rtl,
   headerHeight,
   columnWidth,
-  fontSize,
 }: CalendarProps) => {
   const getCalendarValuesForYear = () => {
     const topValues: ReactNode[] = [];
@@ -363,7 +362,7 @@ export const Calendar = ({
       [topValues, bottomValues] = getCalendarValuesForHour();
   }
   return (
-    <g className="calendar" fontSize={fontSize}>
+    <g className="calendar">
       <rect
         x={0}
         y={0}
@@ -383,7 +382,6 @@ type CalendarProps = {
   readonly rtl: boolean;
   readonly headerHeight: number;
   readonly columnWidth: number;
-  readonly fontSize: string;
 };
 
 const TopPartOfCalendar = ({

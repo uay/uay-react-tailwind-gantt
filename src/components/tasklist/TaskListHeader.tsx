@@ -1,15 +1,9 @@
 export const TaskListHeader = ({
   headerHeight,
-  fontSize,
   rowWidth,
 }: TaskListHeaderProps) => {
   return (
-    <div
-      className="table border-y border-l border-gray-200"
-      style={{
-        fontSize: fontSize,
-      }}
-    >
+    <div className="table border-y border-l border-gray-200">
       <div
         className="table-row"
         style={{
@@ -62,5 +56,4 @@ export const TaskListHeader = ({
 type TaskListHeaderProps = {
   readonly headerHeight: number;
   readonly rowWidth: string;
-  readonly fontSize: string;
 };

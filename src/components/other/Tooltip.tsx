@@ -12,7 +12,6 @@ export const Tooltip = ({
   scrollX,
   scrollY,
   arrowIndent,
-  fontSize,
   headerHeight,
   taskListWidth,
   TooltipContent,
@@ -85,7 +84,7 @@ export const Tooltip = ({
       }`}
       style={{ left: relatedX, top: relatedY }}
     >
-      <TooltipContent task={task} fontSize={fontSize} />
+      <TooltipContent task={task} />
     </div>
   );
 };
@@ -102,9 +101,5 @@ type TooltipProps = {
   readonly scrollX: number;
   readonly scrollY: number;
   readonly rowHeight: number;
-  readonly fontSize: string;
-  readonly TooltipContent: (props: {
-    readonly task: Task;
-    readonly fontSize: string;
-  }) => ReactNode;
+  readonly TooltipContent: (props: { readonly task: Task }) => ReactNode;
 };

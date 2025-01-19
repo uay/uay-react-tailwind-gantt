@@ -58,7 +58,6 @@ export const Gantt = ({
   handleWidth = 8,
   timeStep = 300000,
   arrowColor = 'grey',
-  fontSize = '14px',
   arrowIndent = 20,
   todayColor = 'rgba(252, 248, 227, 0.5)',
   viewDate,
@@ -407,7 +406,6 @@ export const Gantt = ({
               {...{
                 rowHeight,
                 rowWidth: listCellWidth,
-                fontSize,
                 tasks: barTasks,
                 locale,
                 headerHeight,
@@ -439,7 +437,6 @@ export const Gantt = ({
               viewMode,
               headerHeight,
               columnWidth,
-              fontSize,
               rtl,
             }}
             barProps={{
@@ -452,7 +449,6 @@ export const Gantt = ({
               columnWidth,
               arrowColor,
               timeStep,
-              fontSize,
               arrowIndent,
               svgWidth,
               rtl,
@@ -475,7 +471,6 @@ export const Gantt = ({
               rowHeight={rowHeight}
               svgContainerHeight={svgContainerHeight}
               svgContainerWidth={svgContainerWidth}
-              fontSize={fontSize}
               scrollX={scrollX}
               scrollY={scrollY}
               task={ganttEvent.changedTask}
@@ -590,7 +585,6 @@ type TaskGanttProps = {
     readonly rtl: boolean;
     readonly headerHeight: number;
     readonly columnWidth: number;
-    readonly fontSize: string;
   };
   readonly barProps: {
     readonly tasks: BarTask[];
@@ -605,7 +599,6 @@ type TaskGanttProps = {
     readonly taskHeight: number;
     readonly arrowColor: string;
     readonly arrowIndent: number;
-    readonly fontSize: string;
     readonly rtl: boolean;
     readonly setGanttEvent: (value: GanttEvent) => void;
     readonly setFailedTask: (value: BarTask | null) => void;
@@ -628,7 +621,6 @@ const TaskGanttContent = ({
   taskHeight,
   arrowColor,
   arrowIndent,
-  fontSize,
   rtl,
   setGanttEvent,
   setFailedTask,
@@ -864,7 +856,7 @@ const TaskGanttContent = ({
           });
         })}
       </g>
-      <g className="bar" fontSize={fontSize}>
+      <g className="bar">
         {tasks.map(task => {
           return (
             <TaskItem
@@ -899,7 +891,6 @@ type TaskGanttContentProps = {
   readonly taskHeight: number;
   readonly arrowColor: string;
   readonly arrowIndent: number;
-  readonly fontSize: string;
   readonly rtl: boolean;
   readonly setGanttEvent: (value: GanttEvent) => void;
   readonly setFailedTask: (value: BarTask | null) => void;

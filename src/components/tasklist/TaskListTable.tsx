@@ -5,7 +5,6 @@ export const TaskListTable = ({
   rowHeight,
   rowWidth,
   tasks,
-  fontSize,
   locale,
   onExpanderClick,
 }: TaskListTableDefaultProps) => {
@@ -15,12 +14,7 @@ export const TaskListTable = ({
   );
 
   return (
-    <div
-      className="table border-l border-b border-gray-200"
-      style={{
-        fontSize: fontSize,
-      }}
-    >
+    <div className="table border-l border-b border-gray-200">
       {tasks.map((t, idx) => {
         let expanderSymbol = '';
         if (t.hideChildren === false) {
@@ -87,7 +81,6 @@ export const TaskListTable = ({
 type TaskListTableDefaultProps = {
   readonly rowHeight: number;
   readonly rowWidth: string;
-  readonly fontSize: string;
   readonly locale: string;
   readonly tasks: Task[];
   readonly selectedTaskId: string;

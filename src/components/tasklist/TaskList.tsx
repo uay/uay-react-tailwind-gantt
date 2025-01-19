@@ -5,7 +5,6 @@ import type { BarTask } from '~/model/BarTask';
 
 export const TaskList = ({
   headerHeight,
-  fontSize,
   rowWidth,
   rowHeight,
   scrollY,
@@ -30,14 +29,12 @@ export const TaskList = ({
 
   const headerProps = {
     headerHeight,
-    fontSize,
     rowWidth,
   };
   const selectedTaskId = selectedTask ? selectedTask.id : '';
   const tableProps = {
     rowHeight,
     rowWidth,
-    fontSize,
     tasks,
     locale,
     selectedTaskId: selectedTaskId,
@@ -62,7 +59,6 @@ export const TaskList = ({
 type TaskListProps = {
   readonly headerHeight: number;
   readonly rowWidth: string;
-  readonly fontSize: string;
   readonly rowHeight: number;
   readonly ganttHeight: number;
   readonly scrollY: number;
@@ -76,12 +72,10 @@ type TaskListProps = {
   readonly TaskListHeader: (props: {
     readonly headerHeight: number;
     readonly rowWidth: string;
-    readonly fontSize: string;
   }) => ReactNode;
   readonly TaskListTable: (props: {
     readonly rowHeight: number;
     readonly rowWidth: string;
-    readonly fontSize: string;
     readonly locale: string;
     readonly tasks: Task[];
     readonly selectedTaskId: string;
