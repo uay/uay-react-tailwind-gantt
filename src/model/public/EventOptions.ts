@@ -4,7 +4,7 @@ export interface EventOptions {
   /**
    * Time step value for date changes.
    */
-  readonly timeStep?: number;
+  readonly timeStep: number;
 
   /**
    * Invokes on bar select on unselect.

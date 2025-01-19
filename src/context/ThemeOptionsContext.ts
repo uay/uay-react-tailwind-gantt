@@ -1,4 +1,4 @@
 import { createContext } from 'react';
 import type { ThemeOptions } from '~/model/public/ThemeOptions';
 
-export const ThemeOptionsContext = createContext<ThemeOptions>({});
+export const ThemeOptionsContext = createContext<Partial<ThemeOptions>>({});

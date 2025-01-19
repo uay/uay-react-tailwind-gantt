@@ -1,8 +1,7 @@
 import type { KeyboardEventHandler, RefObject, SyntheticEvent } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Task } from '~/model/public/Task';
-import { ViewMode } from '~/model/public/ViewMode';
-import { StandardTooltipContent } from '~/components/other/StandardTooltipContent';
+import type { ViewMode } from '~/model/public/ViewMode';
 import type { DateSetup } from '~/model/DateSetup';
 import type { BarTask } from '~/model/BarTask';
 import type { GanttEvent } from '~/model/GanttEvent';
@@ -34,57 +33,57 @@ import { DisplayOptionsContext } from '~/context/DisplayOptionsContext';
 import { EventOptionsContext } from '~/context/EventOptionsContext';
 import { StylingOptionsContext } from '~/context/StylingOptionsContext';
 import { GanttStateContext } from '~/context/GanttStateContext';
-
-const defaultValues = Object.freeze({
-  headerHeight: 50,
-  columnWidth: 60,
-  listCellWidth: '155px',
-  rowHeight: 50,
-  ganttHeight: 0,
-  viewMode: ViewMode.Day,
-  preStepsCount: 1,
-  locale: 'en-GB',
-  barFill: 60,
-  barCornerRadius: 3,
-  barProgressColor: '#a3a3ff',
-  barProgressSelectedColor: '#8282f5',
-  barBackgroundColor: '#b8c2cc',
-  barBackgroundSelectedColor: '#aeb8c2',
-  projectProgressColor: '#7db59a',
-  projectProgressSelectedColor: '#59a985',
-  projectBackgroundColor: '#fac465',
-  projectBackgroundSelectedColor: '#f7bb53',
-  milestoneBackgroundColor: '#f1c453',
-  milestoneBackgroundSelectedColor: '#f29e4c',
-  rtl: false,
-  handleWidth: 8,
-  timeStep: 300000,
-  arrowColor: 'grey',
-  arrowIndent: 20,
-  todayColor: 'rgba(252, 248, 227, 0.5)',
-  TooltipContent: StandardTooltipContent,
-});
+import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
+import { useGanttState } from '~/helpers/hooks/useGanttState';
+import { useEventOptions } from '~/helpers/hooks/useEventOptions';
 
 export const Gantt = (props: GanttProps) => {
-  const rtl = props.displayOptions?.rtl ?? defaultValues.rtl;
-  const locale = props.displayOptions?.locale ?? defaultValues.locale;
-  const ganttHeight =
-    props.stylingOptions?.ganttHeight ?? defaultValues.ganttHeight;
-  const headerHeight =
-    props.stylingOptions?.headerHeight ?? defaultValues.headerHeight;
-  const rowHeight = props.stylingOptions?.rowHeight ?? defaultValues.rowHeight;
-  const columnWidth =
-    props.stylingOptions?.columnWidth ?? defaultValues.columnWidth;
-  const barFill = props.stylingOptions?.barFill ?? defaultValues.barFill;
+  return (
+    <DisplayOptionsContext.Provider value={props.displayOptions || {}}>
+      <EventOptionsContext.Provider value={props.eventOptions || {}}>
+        <StylingOptionsContext.Provider value={props.stylingOptions || {}}>
+          <ThemeOptionsContext.Provider value={props.themeOptions || {}}>
+            <GanttStateContext.Provider value={{ tasks: props.tasks }}>
+              <GanttRoot />
+            </GanttStateContext.Provider>
+          </ThemeOptionsContext.Provider>
+        </StylingOptionsContext.Provider>
+      </EventOptionsContext.Provider>
+    </DisplayOptionsContext.Provider>
+  );
+};
 
-  const viewMode = props.displayOptions?.viewMode ?? defaultValues.viewMode;
+interface GanttProps {
+  readonly tasks: Task[];
+  readonly themeOptions?: Partial<ThemeOptions>;
+  readonly eventOptions?: Partial<EventOptions>;
+  readonly displayOptions?: Partial<DisplayOptions>;
+  readonly stylingOptions?: Partial<StylingOptions>;
+}
+
+const GanttRoot = () => {
+  const ganttState = useGanttState();
+  const displayOptions = useDisplayOptions();
+  const stylingOptions = useStylingOptions();
+  const eventOptions = useEventOptions();
+
+  const rtl = displayOptions.rtl;
+  const locale = displayOptions.locale;
+  const ganttHeight = stylingOptions.ganttHeight;
+  const headerHeight = stylingOptions.headerHeight;
+  const rowHeight = stylingOptions.rowHeight;
+  const columnWidth = stylingOptions.columnWidth;
+  const barFill = stylingOptions.barFill;
+
+  const viewMode = displayOptions.viewMode;
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
   const [dateSetup, setDateSetup] = useState<DateSetup>(() => {
     const [startDate, endDate] = ganttDateRange(
-      props.tasks,
+      ganttState.tasks,
       viewMode,
-      props.displayOptions?.preStepsCount ?? defaultValues.preStepsCount,
+      displayOptions.preStepsCount,
     );
 
     return {
@@ -121,16 +120,16 @@ export const Gantt = (props: GanttProps) => {
   // task change events
   useEffect(() => {
     let filteredTasks: Task[];
-    if (props.eventOptions?.onExpanderClick as unknown) {
-      filteredTasks = removeHiddenTasks(props.tasks);
+    if (eventOptions.onExpanderClick as unknown) {
+      filteredTasks = removeHiddenTasks(ganttState.tasks);
     } else {
-      filteredTasks = props.tasks;
+      filteredTasks = ganttState.tasks;
     }
     filteredTasks = filteredTasks.sort(sortTasks);
     const [startDate, endDate] = ganttDateRange(
       filteredTasks,
       viewMode,
-      props.displayOptions?.preStepsCount ?? defaultValues.preStepsCount,
+      displayOptions.preStepsCount,
     );
     let newDates = seedDates(startDate, endDate, viewMode);
     if (rtl) {
@@ -147,53 +146,43 @@ export const Gantt = (props: GanttProps) => {
         columnWidth,
         rowHeight,
         taskHeight,
-        props.stylingOptions?.barCornerRadius ?? defaultValues.barCornerRadius,
-        props.stylingOptions?.handleWidth ?? defaultValues.handleWidth,
+        stylingOptions.barCornerRadius,
+        stylingOptions.handleWidth,
         rtl,
-        props.stylingOptions?.barProgressColor ??
-          defaultValues.barProgressColor,
-        props.stylingOptions?.barProgressSelectedColor ??
-          defaultValues.barProgressSelectedColor,
-        props.stylingOptions?.barBackgroundColor ??
-          defaultValues.barBackgroundColor,
-        props.stylingOptions?.barBackgroundSelectedColor ??
-          defaultValues.barBackgroundSelectedColor,
-        props.stylingOptions?.projectProgressColor ??
-          defaultValues.projectProgressColor,
-        props.stylingOptions?.projectProgressSelectedColor ??
-          defaultValues.projectProgressSelectedColor,
-        props.stylingOptions?.projectBackgroundColor ??
-          defaultValues.projectBackgroundColor,
-        props.stylingOptions?.projectBackgroundSelectedColor ??
-          defaultValues.projectBackgroundSelectedColor,
-        props.stylingOptions?.milestoneBackgroundColor ??
-          defaultValues.milestoneBackgroundColor,
-        props.stylingOptions?.milestoneBackgroundSelectedColor ??
-          defaultValues.milestoneBackgroundSelectedColor,
+        stylingOptions.barProgressColor,
+        stylingOptions.barProgressSelectedColor,
+        stylingOptions.barBackgroundColor,
+        stylingOptions.barBackgroundSelectedColor,
+        stylingOptions.projectProgressColor,
+        stylingOptions.projectProgressSelectedColor,
+        stylingOptions.projectBackgroundColor,
+        stylingOptions.projectBackgroundSelectedColor,
+        stylingOptions.milestoneBackgroundColor,
+        stylingOptions.milestoneBackgroundSelectedColor,
       ),
     );
   }, [
-    props.tasks,
+    ganttState,
     viewMode,
-    props.displayOptions?.preStepsCount,
+    displayOptions.preStepsCount,
     rowHeight,
-    props.stylingOptions?.barCornerRadius,
+    stylingOptions.barCornerRadius,
     columnWidth,
     taskHeight,
-    props.stylingOptions?.handleWidth,
-    props.stylingOptions?.barProgressColor,
-    props.stylingOptions?.barProgressSelectedColor,
-    props.stylingOptions?.barBackgroundColor,
-    props.stylingOptions?.barBackgroundSelectedColor,
-    props.stylingOptions?.projectProgressColor,
-    props.stylingOptions?.projectProgressSelectedColor,
-    props.stylingOptions?.projectBackgroundColor,
-    props.stylingOptions?.projectBackgroundSelectedColor,
-    props.stylingOptions?.milestoneBackgroundColor,
-    props.stylingOptions?.milestoneBackgroundSelectedColor,
+    stylingOptions.handleWidth,
+    stylingOptions.barProgressColor,
+    stylingOptions.barProgressSelectedColor,
+    stylingOptions.barBackgroundColor,
+    stylingOptions.barBackgroundSelectedColor,
+    stylingOptions.projectProgressColor,
+    stylingOptions.projectProgressSelectedColor,
+    stylingOptions.projectBackgroundColor,
+    stylingOptions.projectBackgroundSelectedColor,
+    stylingOptions.milestoneBackgroundColor,
+    stylingOptions.milestoneBackgroundSelectedColor,
     rtl,
     scrollX,
-    props.eventOptions?.onExpanderClick,
+    eventOptions.onExpanderClick,
   ]);
 
   useEffect(() => {
@@ -201,7 +190,7 @@ export const Gantt = (props: GanttProps) => {
       return;
     }
 
-    const viewDate = props.displayOptions?.viewDate;
+    const viewDate = displayOptions.viewDate;
 
     if (!viewDate) {
       return;
@@ -224,7 +213,7 @@ export const Gantt = (props: GanttProps) => {
       setScrollX(columnWidth * index);
     }
   }, [
-    props.displayOptions?.viewDate,
+    displayOptions.viewDate,
     columnWidth,
     dateSetup.dates,
     dateSetup.viewMode,
@@ -270,13 +259,13 @@ export const Gantt = (props: GanttProps) => {
   }, [failedTask, barTasks]);
 
   useEffect(() => {
-    if (!props.stylingOptions?.listCellWidth) {
+    if (!stylingOptions.listCellWidth) {
       setTaskListWidth(0);
     }
     if (taskListRef.current) {
       setTaskListWidth(taskListRef.current.offsetWidth);
     }
-  }, [taskListRef, props.stylingOptions?.listCellWidth]);
+  }, [taskListRef, stylingOptions.listCellWidth]);
 
   useEffect(() => {
     if (wrapperRef.current) {
@@ -288,9 +277,9 @@ export const Gantt = (props: GanttProps) => {
     if (ganttHeight) {
       setSvgContainerHeight(ganttHeight + headerHeight);
     } else {
-      setSvgContainerHeight(props.tasks.length * rowHeight + headerHeight);
+      setSvgContainerHeight(ganttState.tasks.length * rowHeight + headerHeight);
     }
-  }, [ganttHeight, props.tasks, headerHeight, rowHeight]);
+  }, [ganttHeight, ganttState, headerHeight, rowHeight]);
 
   // scroll events
   useEffect(() => {
@@ -410,22 +399,19 @@ export const Gantt = (props: GanttProps) => {
     const oldSelectedTask = barTasks.find(
       t => !!selectedTask && t.id === selectedTask.id,
     );
-    if (props.eventOptions?.onSelect) {
+    if (eventOptions.onSelect) {
       if (oldSelectedTask) {
-        props.eventOptions?.onSelect(oldSelectedTask, false);
+        eventOptions.onSelect(oldSelectedTask, false);
       }
       if (newSelectedTask) {
-        props.eventOptions?.onSelect(newSelectedTask, true);
+        eventOptions.onSelect(newSelectedTask, true);
       }
     }
     setSelectedTask(newSelectedTask);
   };
   const handleExpanderClick = (task: Task) => {
-    if (
-      props.eventOptions?.onExpanderClick &&
-      task.hideChildren !== undefined
-    ) {
-      props.eventOptions?.onExpanderClick({
+    if (eventOptions.onExpanderClick && task.hideChildren !== undefined) {
+      eventOptions.onExpanderClick({
         ...task,
         hideChildren: !task.hideChildren,
       });
@@ -433,141 +419,109 @@ export const Gantt = (props: GanttProps) => {
   };
 
   return (
-    <DisplayOptionsContext.Provider value={props.displayOptions || {}}>
-      <EventOptionsContext.Provider value={props.eventOptions || {}}>
-        <StylingOptionsContext.Provider value={props.stylingOptions || {}}>
-          <ThemeOptionsContext.Provider value={props.themeOptions || {}}>
-            <GanttStateContext.Provider value={{ tasks: props.tasks }}>
-              <div>
-                <div
-                  className="flex p-0 m-0 list-none outline-none relative"
-                  onKeyDown={handleKeyDown}
-                  tabIndex={0}
-                  ref={wrapperRef}
-                >
-                  {props.stylingOptions?.listCellWidth ? (
-                    <TaskList
-                      rowHeight={rowHeight}
-                      rowWidth={props.stylingOptions?.listCellWidth}
-                      tasks={barTasks}
-                      locale={locale}
-                      headerHeight={headerHeight}
-                      scrollY={scrollY}
-                      ganttHeight={ganttHeight}
-                      horizontalContainerClass="overflow-hidden m-0 p-0"
-                      selectedTask={selectedTask}
-                      taskListRef={taskListRef}
-                      setSelectedTask={handleSelectedTask}
-                      onExpanderClick={handleExpanderClick}
-                      TaskListHeader={TaskListHeader}
-                      TaskListTable={TaskListTable}
-                    />
-                  ) : null}
-                  <TaskGantt
-                    gridProps={{
-                      columnWidth: columnWidth,
-                      svgWidth,
-                      tasks: props.tasks,
-                      rowHeight: rowHeight,
-                      dates: dateSetup.dates,
-                      todayColor:
-                        props.stylingOptions?.todayColor ??
-                        defaultValues.todayColor,
-                      rtl: rtl,
-                    }}
-                    calendarProps={{
-                      dateSetup,
-                      locale: locale,
-                      viewMode: viewMode,
-                      headerHeight: headerHeight,
-                      columnWidth: columnWidth,
-                      rtl: rtl,
-                    }}
-                    barProps={{
-                      tasks: barTasks,
-                      dates: dateSetup.dates,
-                      ganttEvent,
-                      selectedTask,
-                      rowHeight: rowHeight,
-                      taskHeight,
-                      columnWidth: columnWidth,
-                      arrowColor:
-                        props.stylingOptions?.arrowColor ??
-                        defaultValues.arrowColor,
-                      timeStep:
-                        props.eventOptions?.timeStep ?? defaultValues.timeStep,
-                      arrowIndent:
-                        props.stylingOptions?.arrowIndent ??
-                        defaultValues.arrowIndent,
-                      svgWidth,
-                      rtl: rtl,
-                      setGanttEvent,
-                      setFailedTask,
-                      setSelectedTask: handleSelectedTask,
-                      onDateChange: props.eventOptions?.onDateChange,
-                      onProgressChange: props.eventOptions?.onProgressChange,
-                      onDoubleClick: props.eventOptions?.onDoubleClick,
-                      onClick: props.eventOptions?.onClick,
-                      onDelete: props.eventOptions?.onDelete,
-                    }}
-                    ganttHeight={ganttHeight}
-                    scrollY={scrollY}
-                    scrollX={scrollX}
-                  />
-                  {ganttEvent.changedTask && (
-                    <Tooltip
-                      arrowIndent={
-                        props.stylingOptions?.arrowIndent ??
-                        defaultValues.arrowIndent
-                      }
-                      rowHeight={rowHeight}
-                      svgContainerHeight={svgContainerHeight!}
-                      svgContainerWidth={svgContainerWidth}
-                      scrollX={scrollX}
-                      scrollY={scrollY}
-                      task={ganttEvent.changedTask}
-                      headerHeight={headerHeight}
-                      taskListWidth={taskListWidth}
-                      TooltipContent={
-                        props.stylingOptions?.TooltipContent ??
-                        defaultValues.TooltipContent
-                      }
-                      rtl={rtl}
-                      svgWidth={svgWidth}
-                    />
-                  )}
-                  <VerticalScroll
-                    ganttFullHeight={ganttFullHeight}
-                    ganttHeight={ganttHeight}
-                    headerHeight={headerHeight}
-                    scroll={scrollY}
-                    onScroll={handleScrollY}
-                    rtl={rtl}
-                  />
-                </div>
-                <HorizontalScroll
-                  svgWidth={svgWidth}
-                  taskListWidth={taskListWidth}
-                  scroll={scrollX}
-                  rtl={rtl}
-                  onScroll={handleScrollX}
-                />
-              </div>
-            </GanttStateContext.Provider>
-          </ThemeOptionsContext.Provider>
-        </StylingOptionsContext.Provider>
-      </EventOptionsContext.Provider>
-    </DisplayOptionsContext.Provider>
+    <div>
+      <div
+        className="flex p-0 m-0 list-none outline-none relative"
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        ref={wrapperRef}
+      >
+        {stylingOptions.listCellWidth ? (
+          <TaskList
+            rowHeight={rowHeight}
+            rowWidth={stylingOptions.listCellWidth}
+            tasks={barTasks}
+            locale={locale}
+            headerHeight={headerHeight}
+            scrollY={scrollY}
+            ganttHeight={ganttHeight}
+            horizontalContainerClass="overflow-hidden m-0 p-0"
+            selectedTask={selectedTask}
+            taskListRef={taskListRef}
+            setSelectedTask={handleSelectedTask}
+            onExpanderClick={handleExpanderClick}
+            TaskListHeader={TaskListHeader}
+            TaskListTable={TaskListTable}
+          />
+        ) : null}
+        <TaskGantt
+          gridProps={{
+            columnWidth: columnWidth,
+            svgWidth,
+            tasks: ganttState.tasks,
+            rowHeight: rowHeight,
+            dates: dateSetup.dates,
+            todayColor: stylingOptions.todayColor,
+            rtl: rtl,
+          }}
+          calendarProps={{
+            dateSetup,
+            locale: locale,
+            viewMode: viewMode,
+            headerHeight: headerHeight,
+            columnWidth: columnWidth,
+            rtl: rtl,
+          }}
+          barProps={{
+            tasks: barTasks,
+            dates: dateSetup.dates,
+            ganttEvent,
+            selectedTask,
+            rowHeight: rowHeight,
+            taskHeight,
+            columnWidth: columnWidth,
+            arrowColor: stylingOptions.arrowColor,
+            timeStep: eventOptions.timeStep,
+            arrowIndent: stylingOptions.arrowIndent,
+            svgWidth,
+            rtl: rtl,
+            setGanttEvent,
+            setFailedTask,
+            setSelectedTask: handleSelectedTask,
+            onDateChange: eventOptions.onDateChange,
+            onProgressChange: eventOptions.onProgressChange,
+            onDoubleClick: eventOptions.onDoubleClick,
+            onClick: eventOptions.onClick,
+            onDelete: eventOptions.onDelete,
+          }}
+          ganttHeight={ganttHeight}
+          scrollY={scrollY}
+          scrollX={scrollX}
+        />
+        {ganttEvent.changedTask && (
+          <Tooltip
+            arrowIndent={stylingOptions.arrowIndent}
+            rowHeight={rowHeight}
+            svgContainerHeight={svgContainerHeight!}
+            svgContainerWidth={svgContainerWidth}
+            scrollX={scrollX}
+            scrollY={scrollY}
+            task={ganttEvent.changedTask}
+            headerHeight={headerHeight}
+            taskListWidth={taskListWidth}
+            rtl={rtl}
+            svgWidth={svgWidth}
+          />
+        )}
+        <VerticalScroll
+          ganttFullHeight={ganttFullHeight}
+          ganttHeight={ganttHeight}
+          headerHeight={headerHeight}
+          scroll={scrollY}
+          onScroll={handleScrollY}
+          rtl={rtl}
+        />
+      </div>
+      <HorizontalScroll
+        svgWidth={svgWidth}
+        taskListWidth={taskListWidth}
+        scroll={scrollX}
+        rtl={rtl}
+        onScroll={handleScrollX}
+      />
+    </div>
   );
 };
-
-interface GanttProps {
-  readonly tasks: Task[];
-  readonly themeOptions?: ThemeOptions;
-  readonly eventOptions?: EventOptions;
-  readonly displayOptions?: DisplayOptions;
-  readonly stylingOptions?: StylingOptions;
-}
 
 const TaskGantt = ({
   gridProps,

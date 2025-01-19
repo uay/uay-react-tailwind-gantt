@@ -1,8 +1,6 @@
 import { createContext } from 'react';
-import type { Task } from '~/model/public/Task';
+import type { GanttState } from '~/model/GanttState';
 
-export const GanttStateContext = createContext<{
-  readonly tasks: Task[];
-}>({
+export const GanttStateContext = createContext<GanttState>({
   tasks: [],
 });

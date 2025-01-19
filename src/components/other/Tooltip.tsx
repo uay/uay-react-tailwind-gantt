@@ -1,7 +1,6 @@
-import type { ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { BarTask } from '~/model/BarTask';
-import type { Task } from '~/model/public/Task';
+import { StandardTooltipContent } from '~/components/other/StandardTooltipContent';
 
 export const Tooltip = ({
   task,
@@ -14,7 +13,6 @@ export const Tooltip = ({
   arrowIndent,
   headerHeight,
   taskListWidth,
-  TooltipContent,
 }: TooltipProps) => {
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [relatedY, setRelatedY] = useState(0);
@@ -84,7 +82,7 @@ export const Tooltip = ({
       }`}
       style={{ left: relatedX, top: relatedY }}
     >
-      <TooltipContent task={task} />
+      <StandardTooltipContent task={task} />
     </div>
   );
 };
@@ -101,5 +99,4 @@ type TooltipProps = {
   readonly scrollX: number;
   readonly scrollY: number;
   readonly rowHeight: number;
-  readonly TooltipContent: (props: { readonly task: Task }) => ReactNode;
 };
