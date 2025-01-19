@@ -30,6 +30,9 @@ import { ThemeOptionsContext } from '~/context/ThemeOptionsContext';
 import type { EventOptions } from '~/model/public/EventOptions';
 import type { DisplayOptions } from '~/model/public/DisplayOptions';
 import type { StylingOptions } from '~/model/public/StylingOptions';
+import { DisplayOptionsContext } from '~/context/DisplayOptionsContext';
+import { EventOptionsContext } from '~/context/EventOptionsContext';
+import { StylingOptionsContext } from '~/context/StylingOptionsContext';
 
 const defaultValues = Object.freeze({
   headerHeight: 50,
@@ -429,118 +432,129 @@ export const Gantt = (props: GanttProps) => {
   };
 
   return (
-    <ThemeOptionsContext.Provider value={props.themeOptions || {}}>
-      <div>
-        <div
-          className="flex p-0 m-0 list-none outline-none relative"
-          onKeyDown={handleKeyDown}
-          tabIndex={0}
-          ref={wrapperRef}
-        >
-          {props.stylingOptions?.listCellWidth ? (
-            <TaskList
-              rowHeight={rowHeight}
-              rowWidth={props.stylingOptions?.listCellWidth}
-              tasks={barTasks}
-              locale={locale}
-              headerHeight={headerHeight}
-              scrollY={scrollY}
-              ganttHeight={ganttHeight}
-              horizontalContainerClass="overflow-hidden m-0 p-0"
-              selectedTask={selectedTask}
-              taskListRef={taskListRef}
-              setSelectedTask={handleSelectedTask}
-              onExpanderClick={handleExpanderClick}
-              TaskListHeader={TaskListHeader}
-              TaskListTable={TaskListTable}
-            />
-          ) : null}
-          <TaskGantt
-            gridProps={{
-              columnWidth: columnWidth,
-              svgWidth,
-              tasks: props.tasks,
-              rowHeight: rowHeight,
-              dates: dateSetup.dates,
-              todayColor:
-                props.stylingOptions?.todayColor ?? defaultValues.todayColor,
-              rtl: rtl,
-            }}
-            calendarProps={{
-              dateSetup,
-              locale: locale,
-              viewMode: viewMode,
-              headerHeight: headerHeight,
-              columnWidth: columnWidth,
-              rtl: rtl,
-            }}
-            barProps={{
-              tasks: barTasks,
-              dates: dateSetup.dates,
-              ganttEvent,
-              selectedTask,
-              rowHeight: rowHeight,
-              taskHeight,
-              columnWidth: columnWidth,
-              arrowColor:
-                props.stylingOptions?.arrowColor ?? defaultValues.arrowColor,
-              timeStep: props.eventOptions?.timeStep ?? defaultValues.timeStep,
-              arrowIndent:
-                props.stylingOptions?.arrowIndent ?? defaultValues.arrowIndent,
-              svgWidth,
-              rtl: rtl,
-              setGanttEvent,
-              setFailedTask,
-              setSelectedTask: handleSelectedTask,
-              onDateChange: props.eventOptions?.onDateChange,
-              onProgressChange: props.eventOptions?.onProgressChange,
-              onDoubleClick: props.eventOptions?.onDoubleClick,
-              onClick: props.eventOptions?.onClick,
-              onDelete: props.eventOptions?.onDelete,
-            }}
-            ganttHeight={ganttHeight}
-            scrollY={scrollY}
-            scrollX={scrollX}
-          />
-          {ganttEvent.changedTask && (
-            <Tooltip
-              arrowIndent={
-                props.stylingOptions?.arrowIndent ?? defaultValues.arrowIndent
-              }
-              rowHeight={rowHeight}
-              svgContainerHeight={svgContainerHeight!}
-              svgContainerWidth={svgContainerWidth}
-              scrollX={scrollX}
-              scrollY={scrollY}
-              task={ganttEvent.changedTask}
-              headerHeight={headerHeight}
-              taskListWidth={taskListWidth}
-              TooltipContent={
-                props.stylingOptions?.TooltipContent ??
-                defaultValues.TooltipContent
-              }
-              rtl={rtl}
-              svgWidth={svgWidth}
-            />
-          )}
-          <VerticalScroll
-            ganttFullHeight={ganttFullHeight}
-            ganttHeight={ganttHeight}
-            headerHeight={headerHeight}
-            scroll={scrollY}
-            onScroll={handleScrollY}
-            rtl={rtl}
-          />
-        </div>
-        <HorizontalScroll
-          svgWidth={svgWidth}
-          taskListWidth={taskListWidth}
-          scroll={scrollX}
-          rtl={rtl}
-          onScroll={handleScrollX}
-        />
-      </div>
-    </ThemeOptionsContext.Provider>
+    <DisplayOptionsContext.Provider value={props.displayOptions || {}}>
+      <EventOptionsContext.Provider value={props.eventOptions || {}}>
+        <StylingOptionsContext.Provider value={props.stylingOptions || {}}>
+          <ThemeOptionsContext.Provider value={props.themeOptions || {}}>
+            <div>
+              <div
+                className="flex p-0 m-0 list-none outline-none relative"
+                onKeyDown={handleKeyDown}
+                tabIndex={0}
+                ref={wrapperRef}
+              >
+                {props.stylingOptions?.listCellWidth ? (
+                  <TaskList
+                    rowHeight={rowHeight}
+                    rowWidth={props.stylingOptions?.listCellWidth}
+                    tasks={barTasks}
+                    locale={locale}
+                    headerHeight={headerHeight}
+                    scrollY={scrollY}
+                    ganttHeight={ganttHeight}
+                    horizontalContainerClass="overflow-hidden m-0 p-0"
+                    selectedTask={selectedTask}
+                    taskListRef={taskListRef}
+                    setSelectedTask={handleSelectedTask}
+                    onExpanderClick={handleExpanderClick}
+                    TaskListHeader={TaskListHeader}
+                    TaskListTable={TaskListTable}
+                  />
+                ) : null}
+                <TaskGantt
+                  gridProps={{
+                    columnWidth: columnWidth,
+                    svgWidth,
+                    tasks: props.tasks,
+                    rowHeight: rowHeight,
+                    dates: dateSetup.dates,
+                    todayColor:
+                      props.stylingOptions?.todayColor ??
+                      defaultValues.todayColor,
+                    rtl: rtl,
+                  }}
+                  calendarProps={{
+                    dateSetup,
+                    locale: locale,
+                    viewMode: viewMode,
+                    headerHeight: headerHeight,
+                    columnWidth: columnWidth,
+                    rtl: rtl,
+                  }}
+                  barProps={{
+                    tasks: barTasks,
+                    dates: dateSetup.dates,
+                    ganttEvent,
+                    selectedTask,
+                    rowHeight: rowHeight,
+                    taskHeight,
+                    columnWidth: columnWidth,
+                    arrowColor:
+                      props.stylingOptions?.arrowColor ??
+                      defaultValues.arrowColor,
+                    timeStep:
+                      props.eventOptions?.timeStep ?? defaultValues.timeStep,
+                    arrowIndent:
+                      props.stylingOptions?.arrowIndent ??
+                      defaultValues.arrowIndent,
+                    svgWidth,
+                    rtl: rtl,
+                    setGanttEvent,
+                    setFailedTask,
+                    setSelectedTask: handleSelectedTask,
+                    onDateChange: props.eventOptions?.onDateChange,
+                    onProgressChange: props.eventOptions?.onProgressChange,
+                    onDoubleClick: props.eventOptions?.onDoubleClick,
+                    onClick: props.eventOptions?.onClick,
+                    onDelete: props.eventOptions?.onDelete,
+                  }}
+                  ganttHeight={ganttHeight}
+                  scrollY={scrollY}
+                  scrollX={scrollX}
+                />
+                {ganttEvent.changedTask && (
+                  <Tooltip
+                    arrowIndent={
+                      props.stylingOptions?.arrowIndent ??
+                      defaultValues.arrowIndent
+                    }
+                    rowHeight={rowHeight}
+                    svgContainerHeight={svgContainerHeight!}
+                    svgContainerWidth={svgContainerWidth}
+                    scrollX={scrollX}
+                    scrollY={scrollY}
+                    task={ganttEvent.changedTask}
+                    headerHeight={headerHeight}
+                    taskListWidth={taskListWidth}
+                    TooltipContent={
+                      props.stylingOptions?.TooltipContent ??
+                      defaultValues.TooltipContent
+                    }
+                    rtl={rtl}
+                    svgWidth={svgWidth}
+                  />
+                )}
+                <VerticalScroll
+                  ganttFullHeight={ganttFullHeight}
+                  ganttHeight={ganttHeight}
+                  headerHeight={headerHeight}
+                  scroll={scrollY}
+                  onScroll={handleScrollY}
+                  rtl={rtl}
+                />
+              </div>
+              <HorizontalScroll
+                svgWidth={svgWidth}
+                taskListWidth={taskListWidth}
+                scroll={scrollX}
+                rtl={rtl}
+                onScroll={handleScrollX}
+              />
+            </div>
+          </ThemeOptionsContext.Provider>
+        </StylingOptionsContext.Provider>
+      </EventOptionsContext.Provider>
+    </DisplayOptionsContext.Provider>
   );
 };
 
