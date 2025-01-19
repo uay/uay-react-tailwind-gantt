@@ -7,6 +7,7 @@ import { getDaysInMonth } from '~/helpers/date/getDaysInMonth';
 import { getCachedDateTimeFormat } from '~/helpers/date/getCachedDateTimeFormat';
 import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
 import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
+import type { DateSetup } from '~/model/DateSetup';
 
 export const Calendar = (props: CalendarProps) => {
   const display = useDisplayOptions();
@@ -17,8 +18,8 @@ export const Calendar = (props: CalendarProps) => {
     const bottomValues: ReactNode[] = [];
     const topDefaultHeight = styling.headerHeight * 0.5;
 
-    for (let i = 0; i < props.dates.length; i++) {
-      const date = props.dates[i];
+    for (let i = 0; i < props.dateSetup.dates.length; i++) {
+      const date = props.dateSetup.dates[i];
       const bottomValue = date.getFullYear();
 
       bottomValues.push(
@@ -32,7 +33,10 @@ export const Calendar = (props: CalendarProps) => {
         </text>,
       );
 
-      if (i === 0 || date.getFullYear() !== props.dates[i - 1].getFullYear()) {
+      if (
+        i === 0 ||
+        date.getFullYear() !== props.dateSetup.dates[i - 1].getFullYear()
+      ) {
         const topValue = date.getFullYear().toString();
         let xText: number;
         if (display.rtl) {
@@ -61,8 +65,8 @@ export const Calendar = (props: CalendarProps) => {
     const bottomValues: ReactNode[] = [];
     const topDefaultHeight = styling.headerHeight * 0.5;
 
-    for (let i = 0; i < props.dates.length; i++) {
-      const date = props.dates[i];
+    for (let i = 0; i < props.dateSetup.dates.length; i++) {
+      const date = props.dateSetup.dates[i];
       const quarter = 'Q' + Math.floor((date.getMonth() + 3) / 3);
 
       bottomValues.push(
@@ -76,7 +80,10 @@ export const Calendar = (props: CalendarProps) => {
         </text>,
       );
 
-      if (i === 0 || date.getFullYear() !== props.dates[i - 1].getFullYear()) {
+      if (
+        i === 0 ||
+        date.getFullYear() !== props.dateSetup.dates[i - 1].getFullYear()
+      ) {
         const topValue = date.getFullYear().toString();
         let xText: number;
         if (display.rtl) {
@@ -105,8 +112,8 @@ export const Calendar = (props: CalendarProps) => {
     const bottomValues: ReactNode[] = [];
     const topDefaultHeight = styling.headerHeight * 0.5;
 
-    for (let i = 0; i < props.dates.length; i++) {
-      const date = props.dates[i];
+    for (let i = 0; i < props.dateSetup.dates.length; i++) {
+      const date = props.dateSetup.dates[i];
       const bottomValue = getLocaleMonth(date, display.locale);
 
       bottomValues.push(
@@ -120,7 +127,10 @@ export const Calendar = (props: CalendarProps) => {
         </text>,
       );
 
-      if (i === 0 || date.getFullYear() !== props.dates[i - 1].getFullYear()) {
+      if (
+        i === 0 ||
+        date.getFullYear() !== props.dateSetup.dates[i - 1].getFullYear()
+      ) {
         const topValue = date.getFullYear().toString();
         let xText: number;
         if (display.rtl) {
@@ -149,7 +159,7 @@ export const Calendar = (props: CalendarProps) => {
     const bottomValues: ReactNode[] = [];
     let weeksCount = 1;
     const topDefaultHeight = styling.headerHeight * 0.5;
-    const dates = props.dates;
+    const dates = props.dateSetup.dates;
 
     for (let i = dates.length - 1; i >= 0; i--) {
       const date = dates[i];
@@ -201,7 +211,7 @@ export const Calendar = (props: CalendarProps) => {
     const topValues: ReactNode[] = [];
     const bottomValues: ReactNode[] = [];
     const topDefaultHeight = styling.headerHeight * 0.5;
-    const dates = props.dates;
+    const dates = props.dateSetup.dates;
 
     for (let i = 0; i < dates.length; i++) {
       const date = dates[i];
@@ -252,9 +262,9 @@ export const Calendar = (props: CalendarProps) => {
   const getCalendarValuesForPartOfDay = () => {
     const topValues: ReactNode[] = [];
     const bottomValues: ReactNode[] = [];
-    const ticks = display.viewMode === ViewMode.HalfDay ? 2 : 4;
+    const ticks = props.dateSetup.viewMode === ViewMode.HalfDay ? 2 : 4;
     const topDefaultHeight = styling.headerHeight * 0.5;
-    const dates = props.dates;
+    const dates = props.dateSetup.dates;
     for (let i = 0; i < dates.length; i++) {
       const date = dates[i];
       const bottomValue = getCachedDateTimeFormat(display.locale, {
@@ -298,7 +308,7 @@ export const Calendar = (props: CalendarProps) => {
     const topValues: ReactNode[] = [];
     const bottomValues: ReactNode[] = [];
     const topDefaultHeight = styling.headerHeight * 0.5;
-    const dates = props.dates;
+    const dates = props.dateSetup.dates;
     for (let i = 0; i < dates.length; i++) {
       const date = dates[i];
       const bottomValue = getCachedDateTimeFormat(display.locale, {
@@ -342,7 +352,7 @@ export const Calendar = (props: CalendarProps) => {
 
   let topValues: ReactNode[] = [];
   let bottomValues: ReactNode[] = [];
-  switch (display.viewMode) {
+  switch (props.dateSetup.viewMode) {
     case ViewMode.Year:
       [topValues, bottomValues] = getCalendarValuesForYear();
       break;
@@ -370,7 +380,7 @@ export const Calendar = (props: CalendarProps) => {
       <rect
         x={0}
         y={0}
-        width={styling.columnWidth * props.dates.length}
+        width={styling.columnWidth * props.dateSetup.dates.length}
         height={styling.headerHeight}
         className="bg-white stroke-gray-300 stroke-[1.4]"
       />
@@ -380,7 +390,7 @@ export const Calendar = (props: CalendarProps) => {
 };
 
 type CalendarProps = {
-  readonly dates: Date[];
+  readonly dateSetup: DateSetup;
 };
 
 const TopPartOfCalendar = (props: TopPartOfCalendarProps) => {

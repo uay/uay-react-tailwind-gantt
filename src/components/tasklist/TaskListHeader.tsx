@@ -1,16 +1,20 @@
-export const TaskListHeader = (props: TaskListHeaderProps) => {
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
+
+export const TaskListHeader = () => {
+  const stylingOptions = useStylingOptions();
+
   return (
     <div className="table border-y border-l border-gray-200">
       <div
         className="table-row"
         style={{
-          height: props.headerHeight - 2,
+          height: stylingOptions.headerHeight - 2,
         }}
       >
         <div
           className="table-cell align-middle"
           style={{
-            minWidth: props.rowWidth,
+            minWidth: stylingOptions.listCellWidth,
           }}
         >
           &nbsp;Name
@@ -18,14 +22,14 @@ export const TaskListHeader = (props: TaskListHeaderProps) => {
         <div
           className="border-r border-gray-300 opacity-100"
           style={{
-            height: props.headerHeight * 0.5,
-            marginTop: props.headerHeight * 0.2,
+            height: stylingOptions.headerHeight * 0.5,
+            marginTop: stylingOptions.headerHeight * 0.2,
           }}
         />
         <div
           className="table-cell align-middle"
           style={{
-            minWidth: props.rowWidth,
+            minWidth: stylingOptions.listCellWidth,
           }}
         >
           &nbsp;From
@@ -33,14 +37,14 @@ export const TaskListHeader = (props: TaskListHeaderProps) => {
         <div
           className="border-r border-gray-300 opacity-100"
           style={{
-            height: props.headerHeight * 0.5,
-            marginTop: props.headerHeight * 0.25,
+            height: stylingOptions.headerHeight * 0.5,
+            marginTop: stylingOptions.headerHeight * 0.25,
           }}
         />
         <div
           className="table-cell align-middle"
           style={{
-            minWidth: props.rowWidth,
+            minWidth: stylingOptions.listCellWidth,
           }}
         >
           &nbsp;To
@@ -48,9 +52,4 @@ export const TaskListHeader = (props: TaskListHeaderProps) => {
       </div>
     </div>
   );
-};
-
-type TaskListHeaderProps = {
-  readonly headerHeight: number;
-  readonly rowWidth: string;
 };

@@ -3,17 +3,17 @@ import { Calendar } from '~/components/other/Calendar';
 import { Grid } from '~/components/other/Grid';
 import type { Task } from '~/model/public/Task';
 import type { DateSetup } from '~/model/DateSetup';
-import type { ViewMode } from '~/model/public/ViewMode';
 import type { BarTask } from '~/model/BarTask';
 import type { GanttEvent } from '~/model/GanttEvent';
-import type { EventOptions } from '~/model/public/EventOptions';
 import { TaskGanttContent } from '~/components/gantt/TaskGanttContent';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
 
 export const TaskGantt = (props: TaskGanttProps) => {
+  const styling = useStylingOptions();
+
   const ganttSVGRef = useRef<SVGSVGElement>(null);
   const horizontalContainerRef = useRef<HTMLDivElement>(null);
   const verticalGanttContainerRef = useRef<HTMLDivElement>(null);
-  const newBarProps = { ...props.barProps, svg: ganttSVGRef };
 
   useEffect(() => {
     if (horizontalContainerRef.current) {
@@ -36,7 +36,7 @@ export const TaskGantt = (props: TaskGanttProps) => {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={props.gridProps.svgWidth}
-        height={props.calendarProps.headerHeight}
+        height={styling.headerHeight}
       >
         <Calendar {...props.calendarProps} />
       </svg>
@@ -44,19 +44,34 @@ export const TaskGantt = (props: TaskGanttProps) => {
         ref={horizontalContainerRef}
         className="overflow-hidden text-0 m-0 p-0"
         style={
-          props.ganttHeight
-            ? { height: props.ganttHeight, width: props.gridProps.svgWidth }
+          styling.ganttHeight
+            ? { height: styling.ganttHeight, width: props.gridProps.svgWidth }
             : { width: props.gridProps.svgWidth }
         }
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width={props.gridProps.svgWidth}
-          height={props.barProps.rowHeight * props.barProps.tasks.length}
+          height={styling.rowHeight * props.barProps.tasks.length}
           ref={ganttSVGRef}
         >
-          <Grid {...props.gridProps} />
-          <TaskGanttContent {...newBarProps} />
+          <Grid
+            tasks={props.gridProps.tasks}
+            dates={props.gridProps.dates}
+            svgWidth={props.gridProps.svgWidth}
+          />
+          <TaskGanttContent
+            tasks={props.barProps.tasks}
+            dates={props.barProps.dates}
+            ganttEvent={props.barProps.ganttEvent}
+            selectedTask={props.barProps.selectedTask}
+            setSelectedTask={props.barProps.setSelectedTask}
+            svg={ganttSVGRef}
+            svgWidth={props.barProps.svgWidth}
+            taskHeight={props.barProps.taskHeight}
+            setGanttEvent={props.barProps.setGanttEvent}
+            setFailedTask={props.barProps.setFailedTask}
+          />
         </svg>
       </div>
     </div>
@@ -68,38 +83,22 @@ type TaskGanttProps = {
     readonly tasks: Task[];
     readonly dates: Date[];
     readonly svgWidth: number;
-    readonly rowHeight: number;
-    readonly columnWidth: number;
-    readonly todayColor: string;
-    readonly rtl: boolean;
   };
   readonly calendarProps: {
     readonly dateSetup: DateSetup;
-    readonly locale: string;
-    readonly viewMode: ViewMode;
-    readonly rtl: boolean;
-    readonly headerHeight: number;
-    readonly columnWidth: number;
   };
   readonly barProps: {
     readonly tasks: BarTask[];
     readonly dates: Date[];
     readonly ganttEvent: GanttEvent;
     readonly selectedTask: BarTask | undefined;
-    readonly rowHeight: number;
-    readonly columnWidth: number;
-    readonly timeStep: number;
+    readonly setSelectedTask: (taskId: string) => void;
     readonly svg?: RefObject<SVGSVGElement>;
     readonly svgWidth: number;
     readonly taskHeight: number;
-    readonly arrowColor: string;
-    readonly arrowIndent: number;
-    readonly rtl: boolean;
     readonly setGanttEvent: (value: GanttEvent) => void;
     readonly setFailedTask: (value: BarTask | null) => void;
-    readonly setSelectedTask: (taskId: string) => void;
-  } & EventOptions;
-  readonly ganttHeight: number;
+  };
   readonly scrollY: number;
   readonly scrollX: number;
 };

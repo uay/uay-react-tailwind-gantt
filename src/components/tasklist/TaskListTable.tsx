@@ -1,10 +1,15 @@
 import { useMemo } from 'react';
 import type { Task } from '~/model/public/Task';
+import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
 
 export const TaskListTable = (props: TaskListTableDefaultProps) => {
+  const displayOptions = useDisplayOptions();
+  const stylingOptions = useStylingOptions();
+
   const toLocaleDateString = useMemo(
-    () => toLocaleDateStringFactory(props.locale),
-    [props.locale],
+    () => toLocaleDateStringFactory(displayOptions.locale),
+    [displayOptions.locale],
   );
 
   return (
@@ -22,14 +27,14 @@ export const TaskListTable = (props: TaskListTableDefaultProps) => {
             className={`table-row text-ellipsis ${
               idx % 2 === 0 ? 'bg-gray-100' : ''
             }`}
-            style={{ height: props.rowHeight }}
+            style={{ height: stylingOptions.rowHeight }}
             key={`${task.id}row`}
           >
             <div
               className="table-cell align-middle whitespace-nowrap overflow-hidden text-ellipsis"
               style={{
-                minWidth: props.rowWidth,
-                maxWidth: props.rowWidth,
+                minWidth: stylingOptions.listCellWidth,
+                maxWidth: stylingOptions.listCellWidth,
               }}
               title={task.name}
             >
@@ -50,8 +55,8 @@ export const TaskListTable = (props: TaskListTableDefaultProps) => {
             <div
               className="table-cell align-middle whitespace-nowrap overflow-hidden text-ellipsis"
               style={{
-                minWidth: props.rowWidth,
-                maxWidth: props.rowWidth,
+                minWidth: stylingOptions.listCellWidth,
+                maxWidth: stylingOptions.listCellWidth,
               }}
             >
               &nbsp;{toLocaleDateString(task.start, dateTimeOptions)}
@@ -59,8 +64,8 @@ export const TaskListTable = (props: TaskListTableDefaultProps) => {
             <div
               className="table-cell align-middle whitespace-nowrap overflow-hidden text-ellipsis"
               style={{
-                minWidth: props.rowWidth,
-                maxWidth: props.rowWidth,
+                minWidth: stylingOptions.listCellWidth,
+                maxWidth: stylingOptions.listCellWidth,
               }}
             >
               &nbsp;{toLocaleDateString(task.end, dateTimeOptions)}
@@ -73,9 +78,6 @@ export const TaskListTable = (props: TaskListTableDefaultProps) => {
 };
 
 type TaskListTableDefaultProps = {
-  readonly rowHeight: number;
-  readonly rowWidth: string;
-  readonly locale: string;
   readonly tasks: Task[];
   readonly selectedTaskId: string;
   readonly setSelectedTask: (taskId: string) => void;

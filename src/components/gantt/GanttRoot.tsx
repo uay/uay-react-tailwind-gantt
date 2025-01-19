@@ -10,7 +10,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import type { DateSetup } from '~/model/DateSetup';
 import { ganttDateRange } from '~/helpers/date/ganttDateRange';
 import { seedDates } from '~/helpers/date/seedDates';
 import type { BarTask } from '~/model/BarTask';
@@ -20,12 +19,11 @@ import { removeHiddenTasks } from '~/helpers/removeHiddenTasks';
 import { sortTasks } from '~/helpers/sortTasks';
 import { convertToBarTasks } from '~/helpers/convertToBarTasks';
 import { TaskList } from '~/components/tasklist/TaskList';
-import { TaskListHeader } from '~/components/tasklist/TaskListHeader';
-import { TaskListTable } from '~/components/tasklist/TaskListTable';
 import { Tooltip } from '~/components/other/Tooltip';
 import { VerticalScroll } from '~/components/other/VerticalScroll';
 import { HorizontalScroll } from '~/components/other/HorizontalScroll';
 import { TaskGantt } from '~/components/gantt/TaskGantt';
+import type { DateSetup } from '~/model/DateSetup';
 
 export const GanttRoot = () => {
   const ganttState = useGanttState();
@@ -33,27 +31,18 @@ export const GanttRoot = () => {
   const stylingOptions = useStylingOptions();
   const eventOptions = useEventOptions();
 
-  const rtl = displayOptions.rtl;
-  const locale = displayOptions.locale;
-  const ganttHeight = stylingOptions.ganttHeight;
-  const headerHeight = stylingOptions.headerHeight;
-  const rowHeight = stylingOptions.rowHeight;
-  const columnWidth = stylingOptions.columnWidth;
-  const barFill = stylingOptions.barFill;
-
-  const viewMode = displayOptions.viewMode;
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
   const [dateSetup, setDateSetup] = useState<DateSetup>(() => {
     const [startDate, endDate] = ganttDateRange(
       ganttState.tasks,
-      viewMode,
+      displayOptions.viewMode,
       displayOptions.preStepsCount,
     );
 
     return {
-      viewMode: viewMode,
-      dates: seedDates(startDate, endDate, viewMode),
+      viewMode: displayOptions.viewMode,
+      dates: seedDates(startDate, endDate, displayOptions.viewMode),
     };
   });
   const [currentViewDate, setCurrentViewDate] = useState<Date | undefined>(
@@ -62,21 +51,23 @@ export const GanttRoot = () => {
 
   const [taskListWidth, setTaskListWidth] = useState(0);
   const [svgContainerWidth, setSvgContainerWidth] = useState(0);
-  const [svgContainerHeight, setSvgContainerHeight] = useState(ganttHeight);
+  const [svgContainerHeight, setSvgContainerHeight] = useState(
+    stylingOptions.ganttHeight,
+  );
   const [barTasks, setBarTasks] = useState<BarTask[]>([]);
   const [ganttEvent, setGanttEvent] = useState<GanttEvent>({
     action: '',
   });
   const taskHeight = useMemo(
-    () => (rowHeight * barFill) / 100,
-    [rowHeight, barFill],
+    () => (stylingOptions.rowHeight * stylingOptions.barFill) / 100,
+    [stylingOptions.rowHeight, stylingOptions.barFill],
   );
 
   const [selectedTask, setSelectedTask] = useState<BarTask>();
   const [failedTask, setFailedTask] = useState<BarTask | null>(null);
 
-  const svgWidth = dateSetup.dates.length * columnWidth;
-  const ganttFullHeight = barTasks.length * rowHeight;
+  const svgWidth = dateSetup.dates.length * stylingOptions.columnWidth;
+  const ganttFullHeight = barTasks.length * stylingOptions.rowHeight;
 
   const [scrollY, setScrollY] = useState(0);
   const [scrollX, setScrollX] = useState(-1);
@@ -93,27 +84,27 @@ export const GanttRoot = () => {
     filteredTasks = filteredTasks.sort(sortTasks);
     const [startDate, endDate] = ganttDateRange(
       filteredTasks,
-      viewMode,
+      displayOptions.viewMode,
       displayOptions.preStepsCount,
     );
-    let newDates = seedDates(startDate, endDate, viewMode);
-    if (rtl) {
+    let newDates = seedDates(startDate, endDate, displayOptions.viewMode);
+    if (displayOptions.rtl) {
       newDates = newDates.reverse();
       if (scrollX === -1) {
-        setScrollX(newDates.length * columnWidth);
+        setScrollX(newDates.length * stylingOptions.columnWidth);
       }
     }
-    setDateSetup({ dates: newDates, viewMode: viewMode });
+    setDateSetup({ dates: newDates, viewMode: displayOptions.viewMode });
     setBarTasks(
       convertToBarTasks(
         filteredTasks,
         newDates,
-        columnWidth,
-        rowHeight,
+        stylingOptions.columnWidth,
+        stylingOptions.rowHeight,
         taskHeight,
         stylingOptions.barCornerRadius,
         stylingOptions.handleWidth,
-        rtl,
+        displayOptions.rtl,
         stylingOptions.barProgressColor,
         stylingOptions.barProgressSelectedColor,
         stylingOptions.barBackgroundColor,
@@ -128,11 +119,11 @@ export const GanttRoot = () => {
     );
   }, [
     ganttState,
-    viewMode,
+    displayOptions.viewMode,
     displayOptions.preStepsCount,
-    rowHeight,
+    stylingOptions.rowHeight,
     stylingOptions.barCornerRadius,
-    columnWidth,
+    stylingOptions.columnWidth,
     taskHeight,
     stylingOptions.handleWidth,
     stylingOptions.barProgressColor,
@@ -145,13 +136,13 @@ export const GanttRoot = () => {
     stylingOptions.projectBackgroundSelectedColor,
     stylingOptions.milestoneBackgroundColor,
     stylingOptions.milestoneBackgroundSelectedColor,
-    rtl,
+    displayOptions.rtl,
     scrollX,
     eventOptions.onExpanderClick,
   ]);
 
   useEffect(() => {
-    if (viewMode !== dateSetup.viewMode) {
+    if (displayOptions.viewMode !== dateSetup.viewMode) {
       return;
     }
 
@@ -175,14 +166,14 @@ export const GanttRoot = () => {
       }
 
       setCurrentViewDate(viewDate);
-      setScrollX(columnWidth * index);
+      setScrollX(stylingOptions.columnWidth * index);
     }
   }, [
     displayOptions.viewDate,
-    columnWidth,
+    stylingOptions.columnWidth,
     dateSetup.dates,
     dateSetup.viewMode,
-    viewMode,
+    displayOptions.viewMode,
     currentViewDate,
     setCurrentViewDate,
   ]);
@@ -239,12 +230,22 @@ export const GanttRoot = () => {
   }, [wrapperRef, taskListWidth]);
 
   useEffect(() => {
-    if (ganttHeight) {
-      setSvgContainerHeight(ganttHeight + headerHeight);
+    if (stylingOptions.ganttHeight) {
+      setSvgContainerHeight(
+        stylingOptions.ganttHeight + stylingOptions.headerHeight,
+      );
     } else {
-      setSvgContainerHeight(ganttState.tasks.length * rowHeight + headerHeight);
+      setSvgContainerHeight(
+        ganttState.tasks.length * stylingOptions.rowHeight +
+          stylingOptions.headerHeight,
+      );
     }
-  }, [ganttHeight, ganttState, headerHeight, rowHeight]);
+  }, [
+    stylingOptions.ganttHeight,
+    ganttState,
+    stylingOptions.headerHeight,
+    stylingOptions.rowHeight,
+  ]);
 
   // scroll events
   useEffect(() => {
@@ -259,12 +260,12 @@ export const GanttRoot = () => {
         }
         setScrollX(newScrollX);
         event.preventDefault();
-      } else if (ganttHeight) {
+      } else if (stylingOptions.ganttHeight) {
         let newScrollY = scrollY + event.deltaY;
         if (newScrollY < 0) {
           newScrollY = 0;
-        } else if (newScrollY > ganttFullHeight - ganttHeight) {
-          newScrollY = ganttFullHeight - ganttHeight;
+        } else if (newScrollY > ganttFullHeight - stylingOptions.ganttHeight) {
+          newScrollY = ganttFullHeight - stylingOptions.ganttHeight;
         }
         if (newScrollY !== scrollY) {
           setScrollY(newScrollY);
@@ -286,9 +287,9 @@ export const GanttRoot = () => {
     wrapperRef,
     scrollY,
     scrollX,
-    ganttHeight,
+    stylingOptions.ganttHeight,
     svgWidth,
-    rtl,
+    displayOptions.rtl,
     ganttFullHeight,
   ]);
 
@@ -321,21 +322,21 @@ export const GanttRoot = () => {
     switch (event.key) {
       case 'Down': // IE/Edge specific value
       case 'ArrowDown':
-        newScrollY += rowHeight;
+        newScrollY += stylingOptions.rowHeight;
         isX = false;
         break;
       case 'Up': // IE/Edge specific value
       case 'ArrowUp':
-        newScrollY -= rowHeight;
+        newScrollY -= stylingOptions.rowHeight;
         isX = false;
         break;
       case 'Left':
       case 'ArrowLeft':
-        newScrollX -= columnWidth;
+        newScrollX -= stylingOptions.columnWidth;
         break;
       case 'Right': // IE/Edge specific value
       case 'ArrowRight':
-        newScrollX += columnWidth;
+        newScrollX += stylingOptions.columnWidth;
         break;
     }
     if (isX) {
@@ -348,8 +349,8 @@ export const GanttRoot = () => {
     } else {
       if (newScrollY < 0) {
         newScrollY = 0;
-      } else if (newScrollY > ganttFullHeight - ganttHeight) {
-        newScrollY = ganttFullHeight - ganttHeight;
+      } else if (newScrollY > ganttFullHeight - stylingOptions.ganttHeight) {
+        newScrollY = ganttFullHeight - stylingOptions.ganttHeight;
       }
       setScrollY(newScrollY);
     }
@@ -393,95 +394,59 @@ export const GanttRoot = () => {
       >
         {stylingOptions.listCellWidth ? (
           <TaskList
-            rowHeight={rowHeight}
-            rowWidth={stylingOptions.listCellWidth}
             tasks={barTasks}
-            locale={locale}
-            headerHeight={headerHeight}
             scrollY={scrollY}
-            ganttHeight={ganttHeight}
             horizontalContainerClass="overflow-hidden m-0 p-0"
             selectedTask={selectedTask}
-            taskListRef={taskListRef}
             setSelectedTask={handleSelectedTask}
+            taskListRef={taskListRef}
             onExpanderClick={handleExpanderClick}
-            TaskListHeader={TaskListHeader}
-            TaskListTable={TaskListTable}
           />
         ) : null}
         <TaskGantt
           gridProps={{
-            columnWidth: columnWidth,
             svgWidth,
             tasks: ganttState.tasks,
-            rowHeight: rowHeight,
             dates: dateSetup.dates,
-            todayColor: stylingOptions.todayColor,
-            rtl: rtl,
           }}
           calendarProps={{
             dateSetup,
-            locale: locale,
-            viewMode: viewMode,
-            headerHeight: headerHeight,
-            columnWidth: columnWidth,
-            rtl: rtl,
           }}
           barProps={{
             tasks: barTasks,
             dates: dateSetup.dates,
             ganttEvent,
             selectedTask,
-            rowHeight: rowHeight,
             taskHeight,
-            columnWidth: columnWidth,
-            arrowColor: stylingOptions.arrowColor,
-            timeStep: eventOptions.timeStep,
-            arrowIndent: stylingOptions.arrowIndent,
             svgWidth,
-            rtl: rtl,
             setGanttEvent,
             setFailedTask,
             setSelectedTask: handleSelectedTask,
-            onDateChange: eventOptions.onDateChange,
-            onProgressChange: eventOptions.onProgressChange,
-            onDoubleClick: eventOptions.onDoubleClick,
-            onClick: eventOptions.onClick,
-            onDelete: eventOptions.onDelete,
           }}
-          ganttHeight={ganttHeight}
           scrollY={scrollY}
           scrollX={scrollX}
         />
         {ganttEvent.changedTask && (
           <Tooltip
-            arrowIndent={stylingOptions.arrowIndent}
-            rowHeight={rowHeight}
             svgContainerHeight={svgContainerHeight!}
             svgContainerWidth={svgContainerWidth}
             scrollX={scrollX}
             scrollY={scrollY}
             task={ganttEvent.changedTask}
-            headerHeight={headerHeight}
             taskListWidth={taskListWidth}
-            rtl={rtl}
             svgWidth={svgWidth}
           />
         )}
         <VerticalScroll
           ganttFullHeight={ganttFullHeight}
-          ganttHeight={ganttHeight}
-          headerHeight={headerHeight}
           scroll={scrollY}
           onScroll={handleScrollY}
-          rtl={rtl}
         />
       </div>
       <HorizontalScroll
         svgWidth={svgWidth}
         taskListWidth={taskListWidth}
         scroll={scrollX}
-        rtl={rtl}
         onScroll={handleScrollX}
       />
     </div>

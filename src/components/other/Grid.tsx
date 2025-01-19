@@ -5,24 +5,6 @@ import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
 import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
 
 export const Grid = (props: GridProps) => {
-  return (
-    <g className="grid">
-      <GridBody {...props} />
-    </g>
-  );
-};
-
-type GridProps = {
-  readonly tasks: Task[];
-  readonly dates: Date[];
-  readonly svgWidth: number;
-  readonly rowHeight: number;
-  readonly columnWidth: number;
-  readonly todayColor: string;
-  readonly rtl: boolean;
-};
-
-const GridBody = (props: GridBodyProps) => {
   const display = useDisplayOptions();
   const styling = useStylingOptions();
 
@@ -46,9 +28,9 @@ const GridBody = (props: GridBodyProps) => {
         x="0"
         y={y}
         width={props.svgWidth}
-        height={props.rowHeight}
+        height={styling.rowHeight}
         className={
-          y % (2 * props.rowHeight) === 0 ? 'fill-white' : 'fill-gray-100'
+          y % (2 * styling.rowHeight) === 0 ? 'fill-white' : 'fill-gray-100'
         }
       />,
     );
@@ -56,13 +38,13 @@ const GridBody = (props: GridBodyProps) => {
       <line
         key={'RowLine' + task.id}
         x="0"
-        y1={y + props.rowHeight}
+        y1={y + styling.rowHeight}
         x2={props.svgWidth}
-        y2={y + props.rowHeight}
+        y2={y + styling.rowHeight}
         className="stroke-gray-200"
       />,
     );
-    y += props.rowHeight;
+    y += styling.rowHeight;
   }
 
   const now = new Date();
@@ -126,18 +108,19 @@ const GridBody = (props: GridBodyProps) => {
   }
 
   return (
-    <g className="gridBody">
-      <g className="rows">{gridRows}</g>
-      <g className="rowLines">{rowLines}</g>
-      <g className="ticks">{ticks}</g>
-      <g className="today">{today}</g>
+    <g className="grid">
+      <g className="gridBody">
+        <g className="rows">{gridRows}</g>
+        <g className="rowLines">{rowLines}</g>
+        <g className="ticks">{ticks}</g>
+        <g className="today">{today}</g>
+      </g>
     </g>
   );
 };
 
-type GridBodyProps = {
+type GridProps = {
   readonly tasks: Task[];
   readonly dates: Date[];
   readonly svgWidth: number;
-  readonly rowHeight: number;
 };

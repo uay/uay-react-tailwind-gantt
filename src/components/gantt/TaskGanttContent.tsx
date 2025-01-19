@@ -7,9 +7,15 @@ import { isKeyboardEvent } from '~/helpers/isKeyboardEvent';
 import { Arrow } from '~/components/other/Arrow';
 import { TaskItem } from '~/components/tasklist/TaskItem';
 import type { GanttEvent } from '~/model/GanttEvent';
-import type { EventOptions } from '~/model/public/EventOptions';
+import { useEventOptions } from '~/helpers/hooks/useEventOptions';
+import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
 
 export const TaskGanttContent = (props: TaskGanttContentProps) => {
+  const displayOptions = useDisplayOptions();
+  const eventOptions = useEventOptions();
+  const stylingOptions = useStylingOptions();
+
   const point = props.svg?.current?.createSVGPoint();
   const [xStep, setXStep] = useState(0);
   const [initEventX1Delta, setInitEventX1Delta] = useState(0);
@@ -22,9 +28,10 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
       props.dates[0].getTime() -
       props.dates[1].getTimezoneOffset() * 60 * 1000 +
       props.dates[0].getTimezoneOffset() * 60 * 1000;
-    const newXStep = (props.timeStep * props.columnWidth) / dateDelta;
+    const newXStep =
+      (eventOptions.timeStep * stylingOptions.columnWidth) / dateDelta;
     setXStep(newXStep);
-  }, [props.columnWidth, props.dates, props.timeStep]);
+  }, [stylingOptions.columnWidth, props.dates, eventOptions.timeStep]);
 
   useEffect(() => {
     const handleMouseMove = async (event: MouseEvent) => {
@@ -42,9 +49,9 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
         props.ganttEvent.action as BarMoveAction,
         props.ganttEvent.changedTask,
         xStep,
-        props.timeStep,
+        eventOptions.timeStep,
         initEventX1Delta,
-        props.rtl,
+        displayOptions.rtl,
       );
       if (isChanged) {
         props.setGanttEvent({ action: props.ganttEvent.action, changedTask });
@@ -71,9 +78,9 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
         action as BarMoveAction,
         changedTask,
         xStep,
-        props.timeStep,
+        eventOptions.timeStep,
         initEventX1Delta,
-        props.rtl,
+        displayOptions.rtl,
       );
 
       const isNotLikeOriginal =
@@ -91,11 +98,11 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
       let operationSuccess = true;
       if (
         (action === 'move' || action === 'end' || action === 'start') &&
-        props.onDateChange &&
+        eventOptions.onDateChange &&
         isNotLikeOriginal
       ) {
         try {
-          const result = await props.onDateChange(
+          const result = await eventOptions.onDateChange(
             newChangedTask,
             newChangedTask.barChildren,
           );
@@ -106,9 +113,9 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
           console.error('Error on Date Change. ' + error);
           operationSuccess = false;
         }
-      } else if (props.onProgressChange && isNotLikeOriginal) {
+      } else if (eventOptions.onProgressChange && isNotLikeOriginal) {
         try {
-          const result = await props.onProgressChange(
+          const result = await eventOptions.onProgressChange(
             newChangedTask,
             newChangedTask.barChildren,
           );
@@ -143,13 +150,13 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
     props.ganttEvent,
     xStep,
     initEventX1Delta,
-    props.onProgressChange,
-    props.timeStep,
-    props.onDateChange,
+    eventOptions.onProgressChange,
+    eventOptions.timeStep,
+    eventOptions.onDateChange,
     props.svg,
     isMoving,
     point,
-    props.rtl,
+    displayOptions.rtl,
     props.setFailedTask,
     props.setGanttEvent,
   ]);
@@ -170,9 +177,9 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
     // Keyboard events
     else if (isKeyboardEvent(event)) {
       if (action === 'delete') {
-        if (props.onDelete) {
+        if (eventOptions.onDelete) {
           try {
-            const result = await props.onDelete(task);
+            const result = await eventOptions.onDelete(task);
             if (result !== undefined && result) {
               props.setGanttEvent({ action, changedTask: task });
             }
@@ -196,9 +203,9 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
         props.setGanttEvent({ action: '' });
       }
     } else if (action === 'dblclick') {
-      !!props.onDoubleClick && props.onDoubleClick(task);
+      !!eventOptions.onDoubleClick && eventOptions.onDoubleClick(task);
     } else if (action === 'click') {
-      !!props.onClick && props.onClick(task);
+      !!eventOptions.onClick && eventOptions.onClick(task);
     }
     // Change task event start
     else if (action === 'move') {
@@ -224,7 +231,11 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
 
   return (
     <g className="content">
-      <g className="arrows" fill={props.arrowColor} stroke={props.arrowColor}>
+      <g
+        className="arrows"
+        fill={stylingOptions.arrowColor}
+        stroke={stylingOptions.arrowColor}
+      >
         {props.tasks.map(task => {
           return task.barChildren.map(child => {
             return (
@@ -232,10 +243,7 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
                 key={`Arrow from ${task.id} to ${props.tasks[child.index].id}`}
                 taskFrom={task}
                 taskTo={props.tasks[child.index]}
-                rowHeight={props.rowHeight}
                 taskHeight={props.taskHeight}
-                arrowIndent={props.arrowIndent}
-                rtl={props.rtl}
               />
             );
           });
@@ -246,19 +254,19 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
           return (
             <TaskItem
               task={task}
-              arrowIndent={props.arrowIndent}
+              arrowIndent={stylingOptions.arrowIndent}
               taskHeight={props.taskHeight}
               isProgressChangeable={
-                !!props.onProgressChange && !task.isDisabled
+                !!eventOptions.onProgressChange && !task.isDisabled
               }
-              isDateChangeable={!!props.onDateChange && !task.isDisabled}
+              isDateChangeable={!!eventOptions.onDateChange && !task.isDisabled}
               isDelete={!task.isDisabled}
               onEventStart={handleBarEventStart as any} // FIXME: Type issue
               key={task.id}
               isSelected={
                 !!props.selectedTask && task.id === props.selectedTask.id
               }
-              rtl={props.rtl}
+              rtl={displayOptions.rtl}
             />
           );
         })}
@@ -272,16 +280,10 @@ type TaskGanttContentProps = {
   readonly dates: Date[];
   readonly ganttEvent: GanttEvent;
   readonly selectedTask: BarTask | undefined;
-  readonly rowHeight: number;
-  readonly columnWidth: number;
-  readonly timeStep: number;
+  readonly setSelectedTask: (taskId: string) => void;
   readonly svg?: RefObject<SVGSVGElement>;
   readonly svgWidth: number;
   readonly taskHeight: number;
-  readonly arrowColor: string;
-  readonly arrowIndent: number;
-  readonly rtl: boolean;
   readonly setGanttEvent: (value: GanttEvent) => void;
   readonly setFailedTask: (value: BarTask | null) => void;
-  readonly setSelectedTask: (taskId: string) => void;
-} & EventOptions;
+};
