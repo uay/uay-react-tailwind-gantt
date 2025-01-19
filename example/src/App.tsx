@@ -82,31 +82,43 @@ export const App = () => {
         <h2 className="text-xl font-bold">Gantt With Unlimited Height</h2>
         <Gantt
           tasks={tasks}
-          viewMode={view}
-          onDateChange={handleTaskChange}
-          onDelete={handleTaskDelete}
-          onProgressChange={handleProgressChange}
-          onDoubleClick={handleDblClick}
-          onClick={handleClick}
-          onSelect={handleSelect}
-          onExpanderClick={handleExpanderClick}
-          listCellWidth={isChecked ? '155px' : ''}
-          columnWidth={columnWidth}
+          displayOptions={{
+            viewMode: view
+          }}
+          stylingOptions={{
+            listCellWidth: isChecked ? '155px' : '',
+            columnWidth: columnWidth,
+          }}
+          eventOptions={{
+            onTaskChange: handleTaskChange,
+            onTaskDelete: handleTaskDelete,
+            onProgressChange: handleProgressChange,
+            onDoubleClick: handleDblClick,
+            onClick: handleClick,
+            onSelect: handleSelect,
+            onExpanderClick: handleExpanderClick,
+          }}
         />
         <h2>Gantt With Limited Height</h2>
         <Gantt
           tasks={tasks}
-          viewMode={view}
-          onDateChange={handleTaskChange}
-          onDelete={handleTaskDelete}
-          onProgressChange={handleProgressChange}
-          onDoubleClick={handleDblClick}
-          onClick={handleClick}
-          onSelect={handleSelect}
-          onExpanderClick={handleExpanderClick}
-          listCellWidth={isChecked ? '155px' : ''}
-          ganttHeight={300}
-          columnWidth={columnWidth}
+          displayOptions={{
+            viewMode: view
+          }}
+          stylingOptions={{
+            ganttHeight: 300,
+            listCellWidth: isChecked ? '155px' : '',
+            columnWidth: columnWidth,
+          }}
+          eventOptions={{
+            onTaskChange: handleTaskChange,
+            onTaskDelete: handleTaskDelete,
+            onProgressChange: handleProgressChange,
+            onDoubleClick: handleDblClick,
+            onClick: handleClick,
+            onSelect: handleSelect,
+            onExpanderClick: handleExpanderClick,
+          }}
         />
       </div>
     </div>
