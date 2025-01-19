@@ -2,18 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { BarTask } from '~/model/BarTask';
 import { StandardTooltipContent } from '~/components/other/StandardTooltipContent';
 
-export const Tooltip = ({
-  task,
-  rowHeight,
-  rtl,
-  svgContainerHeight,
-  svgContainerWidth,
-  scrollX,
-  scrollY,
-  arrowIndent,
-  headerHeight,
-  taskListWidth,
-}: TooltipProps) => {
+export const Tooltip = (props: TooltipProps) => {
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [relatedY, setRelatedY] = useState(0);
   const [relatedX, setRelatedX] = useState(0);
@@ -23,55 +12,66 @@ export const Tooltip = ({
       const tooltipHeight = tooltipRef.current.offsetHeight * 1.1;
       const tooltipWidth = tooltipRef.current.offsetWidth * 1.1;
 
-      let newRelatedY = task.index * rowHeight - scrollY + headerHeight;
+      let newRelatedY =
+        props.task.index * props.rowHeight - props.scrollY + props.headerHeight;
       let newRelatedX: number;
-      if (rtl) {
-        newRelatedX = task.x1 - arrowIndent * 1.5 - tooltipWidth - scrollX;
+
+      if (props.rtl) {
+        newRelatedX =
+          props.task.x1 -
+          props.arrowIndent * 1.5 -
+          tooltipWidth -
+          props.scrollX;
         if (newRelatedX < 0) {
-          newRelatedX = task.x2 + arrowIndent * 1.5 - scrollX;
+          newRelatedX = props.task.x2 + props.arrowIndent * 1.5 - props.scrollX;
         }
         const tooltipLeftmostPoint = tooltipWidth + newRelatedX;
-        if (tooltipLeftmostPoint > svgContainerWidth) {
-          newRelatedX = svgContainerWidth - tooltipWidth;
-          newRelatedY += rowHeight;
+        if (tooltipLeftmostPoint > props.svgContainerWidth) {
+          newRelatedX = props.svgContainerWidth - tooltipWidth;
+          newRelatedY += props.rowHeight;
         }
       } else {
-        newRelatedX = task.x2 + arrowIndent * 1.5 + taskListWidth - scrollX;
+        newRelatedX =
+          props.task.x2 +
+          props.arrowIndent * 1.5 +
+          props.taskListWidth -
+          props.scrollX;
         const tooltipLeftmostPoint = tooltipWidth + newRelatedX;
-        const fullChartWidth = taskListWidth + svgContainerWidth;
+        const fullChartWidth = props.taskListWidth + props.svgContainerWidth;
         if (tooltipLeftmostPoint > fullChartWidth) {
           newRelatedX =
-            task.x1 +
-            taskListWidth -
-            arrowIndent * 1.5 -
-            scrollX -
+            props.task.x1 +
+            props.taskListWidth -
+            props.arrowIndent * 1.5 -
+            props.scrollX -
             tooltipWidth;
         }
-        if (newRelatedX < taskListWidth) {
-          newRelatedX = svgContainerWidth + taskListWidth - tooltipWidth;
-          newRelatedY += rowHeight;
+        if (newRelatedX < props.taskListWidth) {
+          newRelatedX =
+            props.svgContainerWidth + props.taskListWidth - tooltipWidth;
+          newRelatedY += props.rowHeight;
         }
       }
 
-      const tooltipLowerPoint = tooltipHeight + newRelatedY - scrollY;
-      if (tooltipLowerPoint > svgContainerHeight - scrollY) {
-        newRelatedY = svgContainerHeight - tooltipHeight;
+      const tooltipLowerPoint = tooltipHeight + newRelatedY - props.scrollY;
+      if (tooltipLowerPoint > props.svgContainerHeight - props.scrollY) {
+        newRelatedY = props.svgContainerHeight - tooltipHeight;
       }
       setRelatedY(newRelatedY);
       setRelatedX(newRelatedX);
     }
   }, [
     tooltipRef,
-    task,
-    arrowIndent,
-    scrollX,
-    scrollY,
-    headerHeight,
-    taskListWidth,
-    rowHeight,
-    svgContainerHeight,
-    svgContainerWidth,
-    rtl,
+    props.task,
+    props.arrowIndent,
+    props.scrollX,
+    props.scrollY,
+    props.headerHeight,
+    props.taskListWidth,
+    props.rowHeight,
+    props.svgContainerHeight,
+    props.svgContainerWidth,
+    props.rtl,
   ]);
 
   return (
@@ -82,7 +82,7 @@ export const Tooltip = ({
       }`}
       style={{ left: relatedX, top: relatedY }}
     >
-      <StandardTooltipContent task={task} />
+      <StandardTooltipContent task={props.task} />
     </div>
   );
 };

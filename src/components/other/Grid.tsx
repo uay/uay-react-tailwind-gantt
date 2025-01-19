@@ -20,15 +20,7 @@ type GridProps = {
   readonly rtl: boolean;
 };
 
-const GridBody = ({
-  tasks,
-  dates,
-  rowHeight,
-  svgWidth,
-  columnWidth,
-  todayColor,
-  rtl,
-}: GridBodyProps) => {
+const GridBody = (props: GridBodyProps) => {
   let y = 0;
   const gridRows: ReactNode[] = [];
   const rowLines: ReactNode[] = [
@@ -36,42 +28,44 @@ const GridBody = ({
       key="RowLineFirst"
       x="0"
       y1={0}
-      x2={svgWidth}
+      x2={props.svgWidth}
       y2={0}
       className="stroke-gray-200"
     />,
   ];
 
-  for (const task of tasks) {
+  for (const task of props.tasks) {
     gridRows.push(
       <rect
         key={'Row' + task.id}
         x="0"
         y={y}
-        width={svgWidth}
-        height={rowHeight}
-        className={y % (2 * rowHeight) === 0 ? 'fill-white' : 'fill-gray-100'}
+        width={props.svgWidth}
+        height={props.rowHeight}
+        className={
+          y % (2 * props.rowHeight) === 0 ? 'fill-white' : 'fill-gray-100'
+        }
       />,
     );
     rowLines.push(
       <line
         key={'RowLine' + task.id}
         x="0"
-        y1={y + rowHeight}
-        x2={svgWidth}
-        y2={y + rowHeight}
+        y1={y + props.rowHeight}
+        x2={props.svgWidth}
+        y2={y + props.rowHeight}
         className="stroke-gray-200"
       />,
     );
-    y += rowHeight;
+    y += props.rowHeight;
   }
 
   const now = new Date();
   let tickX = 0;
   const ticks: ReactNode[] = [];
   let today: ReactNode = <rect />;
-  for (let i = 0; i < dates.length; i++) {
-    const date = dates[i];
+  for (let i = 0; i < props.dates.length; i++) {
+    const date = props.dates[i];
     ticks.push(
       <line
         key={date.getTime()}
@@ -84,15 +78,15 @@ const GridBody = ({
     );
 
     if (
-      (i + 1 !== dates.length &&
+      (i + 1 !== props.dates.length &&
         date.getTime() < now.getTime() &&
-        dates[i + 1].getTime() >= now.getTime()) ||
+        props.dates[i + 1].getTime() >= now.getTime()) ||
       (i !== 0 &&
-        i + 1 === dates.length &&
+        i + 1 === props.dates.length &&
         date.getTime() < now.getTime() &&
         addToDate(
           date,
-          date.getTime() - dates[i - 1].getTime(),
+          date.getTime() - props.dates[i - 1].getTime(),
           'millisecond',
         ).getTime() >= now.getTime())
     ) {
@@ -100,30 +94,30 @@ const GridBody = ({
         <rect
           x={tickX}
           y={0}
-          width={columnWidth}
+          width={props.columnWidth}
           height={y}
-          fill={todayColor}
+          fill={props.todayColor}
         />
       );
     }
-    // rtl for today
+
     if (
-      rtl &&
-      i + 1 !== dates.length &&
+      props.rtl &&
+      i + 1 !== props.dates.length &&
       date.getTime() >= now.getTime() &&
-      dates[i + 1].getTime() < now.getTime()
+      props.dates[i + 1].getTime() < now.getTime()
     ) {
       today = (
         <rect
-          x={tickX + columnWidth}
+          x={tickX + props.columnWidth}
           y={0}
-          width={columnWidth}
+          width={props.columnWidth}
           height={y}
-          fill={todayColor}
+          fill={props.todayColor}
         />
       );
     }
-    tickX += columnWidth;
+    tickX += props.columnWidth;
   }
 
   return (

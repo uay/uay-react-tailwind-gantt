@@ -3,33 +3,26 @@ import { useThemeOptions } from '~/helpers/hooks/useThemeOptions';
 import { buildThemedProps } from '~/helpers/buildThemedProps';
 import { ThemeEntry } from '~/model/public/ThemeEntry';
 
-export const Arrow = ({
-  taskFrom,
-  taskTo,
-  rowHeight,
-  taskHeight,
-  arrowIndent,
-  rtl,
-}: ArrowProps) => {
+export const Arrow = (props: ArrowProps) => {
   const theme = useThemeOptions();
 
   let path: string;
   let trianglePoints: string;
-  if (rtl) {
+  if (props.rtl) {
     [path, trianglePoints] = drownPathAndTriangleRTL(
-      taskFrom,
-      taskTo,
-      rowHeight,
-      taskHeight,
-      arrowIndent,
+      props.taskFrom,
+      props.taskTo,
+      props.rowHeight,
+      props.taskHeight,
+      props.arrowIndent,
     );
   } else {
     [path, trianglePoints] = drownPathAndTriangle(
-      taskFrom,
-      taskTo,
-      rowHeight,
-      taskHeight,
-      arrowIndent,
+      props.taskFrom,
+      props.taskTo,
+      props.rowHeight,
+      props.taskHeight,
+      props.arrowIndent,
     );
   }
 
