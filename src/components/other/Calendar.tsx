@@ -14,7 +14,6 @@ export const Calendar = ({
   rtl,
   headerHeight,
   columnWidth,
-  fontFamily,
   fontSize,
 }: CalendarProps) => {
   const getCalendarValuesForYear = () => {
@@ -265,7 +264,6 @@ export const Calendar = ({
           y={headerHeight * 0.8}
           x={columnWidth * (i + +rtl)}
           className="text-center text-gray-800 select-none pointer-events-none"
-          fontFamily={fontFamily}
         >
           {bottomValue}
         </text>,
@@ -310,7 +308,6 @@ export const Calendar = ({
           y={headerHeight * 0.8}
           x={columnWidth * (i + +rtl)}
           className="text-center text-gray-800 select-none pointer-events-none"
-          fontFamily={fontFamily}
         >
           {bottomValue}
         </text>,
@@ -366,7 +363,7 @@ export const Calendar = ({
       [topValues, bottomValues] = getCalendarValuesForHour();
   }
   return (
-    <g className="calendar" fontSize={fontSize} fontFamily={fontFamily}>
+    <g className="calendar" fontSize={fontSize}>
       <rect
         x={0}
         y={0}
@@ -386,7 +383,6 @@ type CalendarProps = {
   readonly rtl: boolean;
   readonly headerHeight: number;
   readonly columnWidth: number;
-  readonly fontFamily: string;
   readonly fontSize: string;
 };
 
@@ -408,12 +404,7 @@ const TopPartOfCalendar = ({
         className="stroke-gray-200"
         key={value + 'line'}
       />
-      <text
-        key={value + 'text'}
-        y={yText}
-        x={xText}
-        className="fill-gray-200"
-      >
+      <text key={value + 'text'} y={yText} x={xText} className="fill-gray-200">
         {value}
       </text>
     </g>

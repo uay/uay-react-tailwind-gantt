@@ -1,11 +1,10 @@
-import { useEffect, useRef } from 'react';
 import type { ReactNode, RefObject } from 'react';
+import { useEffect, useRef } from 'react';
 import type { Task } from '~/model/public/Task';
 import type { BarTask } from '~/model/BarTask';
 
 export const TaskList = ({
   headerHeight,
-  fontFamily,
   fontSize,
   rowWidth,
   rowHeight,
@@ -31,7 +30,6 @@ export const TaskList = ({
 
   const headerProps = {
     headerHeight,
-    fontFamily,
     fontSize,
     rowWidth,
   };
@@ -39,7 +37,6 @@ export const TaskList = ({
   const tableProps = {
     rowHeight,
     rowWidth,
-    fontFamily,
     fontSize,
     tasks,
     locale,
@@ -65,7 +62,6 @@ export const TaskList = ({
 type TaskListProps = {
   readonly headerHeight: number;
   readonly rowWidth: string;
-  readonly fontFamily: string;
   readonly fontSize: string;
   readonly rowHeight: number;
   readonly ganttHeight: number;
@@ -80,13 +76,11 @@ type TaskListProps = {
   readonly TaskListHeader: (props: {
     readonly headerHeight: number;
     readonly rowWidth: string;
-    readonly fontFamily: string;
     readonly fontSize: string;
   }) => ReactNode;
   readonly TaskListTable: (props: {
     readonly rowHeight: number;
     readonly rowWidth: string;
-    readonly fontFamily: string;
     readonly fontSize: string;
     readonly locale: string;
     readonly tasks: Task[];

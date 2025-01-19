@@ -5,7 +5,6 @@ export const TaskListTable = ({
   rowHeight,
   rowWidth,
   tasks,
-  fontFamily,
   fontSize,
   locale,
   onExpanderClick,
@@ -19,7 +18,6 @@ export const TaskListTable = ({
     <div
       className="table border-l border-b border-gray-200"
       style={{
-        fontFamily: fontFamily,
         fontSize: fontSize,
       }}
     >
@@ -89,7 +87,6 @@ export const TaskListTable = ({
 type TaskListTableDefaultProps = {
   readonly rowHeight: number;
   readonly rowWidth: string;
-  readonly fontFamily: string;
   readonly fontSize: string;
   readonly locale: string;
   readonly tasks: Task[];

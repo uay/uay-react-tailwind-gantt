@@ -58,7 +58,6 @@ export const Gantt = ({
   handleWidth = 8,
   timeStep = 300000,
   arrowColor = 'grey',
-  fontFamily = 'Arial, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue',
   fontSize = '14px',
   arrowIndent = 20,
   todayColor = 'rgba(252, 248, 227, 0.5)',
@@ -408,7 +407,6 @@ export const Gantt = ({
               {...{
                 rowHeight,
                 rowWidth: listCellWidth,
-                fontFamily,
                 fontSize,
                 tasks: barTasks,
                 locale,
@@ -441,7 +439,6 @@ export const Gantt = ({
               viewMode,
               headerHeight,
               columnWidth,
-              fontFamily,
               fontSize,
               rtl,
             }}
@@ -455,7 +452,6 @@ export const Gantt = ({
               columnWidth,
               arrowColor,
               timeStep,
-              fontFamily,
               fontSize,
               arrowIndent,
               svgWidth,
@@ -479,7 +475,6 @@ export const Gantt = ({
               rowHeight={rowHeight}
               svgContainerHeight={svgContainerHeight}
               svgContainerWidth={svgContainerWidth}
-              fontFamily={fontFamily}
               fontSize={fontSize}
               scrollX={scrollX}
               scrollY={scrollY}
@@ -552,7 +547,6 @@ const TaskGantt = ({
         xmlns="http://www.w3.org/2000/svg"
         width={gridProps.svgWidth}
         height={calendarProps.headerHeight}
-        fontFamily={barProps.fontFamily}
       >
         <Calendar {...calendarProps} />
       </svg>
@@ -569,7 +563,6 @@ const TaskGantt = ({
           xmlns="http://www.w3.org/2000/svg"
           width={gridProps.svgWidth}
           height={barProps.rowHeight * barProps.tasks.length}
-          fontFamily={barProps.fontFamily}
           ref={ganttSVGRef}
         >
           <Grid {...gridProps} />
@@ -597,7 +590,6 @@ type TaskGanttProps = {
     readonly rtl: boolean;
     readonly headerHeight: number;
     readonly columnWidth: number;
-    readonly fontFamily: string;
     readonly fontSize: string;
   };
   readonly barProps: {
@@ -614,7 +606,6 @@ type TaskGanttProps = {
     readonly arrowColor: string;
     readonly arrowIndent: number;
     readonly fontSize: string;
-    readonly fontFamily: string;
     readonly rtl: boolean;
     readonly setGanttEvent: (value: GanttEvent) => void;
     readonly setFailedTask: (value: BarTask | null) => void;
@@ -637,7 +628,6 @@ const TaskGanttContent = ({
   taskHeight,
   arrowColor,
   arrowIndent,
-  fontFamily,
   fontSize,
   rtl,
   setGanttEvent,
@@ -874,7 +864,7 @@ const TaskGanttContent = ({
           });
         })}
       </g>
-      <g className="bar" fontFamily={fontFamily} fontSize={fontSize}>
+      <g className="bar" fontSize={fontSize}>
         {tasks.map(task => {
           return (
             <TaskItem
@@ -910,7 +900,6 @@ type TaskGanttContentProps = {
   readonly arrowColor: string;
   readonly arrowIndent: number;
   readonly fontSize: string;
-  readonly fontFamily: string;
   readonly rtl: boolean;
   readonly setGanttEvent: (value: GanttEvent) => void;
   readonly setFailedTask: (value: BarTask | null) => void;

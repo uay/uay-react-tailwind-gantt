@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { BarTask } from '~/model/BarTask';
 import type { Task } from '~/model/public/Task';
 
@@ -13,7 +13,6 @@ export const Tooltip = ({
   scrollY,
   arrowIndent,
   fontSize,
-  fontFamily,
   headerHeight,
   taskListWidth,
   TooltipContent,
@@ -86,7 +85,7 @@ export const Tooltip = ({
       }`}
       style={{ left: relatedX, top: relatedY }}
     >
-      <TooltipContent task={task} fontSize={fontSize} fontFamily={fontFamily} />
+      <TooltipContent task={task} fontSize={fontSize} />
     </div>
   );
 };
@@ -104,10 +103,8 @@ type TooltipProps = {
   readonly scrollY: number;
   readonly rowHeight: number;
   readonly fontSize: string;
-  readonly fontFamily: string;
   readonly TooltipContent: (props: {
     readonly task: Task;
     readonly fontSize: string;
-    readonly fontFamily: string;
   }) => ReactNode;
 };
