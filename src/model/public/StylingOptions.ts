@@ -1,7 +1,7 @@
 import type { Task } from '~/model/public/Task';
 import type { ReactNode } from 'react';
 
-export interface StylingOption {
+export interface StylingOptions {
   readonly headerHeight?: number;
   readonly columnWidth?: number;
   readonly listCellWidth?: string;
@@ -9,6 +9,7 @@ export interface StylingOption {
   readonly ganttHeight?: number;
   readonly barCornerRadius?: number;
   readonly handleWidth?: number;
+
   /**
    * How many of row width can be taken by task.
    * From 0 to 100
