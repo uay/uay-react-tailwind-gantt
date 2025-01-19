@@ -26,7 +26,7 @@ import { removeHiddenTasks } from '~/helpers/removeHiddenTasks';
 import { sortTasks } from '~/helpers/sortTasks';
 import { isKeyboardEvent } from '~/helpers/isKeyboardEvent';
 import type { ThemeOptions } from '~/model/public/ThemeOptions';
-import { ThemeContext } from '~/context/ThemeContext';
+import { ThemeOptionsContext } from '~/context/ThemeOptionsContext';
 import type { EventOptions } from '~/model/public/EventOptions';
 import type { DisplayOptions } from '~/model/public/DisplayOptions';
 import type { StylingOptions } from '~/model/public/StylingOptions';
@@ -429,7 +429,7 @@ export const Gantt = (props: GanttProps) => {
   };
 
   return (
-    <ThemeContext.Provider value={props.themeOptions || {}}>
+    <ThemeOptionsContext.Provider value={props.themeOptions || {}}>
       <div>
         <div
           className="flex p-0 m-0 list-none outline-none relative"
@@ -540,7 +540,7 @@ export const Gantt = (props: GanttProps) => {
           onScroll={handleScrollX}
         />
       </div>
-    </ThemeContext.Provider>
+    </ThemeOptionsContext.Provider>
   );
 };
 

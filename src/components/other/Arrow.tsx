@@ -1,5 +1,5 @@
 import type { BarTask } from '~/model/BarTask';
-import { useTheme } from '~/helpers/hooks/useTheme';
+import { useThemeOptions } from '~/helpers/hooks/useThemeOptions';
 import { buildThemedProps } from '~/helpers/buildThemedProps';
 import { ThemeEntry } from '~/model/public/ThemeEntry';
 
@@ -11,7 +11,7 @@ export const Arrow = ({
   arrowIndent,
   rtl,
 }: ArrowProps) => {
-  const theme = useTheme();
+  const theme = useThemeOptions();
 
   let path: string;
   let trianglePoints: string;
