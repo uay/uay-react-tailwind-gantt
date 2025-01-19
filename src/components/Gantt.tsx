@@ -403,7 +403,7 @@ export const Gantt = ({
           tabIndex={0}
           ref={wrapperRef}
         >
-          {listCellWidth && (
+          {listCellWidth ? (
             <TaskList
               {...{
                 rowHeight,
@@ -424,7 +424,7 @@ export const Gantt = ({
                 TaskListTable,
               }}
             />
-          )}
+          ) : null}
           <TaskGantt
             gridProps={{
               columnWidth,

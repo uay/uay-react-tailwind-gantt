@@ -6,6 +6,7 @@
     "jsx": "react-jsx",
     "sourceMap": true,
     "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
