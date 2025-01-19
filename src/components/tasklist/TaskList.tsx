@@ -3,54 +3,41 @@ import { useEffect, useRef } from 'react';
 import type { Task } from '~/model/public/Task';
 import type { BarTask } from '~/model/BarTask';
 
-export const TaskList = ({
-  headerHeight,
-  rowWidth,
-  rowHeight,
-  scrollY,
-  tasks,
-  selectedTask,
-  setSelectedTask,
-  onExpanderClick,
-  locale,
-  ganttHeight,
-  taskListRef,
-  horizontalContainerClass,
-  TaskListHeader,
-  TaskListTable,
-}: TaskListProps) => {
+export const TaskList = (props: TaskListProps) => {
   const horizontalContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (horizontalContainerRef.current) {
-      horizontalContainerRef.current.scrollTop = scrollY;
+      horizontalContainerRef.current.scrollTop = props.scrollY;
     }
-  }, [scrollY]);
+  }, [props.scrollY]);
 
   const headerProps = {
-    headerHeight,
-    rowWidth,
+    headerHeight: props.headerHeight,
+    rowWidth: props.rowWidth,
   };
-  const selectedTaskId = selectedTask ? selectedTask.id : '';
+
+  const selectedTaskId = props.selectedTask ? props.selectedTask.id : '';
+
   const tableProps = {
-    rowHeight,
-    rowWidth,
-    tasks,
-    locale,
+    rowHeight: props.rowHeight,
+    rowWidth: props.rowWidth,
+    tasks: props.tasks,
+    locale: props.locale,
     selectedTaskId: selectedTaskId,
-    setSelectedTask,
-    onExpanderClick,
+    setSelectedTask: props.setSelectedTask,
+    onExpanderClick: props.onExpanderClick,
   };
 
   return (
-    <div ref={taskListRef}>
-      <TaskListHeader {...headerProps} />
+    <div ref={props.taskListRef}>
+      <props.TaskListHeader {...headerProps} />
       <div
         ref={horizontalContainerRef}
-        className={horizontalContainerClass}
-        style={ganttHeight ? { height: ganttHeight } : {}}
+        className={props.horizontalContainerClass}
+        style={props.ganttHeight ? { height: props.ganttHeight } : {}}
       >
-        <TaskListTable {...tableProps} />
+        <props.TaskListTable {...tableProps} />
       </div>
     </div>
   );

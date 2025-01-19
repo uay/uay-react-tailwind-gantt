@@ -1,19 +1,16 @@
-export const TaskListHeader = ({
-  headerHeight,
-  rowWidth,
-}: TaskListHeaderProps) => {
+export const TaskListHeader = (props: TaskListHeaderProps) => {
   return (
     <div className="table border-y border-l border-gray-200">
       <div
         className="table-row"
         style={{
-          height: headerHeight - 2,
+          height: props.headerHeight - 2,
         }}
       >
         <div
           className="table-cell align-middle"
           style={{
-            minWidth: rowWidth,
+            minWidth: props.rowWidth,
           }}
         >
           &nbsp;Name
@@ -21,14 +18,14 @@ export const TaskListHeader = ({
         <div
           className="border-r border-gray-300 opacity-100"
           style={{
-            height: headerHeight * 0.5,
-            marginTop: headerHeight * 0.2,
+            height: props.headerHeight * 0.5,
+            marginTop: props.headerHeight * 0.2,
           }}
         />
         <div
           className="table-cell align-middle"
           style={{
-            minWidth: rowWidth,
+            minWidth: props.rowWidth,
           }}
         >
           &nbsp;From
@@ -36,14 +33,14 @@ export const TaskListHeader = ({
         <div
           className="border-r border-gray-300 opacity-100"
           style={{
-            height: headerHeight * 0.5,
-            marginTop: headerHeight * 0.25,
+            height: props.headerHeight * 0.5,
+            marginTop: props.headerHeight * 0.25,
           }}
         />
         <div
           className="table-cell align-middle"
           style={{
-            minWidth: rowWidth,
+            minWidth: props.rowWidth,
           }}
         >
           &nbsp;To
