@@ -2,27 +2,31 @@ import type { BarTask } from '~/model/BarTask';
 import { useThemeOptions } from '~/helpers/hooks/useThemeOptions';
 import { buildThemedProps } from '~/helpers/buildThemedProps';
 import { ThemeEntry } from '~/model/public/ThemeEntry';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
+import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
 
 export const Arrow = (props: ArrowProps) => {
+  const display = useDisplayOptions();
+  const styling = useStylingOptions();
   const theme = useThemeOptions();
 
   let path: string;
   let trianglePoints: string;
-  if (props.rtl) {
+  if (display.rtl) {
     [path, trianglePoints] = drownPathAndTriangleRTL(
       props.taskFrom,
       props.taskTo,
-      props.rowHeight,
+      styling.rowHeight,
       props.taskHeight,
-      props.arrowIndent,
+      styling.arrowIndent,
     );
   } else {
     [path, trianglePoints] = drownPathAndTriangle(
       props.taskFrom,
       props.taskTo,
-      props.rowHeight,
+      styling.rowHeight,
       props.taskHeight,
-      props.arrowIndent,
+      styling.arrowIndent,
     );
   }
 
@@ -37,6 +41,12 @@ export const Arrow = (props: ArrowProps) => {
       <polygon points={trianglePoints} />
     </g>
   );
+};
+
+type ArrowProps = {
+  readonly taskFrom: BarTask;
+  readonly taskTo: BarTask;
+  readonly taskHeight: number;
 };
 
 const drownPathAndTriangle = (
@@ -97,13 +107,4 @@ const drownPathAndTriangleRTL = (
   ${taskTo.x2 + 5},${taskToEndPosition + 5}
   ${taskTo.x2 + 5},${taskToEndPosition - 5}`;
   return [path, trianglePoints];
-};
-
-type ArrowProps = {
-  readonly taskFrom: BarTask;
-  readonly taskTo: BarTask;
-  readonly rowHeight: number;
-  readonly taskHeight: number;
-  readonly arrowIndent: number;
-  readonly rtl: boolean;
 };
