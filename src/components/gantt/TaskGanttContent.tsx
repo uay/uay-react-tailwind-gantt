@@ -9,29 +9,8 @@ import { TaskItem } from '~/components/tasklist/TaskItem';
 import type { GanttEvent } from '~/model/GanttEvent';
 import type { EventOptions } from '~/model/public/EventOptions';
 
-export const TaskGanttContent = ({
-  tasks,
-  dates,
-  ganttEvent,
-  selectedTask,
-  rowHeight,
-  columnWidth,
-  timeStep,
-  svg,
-  taskHeight,
-  arrowColor,
-  arrowIndent,
-  rtl,
-  setGanttEvent,
-  setFailedTask,
-  setSelectedTask,
-  onDateChange,
-  onProgressChange,
-  onDoubleClick,
-  onClick,
-  onDelete,
-}: TaskGanttContentProps) => {
-  const point = svg?.current?.createSVGPoint();
+export const TaskGanttContent = (props: TaskGanttContentProps) => {
+  const point = props.svg?.current?.createSVGPoint();
   const [xStep, setXStep] = useState(0);
   const [initEventX1Delta, setInitEventX1Delta] = useState(0);
   const [isMoving, setIsMoving] = useState(false);
@@ -39,56 +18,62 @@ export const TaskGanttContent = ({
   // create xStep
   useEffect(() => {
     const dateDelta =
-      dates[1].getTime() -
-      dates[0].getTime() -
-      dates[1].getTimezoneOffset() * 60 * 1000 +
-      dates[0].getTimezoneOffset() * 60 * 1000;
-    const newXStep = (timeStep * columnWidth) / dateDelta;
+      props.dates[1].getTime() -
+      props.dates[0].getTime() -
+      props.dates[1].getTimezoneOffset() * 60 * 1000 +
+      props.dates[0].getTimezoneOffset() * 60 * 1000;
+    const newXStep = (props.timeStep * props.columnWidth) / dateDelta;
     setXStep(newXStep);
-  }, [columnWidth, dates, timeStep]);
+  }, [props.columnWidth, props.dates, props.timeStep]);
 
   useEffect(() => {
     const handleMouseMove = async (event: MouseEvent) => {
-      if (!ganttEvent.changedTask || !point || !svg?.current) return;
-      event.preventDefault();
-
-      point.x = event.clientX;
-      const cursor = point.matrixTransform(
-        svg?.current.getScreenCTM()?.inverse(),
-      );
-
-      const { isChanged, changedTask } = handleTaskBySVGMouseEvent(
-        cursor.x,
-        ganttEvent.action as BarMoveAction,
-        ganttEvent.changedTask,
-        xStep,
-        timeStep,
-        initEventX1Delta,
-        rtl,
-      );
-      if (isChanged) {
-        setGanttEvent({ action: ganttEvent.action, changedTask });
-      }
-    };
-
-    const handleMouseUp = async (event: MouseEvent) => {
-      const { action, originalSelectedTask, changedTask } = ganttEvent;
-      if (!changedTask || !point || !svg?.current || !originalSelectedTask)
+      if (!props.ganttEvent.changedTask || !point || !props.svg?.current)
         return;
       event.preventDefault();
 
       point.x = event.clientX;
       const cursor = point.matrixTransform(
-        svg?.current.getScreenCTM()?.inverse(),
+        props.svg?.current.getScreenCTM()?.inverse(),
+      );
+
+      const { isChanged, changedTask } = handleTaskBySVGMouseEvent(
+        cursor.x,
+        props.ganttEvent.action as BarMoveAction,
+        props.ganttEvent.changedTask,
+        xStep,
+        props.timeStep,
+        initEventX1Delta,
+        props.rtl,
+      );
+      if (isChanged) {
+        props.setGanttEvent({ action: props.ganttEvent.action, changedTask });
+      }
+    };
+
+    const handleMouseUp = async (event: MouseEvent) => {
+      const { action, originalSelectedTask, changedTask } = props.ganttEvent;
+      if (
+        !changedTask ||
+        !point ||
+        !props.svg?.current ||
+        !originalSelectedTask
+      )
+        return;
+      event.preventDefault();
+
+      point.x = event.clientX;
+      const cursor = point.matrixTransform(
+        props.svg?.current.getScreenCTM()?.inverse(),
       );
       const { changedTask: newChangedTask } = handleTaskBySVGMouseEvent(
         cursor.x,
         action as BarMoveAction,
         changedTask,
         xStep,
-        timeStep,
+        props.timeStep,
         initEventX1Delta,
-        rtl,
+        props.rtl,
       );
 
       const isNotLikeOriginal =
@@ -97,20 +82,20 @@ export const TaskGanttContent = ({
         originalSelectedTask.progress !== newChangedTask.progress;
 
       // remove listeners
-      svg.current.removeEventListener('mousemove', handleMouseMove);
-      svg.current.removeEventListener('mouseup', handleMouseUp);
-      setGanttEvent({ action: '' });
+      props.svg.current.removeEventListener('mousemove', handleMouseMove);
+      props.svg.current.removeEventListener('mouseup', handleMouseUp);
+      props.setGanttEvent({ action: '' });
       setIsMoving(false);
 
       // custom operation start
       let operationSuccess = true;
       if (
         (action === 'move' || action === 'end' || action === 'start') &&
-        onDateChange &&
+        props.onDateChange &&
         isNotLikeOriginal
       ) {
         try {
-          const result = await onDateChange(
+          const result = await props.onDateChange(
             newChangedTask,
             newChangedTask.barChildren,
           );
@@ -121,9 +106,9 @@ export const TaskGanttContent = ({
           console.error('Error on Date Change. ' + error);
           operationSuccess = false;
         }
-      } else if (onProgressChange && isNotLikeOriginal) {
+      } else if (props.onProgressChange && isNotLikeOriginal) {
         try {
-          const result = await onProgressChange(
+          const result = await props.onProgressChange(
             newChangedTask,
             newChangedTask.barChildren,
           );
@@ -138,35 +123,35 @@ export const TaskGanttContent = ({
 
       // If operation is failed - return old state
       if (!operationSuccess) {
-        setFailedTask(originalSelectedTask);
+        props.setFailedTask(originalSelectedTask);
       }
     };
 
     if (
       !isMoving &&
-      (ganttEvent.action === 'move' ||
-        ganttEvent.action === 'end' ||
-        ganttEvent.action === 'start' ||
-        ganttEvent.action === 'progress') &&
-      svg?.current
+      (props.ganttEvent.action === 'move' ||
+        props.ganttEvent.action === 'end' ||
+        props.ganttEvent.action === 'start' ||
+        props.ganttEvent.action === 'progress') &&
+      props.svg?.current
     ) {
-      svg.current.addEventListener('mousemove', handleMouseMove);
-      svg.current.addEventListener('mouseup', handleMouseUp);
+      props.svg.current.addEventListener('mousemove', handleMouseMove);
+      props.svg.current.addEventListener('mouseup', handleMouseUp);
       setIsMoving(true);
     }
   }, [
-    ganttEvent,
+    props.ganttEvent,
     xStep,
     initEventX1Delta,
-    onProgressChange,
-    timeStep,
-    onDateChange,
-    svg,
+    props.onProgressChange,
+    props.timeStep,
+    props.onDateChange,
+    props.svg,
     isMoving,
     point,
-    rtl,
-    setFailedTask,
-    setGanttEvent,
+    props.rtl,
+    props.setFailedTask,
+    props.setGanttEvent,
   ]);
 
   /**
@@ -179,17 +164,17 @@ export const TaskGanttContent = ({
   ) => {
     if (!event) {
       if (action === 'select') {
-        setSelectedTask(task.id);
+        props.setSelectedTask(task.id);
       }
     }
     // Keyboard events
     else if (isKeyboardEvent(event)) {
       if (action === 'delete') {
-        if (onDelete) {
+        if (props.onDelete) {
           try {
-            const result = await onDelete(task);
+            const result = await props.onDelete(task);
             if (result !== undefined && result) {
-              setGanttEvent({ action, changedTask: task });
+              props.setGanttEvent({ action, changedTask: task });
             }
           } catch (error) {
             console.error('Error on Delete. ' + error);
@@ -199,37 +184,37 @@ export const TaskGanttContent = ({
     }
     // Mouse Events
     else if (action === 'mouseenter') {
-      if (!ganttEvent.action) {
-        setGanttEvent({
+      if (!props.ganttEvent.action) {
+        props.setGanttEvent({
           action,
           changedTask: task,
           originalSelectedTask: task,
         });
       }
     } else if (action === 'mouseleave') {
-      if (ganttEvent.action === 'mouseenter') {
-        setGanttEvent({ action: '' });
+      if (props.ganttEvent.action === 'mouseenter') {
+        props.setGanttEvent({ action: '' });
       }
     } else if (action === 'dblclick') {
-      !!onDoubleClick && onDoubleClick(task);
+      !!props.onDoubleClick && props.onDoubleClick(task);
     } else if (action === 'click') {
-      !!onClick && onClick(task);
+      !!props.onClick && props.onClick(task);
     }
     // Change task event start
     else if (action === 'move') {
-      if (!svg?.current || !point) return;
+      if (!props.svg?.current || !point) return;
       point.x = event.clientX;
       const cursor = point.matrixTransform(
-        svg.current.getScreenCTM()?.inverse(),
+        props.svg.current.getScreenCTM()?.inverse(),
       );
       setInitEventX1Delta(cursor.x - task.x1);
-      setGanttEvent({
+      props.setGanttEvent({
         action,
         changedTask: task,
         originalSelectedTask: task,
       });
     } else {
-      setGanttEvent({
+      props.setGanttEvent({
         action,
         changedTask: task,
         originalSelectedTask: task,
@@ -239,37 +224,41 @@ export const TaskGanttContent = ({
 
   return (
     <g className="content">
-      <g className="arrows" fill={arrowColor} stroke={arrowColor}>
-        {tasks.map(task => {
+      <g className="arrows" fill={props.arrowColor} stroke={props.arrowColor}>
+        {props.tasks.map(task => {
           return task.barChildren.map(child => {
             return (
               <Arrow
-                key={`Arrow from ${task.id} to ${tasks[child.index].id}`}
+                key={`Arrow from ${task.id} to ${props.tasks[child.index].id}`}
                 taskFrom={task}
-                taskTo={tasks[child.index]}
-                rowHeight={rowHeight}
-                taskHeight={taskHeight}
-                arrowIndent={arrowIndent}
-                rtl={rtl}
+                taskTo={props.tasks[child.index]}
+                rowHeight={props.rowHeight}
+                taskHeight={props.taskHeight}
+                arrowIndent={props.arrowIndent}
+                rtl={props.rtl}
               />
             );
           });
         })}
       </g>
       <g className="bar">
-        {tasks.map(task => {
+        {props.tasks.map(task => {
           return (
             <TaskItem
               task={task}
-              arrowIndent={arrowIndent}
-              taskHeight={taskHeight}
-              isProgressChangeable={!!onProgressChange && !task.isDisabled}
-              isDateChangeable={!!onDateChange && !task.isDisabled}
+              arrowIndent={props.arrowIndent}
+              taskHeight={props.taskHeight}
+              isProgressChangeable={
+                !!props.onProgressChange && !task.isDisabled
+              }
+              isDateChangeable={!!props.onDateChange && !task.isDisabled}
               isDelete={!task.isDisabled}
               onEventStart={handleBarEventStart as any} // FIXME: Type issue
               key={task.id}
-              isSelected={!!selectedTask && task.id === selectedTask.id}
-              rtl={rtl}
+              isSelected={
+                !!props.selectedTask && task.id === props.selectedTask.id
+              }
+              rtl={props.rtl}
             />
           );
         })}

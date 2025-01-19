@@ -9,18 +9,11 @@ import type { GanttEvent } from '~/model/GanttEvent';
 import type { EventOptions } from '~/model/public/EventOptions';
 import { TaskGanttContent } from '~/components/gantt/TaskGanttContent';
 
-export const TaskGantt = ({
-  gridProps,
-  calendarProps,
-  barProps,
-  ganttHeight,
-  scrollY,
-  scrollX,
-}: TaskGanttProps) => {
+export const TaskGantt = (props: TaskGanttProps) => {
   const ganttSVGRef = useRef<SVGSVGElement>(null);
   const horizontalContainerRef = useRef<HTMLDivElement>(null);
   const verticalGanttContainerRef = useRef<HTMLDivElement>(null);
-  const newBarProps = { ...barProps, svg: ganttSVGRef };
+  const newBarProps = { ...props.barProps, svg: ganttSVGRef };
 
   useEffect(() => {
     if (horizontalContainerRef.current) {
@@ -42,27 +35,27 @@ export const TaskGantt = ({
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={gridProps.svgWidth}
-        height={calendarProps.headerHeight}
+        width={props.gridProps.svgWidth}
+        height={props.calendarProps.headerHeight}
       >
-        <Calendar {...calendarProps} />
+        <Calendar {...props.calendarProps} />
       </svg>
       <div
         ref={horizontalContainerRef}
         className="overflow-hidden text-0 m-0 p-0"
         style={
-          ganttHeight
-            ? { height: ganttHeight, width: gridProps.svgWidth }
-            : { width: gridProps.svgWidth }
+          props.ganttHeight
+            ? { height: props.ganttHeight, width: props.gridProps.svgWidth }
+            : { width: props.gridProps.svgWidth }
         }
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width={gridProps.svgWidth}
-          height={barProps.rowHeight * barProps.tasks.length}
+          width={props.gridProps.svgWidth}
+          height={props.barProps.rowHeight * props.barProps.tasks.length}
           ref={ganttSVGRef}
         >
-          <Grid {...gridProps} />
+          <Grid {...props.gridProps} />
           <TaskGanttContent {...newBarProps} />
         </svg>
       </div>
