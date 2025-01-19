@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import type { Task } from '~/model/public/Task';
 import { addToDate } from '~/helpers/date/addToDate';
+import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
 
 export const Grid = (props: GridProps) => {
   return (
@@ -21,6 +23,9 @@ type GridProps = {
 };
 
 const GridBody = (props: GridBodyProps) => {
+  const display = useDisplayOptions();
+  const styling = useStylingOptions();
+
   let y = 0;
   const gridRows: ReactNode[] = [];
   const rowLines: ReactNode[] = [
@@ -94,30 +99,30 @@ const GridBody = (props: GridBodyProps) => {
         <rect
           x={tickX}
           y={0}
-          width={props.columnWidth}
+          width={styling.columnWidth}
           height={y}
-          fill={props.todayColor}
+          fill={styling.todayColor}
         />
       );
     }
 
     if (
-      props.rtl &&
+      display.rtl &&
       i + 1 !== props.dates.length &&
       date.getTime() >= now.getTime() &&
       props.dates[i + 1].getTime() < now.getTime()
     ) {
       today = (
         <rect
-          x={tickX + props.columnWidth}
+          x={tickX + styling.columnWidth}
           y={0}
-          width={props.columnWidth}
+          width={styling.columnWidth}
           height={y}
-          fill={props.todayColor}
+          fill={styling.todayColor}
         />
       );
     }
-    tickX += props.columnWidth;
+    tickX += styling.columnWidth;
   }
 
   return (
@@ -135,7 +140,4 @@ type GridBodyProps = {
   readonly dates: Date[];
   readonly svgWidth: number;
   readonly rowHeight: number;
-  readonly columnWidth: number;
-  readonly todayColor: string;
-  readonly rtl: boolean;
 };

@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import type { BarTask } from '~/model/BarTask';
 import { StandardTooltipContent } from '~/components/other/StandardTooltipContent';
+import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
 
 export const Tooltip = (props: TooltipProps) => {
+  const display = useDisplayOptions();
+  const styling = useStylingOptions();
+
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [relatedY, setRelatedY] = useState(0);
   const [relatedX, setRelatedX] = useState(0);
@@ -13,27 +18,30 @@ export const Tooltip = (props: TooltipProps) => {
       const tooltipWidth = tooltipRef.current.offsetWidth * 1.1;
 
       let newRelatedY =
-        props.task.index * props.rowHeight - props.scrollY + props.headerHeight;
+        props.task.index * styling.rowHeight -
+        props.scrollY +
+        styling.headerHeight;
       let newRelatedX: number;
 
-      if (props.rtl) {
+      if (display.rtl) {
         newRelatedX =
           props.task.x1 -
-          props.arrowIndent * 1.5 -
+          styling.arrowIndent * 1.5 -
           tooltipWidth -
           props.scrollX;
         if (newRelatedX < 0) {
-          newRelatedX = props.task.x2 + props.arrowIndent * 1.5 - props.scrollX;
+          newRelatedX =
+            props.task.x2 + styling.arrowIndent * 1.5 - props.scrollX;
         }
         const tooltipLeftmostPoint = tooltipWidth + newRelatedX;
         if (tooltipLeftmostPoint > props.svgContainerWidth) {
           newRelatedX = props.svgContainerWidth - tooltipWidth;
-          newRelatedY += props.rowHeight;
+          newRelatedY += styling.rowHeight;
         }
       } else {
         newRelatedX =
           props.task.x2 +
-          props.arrowIndent * 1.5 +
+          styling.arrowIndent * 1.5 +
           props.taskListWidth -
           props.scrollX;
         const tooltipLeftmostPoint = tooltipWidth + newRelatedX;
@@ -42,14 +50,14 @@ export const Tooltip = (props: TooltipProps) => {
           newRelatedX =
             props.task.x1 +
             props.taskListWidth -
-            props.arrowIndent * 1.5 -
+            styling.arrowIndent * 1.5 -
             props.scrollX -
             tooltipWidth;
         }
         if (newRelatedX < props.taskListWidth) {
           newRelatedX =
             props.svgContainerWidth + props.taskListWidth - tooltipWidth;
-          newRelatedY += props.rowHeight;
+          newRelatedY += styling.rowHeight;
         }
       }
 
@@ -63,15 +71,15 @@ export const Tooltip = (props: TooltipProps) => {
   }, [
     tooltipRef,
     props.task,
-    props.arrowIndent,
+    styling.arrowIndent,
     props.scrollX,
     props.scrollY,
-    props.headerHeight,
+    styling.headerHeight,
     props.taskListWidth,
-    props.rowHeight,
+    styling.rowHeight,
     props.svgContainerHeight,
     props.svgContainerWidth,
-    props.rtl,
+    display.rtl,
   ]);
 
   return (
@@ -89,14 +97,10 @@ export const Tooltip = (props: TooltipProps) => {
 
 type TooltipProps = {
   readonly task: BarTask;
-  readonly arrowIndent: number;
-  readonly rtl: boolean;
   readonly svgContainerHeight: number;
   readonly svgContainerWidth: number;
   readonly svgWidth: number;
-  readonly headerHeight: number;
   readonly taskListWidth: number;
   readonly scrollX: number;
   readonly scrollY: number;
-  readonly rowHeight: number;
 };
