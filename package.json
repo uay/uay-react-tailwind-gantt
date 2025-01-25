@@ -1,6 +1,6 @@
 {
   "name": "uay-react-tailwind-gantt",
-  "version": "0.4.4",
+  "version": "1.0.0",
   "description": "Gantt chart for React Tailwind and TypeScript based on MaTeMaTuK/gantt-task-react.",
   "author": "uay",
   "homepage": "https://github.com/uay/uay-react-tailwind-gantt",
