@@ -366,7 +366,7 @@ export const GanttRoot = () => {
       t => !!selectedTask && t.id === selectedTask.id,
     );
     if (eventOptions.onSelect) {
-      if (oldSelectedTask) {
+      if (oldSelectedTask && oldSelectedTask.id !== newSelectedTask?.id) {
         eventOptions.onSelect(oldSelectedTask, false);
       }
       if (newSelectedTask) {
