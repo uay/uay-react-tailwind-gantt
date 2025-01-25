@@ -292,6 +292,7 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
         {props.tasks.map(task => {
           return (
             <TaskItem
+              key={task.id}
               task={task}
               arrowIndent={stylingOptions.arrowIndent}
               taskHeight={props.taskHeight}
@@ -301,7 +302,6 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
               isDateChangeable={!!eventOptions.onDateChange && !task.isDisabled}
               isDelete={!task.isDisabled}
               onEventStart={handleBarEventStart}
-              key={task.id}
               isSelected={
                 !!props.selectedTask && task.id === props.selectedTask.id
               }
