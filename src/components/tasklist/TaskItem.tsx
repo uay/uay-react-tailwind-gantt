@@ -373,7 +373,7 @@ const Bar = (props: BarProps) => {
         }
       />
 
-      <g className="group-hover:visible">
+      <g className="invisible group-hover:visible">
         {props.isDateChangeable && (
           <g>
             {/* left */}
@@ -449,7 +449,7 @@ type BarProps = {
 const BarProgressHandle = (props: BarProgressHandleProps) => {
   return (
     <polygon
-      className="fill-gray-300 cursor-ew-resize opacity-0 invisible"
+      className="fill-gray-300 cursor-ew-resize"
       points={props.progressPoint}
       onMouseDown={props.onMouseDown}
     />
@@ -525,7 +525,7 @@ const BarDateHandle = (props: BarDateHandleProps) => {
       y={props.y}
       width={props.width}
       height={props.height}
-      className="fill-gray-300 cursor-ew-resize opacity-0 invisible"
+      className="fill-gray-300 cursor-ew-resize"
       ry={props.barCornerRadius}
       rx={props.barCornerRadius}
       onMouseDown={props.onMouseDown}
