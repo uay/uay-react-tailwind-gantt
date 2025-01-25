@@ -1,16 +1,14 @@
 import { type RefObject, useEffect, useState } from 'react';
 import { handleTaskBySVGMouseEvent } from '~/helpers/handleTaskBySVGMouseEvent';
 import type { BarMoveAction } from '~/model/BarMoveAction';
-import type { GanttContentMoveAction } from '~/model/GanttContentMoveAction';
 import type { BarTask } from '~/model/BarTask';
-import { isKeyboardEvent } from '~/helpers/isKeyboardEvent';
 import { Arrow } from '~/components/other/Arrow';
 import { TaskItem } from '~/components/tasklist/TaskItem';
 import type { GanttEvent } from '~/model/GanttEvent';
 import { useEventOptions } from '~/helpers/hooks/useEventOptions';
 import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
 import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
-import type { GanttEventType } from '~/types/GanttEventType';
+import type { OnGanttEventProps } from '~/model/OnGanttEventProps';
 
 export const TaskGanttContent = (props: TaskGanttContentProps) => {
   const displayOptions = useDisplayOptions();
@@ -165,35 +163,30 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
   /**
    * Method is Start point of task change
    */
-  const handleBarEventStart = async (
-    action: GanttContentMoveAction,
-    task: BarTask,
-    event?: GanttEventType,
-  ) => {
-    if (!event) {
-      if (action !== 'select') {
-        return;
-      }
+  const handleBarEventStart = async (e: OnGanttEventProps) => {
+    if (!e.action) {
+      return;
+    }
 
-      props.setSelectedTask(task.id);
+    if (e.action === 'select') {
+      props.setSelectedTask(e.task.id);
 
       return;
     }
 
-    // Keyboard events
-    if (isKeyboardEvent(event)) {
-      if (action !== 'delete' || !eventOptions.onDelete) {
+    if (e.action === 'delete') {
+      if (!eventOptions.onDelete) {
         return;
       }
 
       try {
-        const result = await eventOptions.onDelete(task);
+        const result = await eventOptions.onDelete(e.task);
 
         if (!result) {
           return;
         }
 
-        props.setGanttEvent({ action, changedTask: task });
+        props.setGanttEvent({ action: e.action, changedTask: e.task });
       } catch (error) {
         console.error('Error on Delete. ' + error);
       }
@@ -201,22 +194,21 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
       return;
     }
 
-    // Mouse Events
-    if (action === 'mouseenter') {
+    if (e.action === 'mouseenter') {
       if (props.ganttEvent.action) {
         return;
       }
 
       props.setGanttEvent({
-        action,
-        changedTask: task,
-        originalSelectedTask: task,
+        action: e.action,
+        changedTask: e.task,
+        originalSelectedTask: e.task,
       });
 
       return;
     }
 
-    if (action === 'mouseleave') {
+    if (e.action === 'mouseleave') {
       if (props.ganttEvent.action !== 'mouseenter') {
         return;
       }
@@ -226,45 +218,45 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
       return;
     }
 
-    if (action === 'dblclick') {
-      eventOptions.onDoubleClick?.(task);
+    if (e.action === 'dblclick') {
+      eventOptions.onDoubleClick?.(e.task);
 
       return;
     }
 
-    if (action === 'click') {
-      eventOptions.onClick?.(task);
+    if (e.action === 'click') {
+      eventOptions.onClick?.(e.task);
 
       return;
     }
 
     // Change task event start
-    if (action === 'move') {
+    if (e.action === 'move') {
       if (!props.svg?.current || !point) {
         return;
       }
 
-      point.x = event.clientX;
+      point.x = e.clientX || 0;
 
       const cursor = point.matrixTransform(
         props.svg.current.getScreenCTM()?.inverse(),
       );
 
-      setInitEventX1Delta(cursor.x - task.x1);
+      setInitEventX1Delta(cursor.x - e.task.x1);
 
       props.setGanttEvent({
-        action,
-        changedTask: task,
-        originalSelectedTask: task,
+        action: e.action,
+        changedTask: e.task,
+        originalSelectedTask: e.task,
       });
 
       return;
     }
 
     props.setGanttEvent({
-      action,
-      changedTask: task,
-      originalSelectedTask: task,
+      action: e.action,
+      changedTask: e.task,
+      originalSelectedTask: e.task,
     });
   };
 

@@ -1,10 +1,8 @@
-import type { ReactElement } from 'react';
+import type { MouseEventHandler, ReactElement } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import type { GanttContentMoveAction } from '~/model/GanttContentMoveAction';
 import type { BarTask } from '~/model/BarTask';
 import { getProgressPoint } from '~/helpers/getProgressPoint';
-import type { GanttEventType } from '~/types/GanttEventType';
-import type { GanttMouseEventType } from '~/types/GanttMouseEventType';
+import type { OnGanttEventProps } from '~/model/OnGanttEventProps';
 
 export const TaskItem = (props: TaskItemProps) => {
   const textRef = useRef<SVGTextElement>(null);
@@ -67,15 +65,63 @@ export const TaskItem = (props: TaskItemProps) => {
     <g
       onKeyDown={e => {
         if (e.key === 'Delete' && props.isDelete) {
-          props.onEventStart('delete', props.task, e);
+          props.onEventStart({
+            action: 'delete',
+            task: props.task,
+            preventDefault: e.preventDefault,
+            stopPropagation: e.stopPropagation,
+          });
         }
         e.stopPropagation();
       }}
-      onMouseEnter={e => props.onEventStart('mouseenter', props.task, e)}
-      onMouseLeave={e => props.onEventStart('mouseleave', props.task, e)}
-      onDoubleClick={e => props.onEventStart('dblclick', props.task, e)}
-      onClick={e => props.onEventStart('click', props.task, e)}
-      onFocus={() => props.onEventStart('select', props.task)}
+      onMouseEnter={e =>
+        props.onEventStart({
+          action: 'mouseenter',
+          task: props.task,
+          preventDefault: e.preventDefault,
+          stopPropagation: e.stopPropagation,
+          clientX: e.clientX,
+          clientY: e.clientY,
+        })
+      }
+      onMouseLeave={e =>
+        props.onEventStart({
+          action: 'mouseenter',
+          task: props.task,
+          preventDefault: e.preventDefault,
+          stopPropagation: e.stopPropagation,
+          clientX: e.clientX,
+          clientY: e.clientY,
+        })
+      }
+      onDoubleClick={e =>
+        props.onEventStart({
+          action: 'mouseleave',
+          task: props.task,
+          preventDefault: e.preventDefault,
+          stopPropagation: e.stopPropagation,
+          clientX: e.clientX,
+          clientY: e.clientY,
+        })
+      }
+      onClick={e =>
+        props.onEventStart({
+          action: 'click',
+          task: props.task,
+          preventDefault: e.preventDefault,
+          stopPropagation: e.stopPropagation,
+          clientX: e.clientX,
+          clientY: e.clientY,
+        })
+      }
+      onFocus={e =>
+        props.onEventStart({
+          action: 'select',
+          task: props.task,
+          preventDefault: e.preventDefault,
+          stopPropagation: e.stopPropagation,
+        })
+      }
     >
       {taskItem}
       <text
@@ -104,11 +150,7 @@ type TaskItemProps = {
   readonly isDelete: boolean;
   readonly isSelected: boolean;
   readonly rtl: boolean;
-  readonly onEventStart: (
-    action: GanttContentMoveAction,
-    selectedTask: BarTask,
-    event?: GanttEventType,
-  ) => any;
+  readonly onEventStart: (props: OnGanttEventProps) => any;
 };
 
 const Milestone = (props: MilestoneProps) => {
@@ -134,9 +176,16 @@ const Milestone = (props: MilestoneProps) => {
         ry={props.task.barCornerRadius}
         transform={transform}
         className="select-none"
-        onMouseDown={e => {
-          props.isDateChangeable && props.onEventStart('move', props.task, e);
-        }}
+        onMouseDown={e =>
+          props.onEventStart({
+            action: 'move',
+            task: props.task,
+            preventDefault: e.preventDefault,
+            stopPropagation: e.stopPropagation,
+            clientX: e.clientX,
+            clientY: e.clientY,
+          })
+        }
       />
     </g>
   );
@@ -151,11 +200,7 @@ type MilestoneProps = {
   readonly isDelete: boolean;
   readonly isSelected: boolean;
   readonly rtl: boolean;
-  readonly onEventStart: (
-    action: GanttContentMoveAction,
-    selectedTask: BarTask,
-    event?: GanttEventType,
-  ) => any;
+  readonly onEventStart: (props: OnGanttEventProps) => any;
 };
 
 const Project = (props: ProjectProps) => {
@@ -238,11 +283,7 @@ type ProjectProps = {
   readonly isDelete: boolean;
   readonly isSelected: boolean;
   readonly rtl: boolean;
-  readonly onEventStart: (
-    action: GanttContentMoveAction,
-    selectedTask: BarTask,
-    event?: GanttEventType,
-  ) => any;
+  readonly onEventStart: (props: OnGanttEventProps) => any;
 };
 
 const BarSmall = (props: BarSmallProps) => {
@@ -264,17 +305,31 @@ const BarSmall = (props: BarSmallProps) => {
         barCornerRadius={props.task.barCornerRadius}
         styles={props.task.styles}
         isSelected={props.isSelected}
-        onMouseDown={e => {
-          props.isDateChangeable && props.onEventStart('move', props.task, e);
-        }}
+        onMouseDown={e =>
+          props.onEventStart({
+            action: 'move',
+            task: props.task,
+            preventDefault: e.preventDefault,
+            stopPropagation: e.stopPropagation,
+            clientX: e.clientX,
+            clientY: e.clientY,
+          })
+        }
       />
       <g className="handleGroup">
         {props.isProgressChangeable && (
           <BarProgressHandle
             progressPoint={progressPoint}
-            onMouseDown={e => {
-              props.onEventStart('progress', props.task, e);
-            }}
+            onMouseDown={e =>
+              props.onEventStart({
+                action: 'progress',
+                task: props.task,
+                preventDefault: e.preventDefault,
+                stopPropagation: e.stopPropagation,
+                clientX: e.clientX,
+                clientY: e.clientY,
+              })
+            }
           />
         )}
       </g>
@@ -291,11 +346,7 @@ type BarSmallProps = {
   readonly isDelete: boolean;
   readonly isSelected: boolean;
   readonly rtl: boolean;
-  readonly onEventStart: (
-    action: GanttContentMoveAction,
-    selectedTask: BarTask,
-    event?: GanttEventType,
-  ) => any;
+  readonly onEventStart: (props: OnGanttEventProps) => any;
 };
 
 const Bar = (props: BarProps) => {
@@ -319,9 +370,16 @@ const Bar = (props: BarProps) => {
         barCornerRadius={props.task.barCornerRadius}
         styles={props.task.styles}
         isSelected={props.isSelected}
-        onMouseDown={e => {
-          props.isDateChangeable && props.onEventStart('move', props.task, e);
-        }}
+        onMouseDown={e =>
+          props.onEventStart({
+            action: 'move',
+            task: props.task,
+            preventDefault: e.preventDefault,
+            stopPropagation: e.stopPropagation,
+            clientX: e.clientX,
+            clientY: e.clientY,
+          })
+        }
       />
 
       <g className="group-hover:visible">
@@ -334,9 +392,16 @@ const Bar = (props: BarProps) => {
               width={props.task.handleWidth}
               height={handleHeight}
               barCornerRadius={props.task.barCornerRadius}
-              onMouseDown={e => {
-                props.onEventStart('start', props.task, e);
-              }}
+              onMouseDown={e =>
+                props.onEventStart({
+                  action: 'start',
+                  task: props.task,
+                  preventDefault: e.preventDefault,
+                  stopPropagation: e.stopPropagation,
+                  clientX: e.clientX,
+                  clientY: e.clientY,
+                })
+              }
             />
             {/* right */}
             <BarDateHandle
@@ -345,18 +410,32 @@ const Bar = (props: BarProps) => {
               width={props.task.handleWidth}
               height={handleHeight}
               barCornerRadius={props.task.barCornerRadius}
-              onMouseDown={e => {
-                props.onEventStart('end', props.task, e);
-              }}
+              onMouseDown={e =>
+                props.onEventStart({
+                  action: 'end',
+                  task: props.task,
+                  preventDefault: e.preventDefault,
+                  stopPropagation: e.stopPropagation,
+                  clientX: e.clientX,
+                  clientY: e.clientY,
+                })
+              }
             />
           </g>
         )}
         {props.isProgressChangeable && (
           <BarProgressHandle
             progressPoint={progressPoint}
-            onMouseDown={e => {
-              props.onEventStart('progress', props.task, e);
-            }}
+            onMouseDown={e =>
+              props.onEventStart({
+                action: 'progress',
+                task: props.task,
+                preventDefault: e.preventDefault,
+                stopPropagation: e.stopPropagation,
+                clientX: e.clientX,
+                clientY: e.clientY,
+              })
+            }
           />
         )}
       </g>
@@ -373,11 +452,7 @@ type BarProps = {
   readonly isDelete: boolean;
   readonly isSelected: boolean;
   readonly rtl: boolean;
-  readonly onEventStart: (
-    action: GanttContentMoveAction,
-    selectedTask: BarTask,
-    event?: GanttEventType,
-  ) => any;
+  readonly onEventStart: (props: OnGanttEventProps) => any;
 };
 
 const BarProgressHandle = (props: BarProgressHandleProps) => {
@@ -392,7 +467,7 @@ const BarProgressHandle = (props: BarProgressHandleProps) => {
 
 type BarProgressHandleProps = {
   readonly progressPoint: string;
-  readonly onMouseDown: (event: GanttMouseEventType) => void;
+  readonly onMouseDown: MouseEventHandler;
 };
 
 const BarDisplay = (props: BarDisplayProps) => {
@@ -449,7 +524,7 @@ type BarDisplayProps = {
     readonly progressColor: string;
     readonly progressSelectedColor: string;
   };
-  readonly onMouseDown: (event: GanttMouseEventType) => void;
+  readonly onMouseDown: MouseEventHandler;
 };
 
 const BarDateHandle = (props: BarDateHandleProps) => {
@@ -473,5 +548,5 @@ type BarDateHandleProps = {
   readonly width: number;
   readonly height: number;
   readonly barCornerRadius: number;
-  readonly onMouseDown: (event: GanttMouseEventType) => void;
+  readonly onMouseDown: MouseEventHandler;
 };
