@@ -10,6 +10,7 @@ import type { GanttEvent } from '~/model/GanttEvent';
 import { useEventOptions } from '~/helpers/hooks/useEventOptions';
 import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
 import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
+import type { GanttEventType } from '~/types/GanttEventType';
 
 export const TaskGanttContent = (props: TaskGanttContentProps) => {
   const displayOptions = useDisplayOptions();
@@ -167,7 +168,7 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
   const handleBarEventStart = async (
     action: GanttContentMoveAction,
     task: BarTask,
-    event?: MouseEvent | KeyboardEvent,
+    event?: GanttEventType,
   ) => {
     if (!event) {
       if (action !== 'select') {
@@ -299,7 +300,7 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
               }
               isDateChangeable={!!eventOptions.onDateChange && !task.isDisabled}
               isDelete={!task.isDisabled}
-              onEventStart={handleBarEventStart as any} // FIXME: Type issue
+              onEventStart={handleBarEventStart}
               key={task.id}
               isSelected={
                 !!props.selectedTask && task.id === props.selectedTask.id

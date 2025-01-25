@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import type { GanttContentMoveAction } from '~/model/GanttContentMoveAction';
 import type { BarTask } from '~/model/BarTask';
 import { getProgressPoint } from '~/helpers/getProgressPoint';
+import type { GanttEventType } from '~/types/GanttEventType';
+import type { GanttMouseEventType } from '~/types/GanttMouseEventType';
 
 export const TaskItem = (props: TaskItemProps) => {
   const textRef = useRef<SVGTextElement>(null);
@@ -105,7 +107,7 @@ type TaskItemProps = {
   readonly onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent,
+    event?: GanttEventType,
   ) => any;
 };
 
@@ -152,7 +154,7 @@ type MilestoneProps = {
   readonly onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent,
+    event?: GanttEventType,
   ) => any;
 };
 
@@ -239,7 +241,7 @@ type ProjectProps = {
   readonly onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent,
+    event?: GanttEventType,
   ) => any;
 };
 
@@ -292,7 +294,7 @@ type BarSmallProps = {
   readonly onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent,
+    event?: GanttEventType,
   ) => any;
 };
 
@@ -374,7 +376,7 @@ type BarProps = {
   readonly onEventStart: (
     action: GanttContentMoveAction,
     selectedTask: BarTask,
-    event?: React.MouseEvent | React.KeyboardEvent,
+    event?: GanttEventType,
   ) => any;
 };
 
@@ -390,9 +392,7 @@ const BarProgressHandle = (props: BarProgressHandleProps) => {
 
 type BarProgressHandleProps = {
   readonly progressPoint: string;
-  readonly onMouseDown: (
-    event: React.MouseEvent<SVGPolygonElement, MouseEvent>,
-  ) => void;
+  readonly onMouseDown: (event: GanttMouseEventType) => void;
 };
 
 const BarDisplay = (props: BarDisplayProps) => {
@@ -449,9 +449,7 @@ type BarDisplayProps = {
     readonly progressColor: string;
     readonly progressSelectedColor: string;
   };
-  readonly onMouseDown: (
-    event: React.MouseEvent<SVGPolygonElement, MouseEvent>,
-  ) => void;
+  readonly onMouseDown: (event: GanttMouseEventType) => void;
 };
 
 const BarDateHandle = (props: BarDateHandleProps) => {
@@ -475,7 +473,5 @@ type BarDateHandleProps = {
   readonly width: number;
   readonly height: number;
   readonly barCornerRadius: number;
-  readonly onMouseDown: (
-    event: React.MouseEvent<SVGRectElement, MouseEvent>,
-  ) => void;
+  readonly onMouseDown: (event: GanttMouseEventType) => void;
 };
