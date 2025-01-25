@@ -230,20 +230,7 @@ const Project = (props: ProjectProps) => {
   ].join(',');
 
   return (
-    <g
-      tabIndex={0}
-      className="cursor-pointer outline-none"
-      onMouseDown={e =>
-        props.onEventStart({
-          action: 'move',
-          task: props.task,
-          preventDefault: e.preventDefault,
-          stopPropagation: e.stopPropagation,
-          clientX: e.clientX,
-          clientY: e.clientY,
-        })
-      }
-    >
+    <g tabIndex={0} className="cursor-pointer outline-none">
       <rect
         fill={barColor}
         x={props.task.x1}
@@ -296,7 +283,6 @@ type ProjectProps = {
   readonly isDelete: boolean;
   readonly isSelected: boolean;
   readonly rtl: boolean;
-  readonly onEventStart: (props: OnGanttEventProps) => any;
 };
 
 const BarSmall = (props: BarSmallProps) => {
