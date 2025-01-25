@@ -103,8 +103,8 @@ export const App = () => {
             columnWidth: columnWidth,
           }}
           eventOptions={{
-            onTaskChange: handleTaskChange,
-            onTaskDelete: handleTaskDelete,
+            onDateChange: handleTaskChange,
+            onDelete: handleTaskDelete,
             onProgressChange: handleProgressChange,
             onDoubleClick: handleDblClick,
             onClick: handleClick,
@@ -124,8 +124,8 @@ export const App = () => {
             columnWidth: columnWidth,
           }}
           eventOptions={{
-            onTaskChange: handleTaskChange,
-            onTaskDelete: handleTaskDelete,
+            onDateChange: handleTaskChange,
+            onDelete: handleTaskDelete,
             onProgressChange: handleProgressChange,
             onDoubleClick: handleDblClick,
             onClick: handleClick,
