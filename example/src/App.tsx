@@ -21,22 +21,35 @@ export const App = () => {
   }
 
   const handleTaskChange = (task: Task) => {
-    console.log('On date change Id:' + task.id);
-    let newTasks = tasks.map(t => (t.id === task.id ? task : t));
-    if (task.project) {
-      const [start, end] = getStartEndDateForProject(newTasks, task.project);
-      const project = newTasks[newTasks.findIndex(t => t.id === task.project)];
-      if (
-        project.start.getTime() !== start.getTime() ||
-        project.end.getTime() !== end.getTime()
-      ) {
-        const changedProject = { ...project, start, end };
-        newTasks = newTasks.map(t =>
-          t.id === task.project ? changedProject : t,
-        );
-      }
+    console.log('handleTaskChange:', task.id, task.project);
+
+    const newTasks: Task[] = tasks.map(t => (t.id === task.id ? task : t));
+
+    if (!task.project) {
+      setTasks(newTasks);
+
+      return;
     }
-    setTasks(newTasks);
+
+    const [start, end] = getStartEndDateForProject(newTasks, task.project);
+
+    const project = newTasks[newTasks.findIndex(t => t.id === task.project)];
+
+    if (project.start?.getTime() === start && project.end?.getTime() === end) {
+      setTasks(newTasks);
+
+      return;
+    }
+
+    const changedProject: Task = {
+      ...project,
+      start: new Date(start),
+      end: new Date(end),
+    };
+
+    setTasks(newTasks.map(t =>
+      t.id === task.project ? changedProject : t,
+    ));
   };
 
   const handleTaskDelete = (task: Task) => {
@@ -83,7 +96,7 @@ export const App = () => {
         <Gantt
           tasks={tasks}
           displayOptions={{
-            viewMode: view
+            viewMode: view,
           }}
           stylingOptions={{
             listCellWidth: isChecked ? '155px' : '',
@@ -103,7 +116,7 @@ export const App = () => {
         <Gantt
           tasks={tasks}
           displayOptions={{
-            viewMode: view
+            viewMode: view,
           }}
           stylingOptions={{
             ganttHeight: 300,
