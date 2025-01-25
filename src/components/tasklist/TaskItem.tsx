@@ -61,8 +61,6 @@ export const TaskItem = (props: TaskItemProps) => {
     }
   };
 
-  console.log('DEBUG', props.task.y, props.taskHeight);
-
   return (
     <g
       onKeyDown={e => {
