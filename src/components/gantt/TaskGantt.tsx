@@ -17,15 +17,15 @@ export const TaskGantt = (props: TaskGanttProps) => {
 
   useEffect(() => {
     if (horizontalContainerRef.current) {
-      horizontalContainerRef.current.scrollTop = scrollY;
+      horizontalContainerRef.current.scrollTop = props.scrollY;
     }
-  }, [scrollY]);
+  }, [props.scrollY]);
 
   useEffect(() => {
     if (verticalGanttContainerRef.current) {
-      verticalGanttContainerRef.current.scrollLeft = scrollX;
+      verticalGanttContainerRef.current.scrollLeft = props.scrollX;
     }
-  }, [scrollX]);
+  }, [props.scrollX]);
 
   return (
     <div
