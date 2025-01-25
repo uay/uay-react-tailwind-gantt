@@ -168,12 +168,6 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
       return;
     }
 
-    if (e.action === 'select') {
-      props.setSelectedTask(e.task.id);
-
-      return;
-    }
-
     if (e.action === 'delete') {
       if (!eventOptions.onDelete) {
         return;
@@ -225,6 +219,8 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
     }
 
     if (e.action === 'click') {
+      props.setSelectedTask(e.task.id);
+
       eventOptions.onClick?.(e.task);
 
       return;

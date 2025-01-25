@@ -86,7 +86,7 @@ export const Tooltip = (props: TooltipProps) => {
     <div
       ref={tooltipRef}
       className={`absolute flex pointer-events-none select-none ${
-        relatedX ? 'visible' : 'invisible'
+        relatedX ? '' : 'hidden'
       }`}
       style={{ left: relatedX, top: relatedY }}
     >

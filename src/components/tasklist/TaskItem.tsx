@@ -114,14 +114,6 @@ export const TaskItem = (props: TaskItemProps) => {
           clientY: e.clientY,
         })
       }
-      onFocus={e =>
-        props.onEventStart({
-          action: 'select',
-          task: props.task,
-          preventDefault: e.preventDefault,
-          stopPropagation: e.stopPropagation,
-        })
-      }
     >
       {taskItem}
       <text

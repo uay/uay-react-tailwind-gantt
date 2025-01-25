@@ -63,7 +63,9 @@ export const GanttRoot = () => {
     [stylingOptions.rowHeight, stylingOptions.barFill],
   );
 
-  const [selectedTask, setSelectedTask] = useState<BarTask>();
+  const [selectedTask, setSelectedTask] = useState<BarTask | undefined>(
+    undefined,
+  );
   const [failedTask, setFailedTask] = useState<BarTask | null>(null);
 
   const svgWidth = dateSetup.dates.length * stylingOptions.columnWidth;
@@ -361,10 +363,21 @@ export const GanttRoot = () => {
    * Task select event
    */
   const handleSelectedTask = (taskId: string) => {
+    if (selectedTask?.id === taskId) {
+      setSelectedTask(undefined);
+
+      if (eventOptions.onSelect) {
+        eventOptions.onSelect(selectedTask, false);
+      }
+
+      return;
+    }
+
     const newSelectedTask = barTasks.find(t => t.id === taskId);
     const oldSelectedTask = barTasks.find(
       t => !!selectedTask && t.id === selectedTask.id,
     );
+
     if (eventOptions.onSelect) {
       if (oldSelectedTask && oldSelectedTask.id !== newSelectedTask?.id) {
         eventOptions.onSelect(oldSelectedTask, false);
@@ -373,6 +386,7 @@ export const GanttRoot = () => {
         eventOptions.onSelect(newSelectedTask, true);
       }
     }
+
     setSelectedTask(newSelectedTask);
   };
   const handleExpanderClick = (task: Task) => {
@@ -426,17 +440,17 @@ export const GanttRoot = () => {
           scrollY={scrollY}
           scrollX={scrollX}
         />
-        {ganttEvent.changedTask && (
+        {selectedTask ? (
           <Tooltip
             svgContainerHeight={svgContainerHeight!}
             svgContainerWidth={svgContainerWidth}
             scrollX={scrollX}
             scrollY={scrollY}
-            task={ganttEvent.changedTask}
+            task={selectedTask}
             taskListWidth={taskListWidth}
             svgWidth={svgWidth}
           />
-        )}
+        ) : null}
         <VerticalScroll
           ganttFullHeight={ganttFullHeight}
           scroll={scrollY}
