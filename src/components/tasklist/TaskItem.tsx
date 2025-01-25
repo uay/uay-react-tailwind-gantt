@@ -230,7 +230,20 @@ const Project = (props: ProjectProps) => {
   ].join(',');
 
   return (
-    <g tabIndex={0} className="cursor-pointer outline-none">
+    <g
+      tabIndex={0}
+      className="cursor-pointer outline-none"
+      onMouseDown={e =>
+        props.onEventStart({
+          action: 'move',
+          task: props.task,
+          preventDefault: e.preventDefault,
+          stopPropagation: e.stopPropagation,
+          clientX: e.clientX,
+          clientY: e.clientY,
+        })
+      }
+    >
       <rect
         fill={barColor}
         x={props.task.x1}
