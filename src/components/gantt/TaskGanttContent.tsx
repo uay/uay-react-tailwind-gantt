@@ -170,45 +170,75 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
     event?: MouseEvent | KeyboardEvent,
   ) => {
     if (!event) {
-      if (action === 'select') {
-        props.setSelectedTask(task.id);
+      if (action !== 'select') {
+        return;
       }
+
+      props.setSelectedTask(task.id);
+
+      return;
     }
+
     // Keyboard events
-    else if (isKeyboardEvent(event)) {
-      if (action === 'delete') {
-        if (eventOptions.onDelete) {
-          try {
-            const result = await eventOptions.onDelete(task);
-            if (result !== undefined && result) {
-              props.setGanttEvent({ action, changedTask: task });
-            }
-          } catch (error) {
-            console.error('Error on Delete. ' + error);
-          }
+    if (isKeyboardEvent(event)) {
+      if (action !== 'delete' || !eventOptions.onDelete) {
+        return;
+      }
+
+      try {
+        const result = await eventOptions.onDelete(task);
+
+        if (!result) {
+          return;
         }
+
+        props.setGanttEvent({ action, changedTask: task });
+      } catch (error) {
+        console.error('Error on Delete. ' + error);
       }
+
+      return;
     }
+
     // Mouse Events
-    else if (action === 'mouseenter') {
-      if (!props.ganttEvent.action) {
-        props.setGanttEvent({
-          action,
-          changedTask: task,
-          originalSelectedTask: task,
-        });
+    if (action === 'mouseenter') {
+      if (props.ganttEvent.action) {
+        return;
       }
-    } else if (action === 'mouseleave') {
-      if (props.ganttEvent.action === 'mouseenter') {
-        props.setGanttEvent({ action: '' });
-      }
-    } else if (action === 'dblclick') {
-      !!eventOptions.onDoubleClick && eventOptions.onDoubleClick(task);
-    } else if (action === 'click') {
-      !!eventOptions.onClick && eventOptions.onClick(task);
+
+      props.setGanttEvent({
+        action,
+        changedTask: task,
+        originalSelectedTask: task,
+      });
+
+      return;
     }
+
+    if (action === 'mouseleave') {
+      if (props.ganttEvent.action !== 'mouseenter') {
+        return;
+      }
+
+      props.setGanttEvent({ action: '' });
+
+      return;
+    }
+
+    if (action === 'dblclick') {
+      eventOptions.onDoubleClick?.(task);
+
+      return;
+    }
+
+    if (action === 'click') {
+      eventOptions.onClick?.(task);
+
+      return;
+    }
+
     // Change task event start
-    else if (action === 'move') {
+    if (action === 'move') {
       if (!props.svg?.current || !point) return;
       point.x = event.clientX;
       const cursor = point.matrixTransform(
@@ -220,13 +250,15 @@ export const TaskGanttContent = (props: TaskGanttContentProps) => {
         changedTask: task,
         originalSelectedTask: task,
       });
-    } else {
-      props.setGanttEvent({
-        action,
-        changedTask: task,
-        originalSelectedTask: task,
-      });
+
+      return;
     }
+
+    props.setGanttEvent({
+      action,
+      changedTask: task,
+      originalSelectedTask: task,
+    });
   };
 
   return (
