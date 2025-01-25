@@ -4,10 +4,17 @@ import typescript from '@rollup/plugin-typescript';
 import alias from '@rollup/plugin-alias';
 import { builtinModules } from 'module';
 import * as fs from 'fs';
-import path from 'path';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
 
-const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
-const tsconfig = JSON.parse(fs.readFileSync('./tsconfig.json', 'utf8'));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const packageJson = JSON.parse(
+  fs.readFileSync(`${__dirname}/package.json`, 'utf8'),
+);
+const tsconfig = JSON.parse(
+  fs.readFileSync(`${__dirname}/tsconfig.json`, 'utf8'),
+);
 
 const peerDependencies = packageJson.peerDependencies || {};
 
@@ -50,7 +57,9 @@ export default {
         const resolvedPath = path.resolve(process.cwd(), targetPath);
 
         if (!fs.existsSync(resolvedPath)) {
-          throw new Error(`Path does not exist: ${resolvedPath} (${key}, ${value})`);
+          throw new Error(
+            `Path does not exist: ${resolvedPath} (${key}, ${value})`,
+          );
         }
 
         return {

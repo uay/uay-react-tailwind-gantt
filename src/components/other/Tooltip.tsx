@@ -1,23 +1,13 @@
-import { useRef, useEffect, useState } from 'react';
-import type { ReactNode } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { BarTask } from '~/model/BarTask';
-import type { Task } from '~/model/public/Task';
+import { StandardTooltipContent } from '~/components/other/StandardTooltipContent';
+import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
 
-export const Tooltip = ({
-  task,
-  rowHeight,
-  rtl,
-  svgContainerHeight,
-  svgContainerWidth,
-  scrollX,
-  scrollY,
-  arrowIndent,
-  fontSize,
-  fontFamily,
-  headerHeight,
-  taskListWidth,
-  TooltipContent,
-}: TooltipProps) => {
+export const Tooltip = (props: TooltipProps) => {
+  const display = useDisplayOptions();
+  const styling = useStylingOptions();
+
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [relatedY, setRelatedY] = useState(0);
   const [relatedX, setRelatedX] = useState(0);
@@ -27,87 +17,90 @@ export const Tooltip = ({
       const tooltipHeight = tooltipRef.current.offsetHeight * 1.1;
       const tooltipWidth = tooltipRef.current.offsetWidth * 1.1;
 
-      let newRelatedY = task.index * rowHeight - scrollY + headerHeight;
+      let newRelatedY =
+        props.task.index * styling.rowHeight -
+        props.scrollY +
+        styling.headerHeight;
       let newRelatedX: number;
-      if (rtl) {
-        newRelatedX = task.x1 - arrowIndent * 1.5 - tooltipWidth - scrollX;
+
+      if (display.rtl) {
+        newRelatedX =
+          props.task.x1 -
+          styling.arrowIndent * 1.5 -
+          tooltipWidth -
+          props.scrollX;
         if (newRelatedX < 0) {
-          newRelatedX = task.x2 + arrowIndent * 1.5 - scrollX;
+          newRelatedX =
+            props.task.x2 + styling.arrowIndent * 1.5 - props.scrollX;
         }
         const tooltipLeftmostPoint = tooltipWidth + newRelatedX;
-        if (tooltipLeftmostPoint > svgContainerWidth) {
-          newRelatedX = svgContainerWidth - tooltipWidth;
-          newRelatedY += rowHeight;
+        if (tooltipLeftmostPoint > props.svgContainerWidth) {
+          newRelatedX = props.svgContainerWidth - tooltipWidth;
+          newRelatedY += styling.rowHeight;
         }
       } else {
-        newRelatedX = task.x2 + arrowIndent * 1.5 + taskListWidth - scrollX;
+        newRelatedX =
+          props.task.x2 +
+          styling.arrowIndent * 1.5 +
+          props.taskListWidth -
+          props.scrollX;
         const tooltipLeftmostPoint = tooltipWidth + newRelatedX;
-        const fullChartWidth = taskListWidth + svgContainerWidth;
+        const fullChartWidth = props.taskListWidth + props.svgContainerWidth;
         if (tooltipLeftmostPoint > fullChartWidth) {
           newRelatedX =
-            task.x1 +
-            taskListWidth -
-            arrowIndent * 1.5 -
-            scrollX -
+            props.task.x1 +
+            props.taskListWidth -
+            styling.arrowIndent * 1.5 -
+            props.scrollX -
             tooltipWidth;
         }
-        if (newRelatedX < taskListWidth) {
-          newRelatedX = svgContainerWidth + taskListWidth - tooltipWidth;
-          newRelatedY += rowHeight;
+        if (newRelatedX < props.taskListWidth) {
+          newRelatedX =
+            props.svgContainerWidth + props.taskListWidth - tooltipWidth;
+          newRelatedY += styling.rowHeight;
         }
       }
 
-      const tooltipLowerPoint = tooltipHeight + newRelatedY - scrollY;
-      if (tooltipLowerPoint > svgContainerHeight - scrollY) {
-        newRelatedY = svgContainerHeight - tooltipHeight;
+      const tooltipLowerPoint = tooltipHeight + newRelatedY - props.scrollY;
+      if (tooltipLowerPoint > props.svgContainerHeight - props.scrollY) {
+        newRelatedY = props.svgContainerHeight - tooltipHeight;
       }
       setRelatedY(newRelatedY);
       setRelatedX(newRelatedX);
     }
   }, [
     tooltipRef,
-    task,
-    arrowIndent,
-    scrollX,
-    scrollY,
-    headerHeight,
-    taskListWidth,
-    rowHeight,
-    svgContainerHeight,
-    svgContainerWidth,
-    rtl,
+    props.task,
+    styling.arrowIndent,
+    props.scrollX,
+    props.scrollY,
+    styling.headerHeight,
+    props.taskListWidth,
+    styling.rowHeight,
+    props.svgContainerHeight,
+    props.svgContainerWidth,
+    display.rtl,
   ]);
 
   return (
     <div
       ref={tooltipRef}
       className={`absolute flex pointer-events-none select-none ${
-        relatedX ? 'visible' : 'invisible'
+        relatedX ? '' : 'hidden'
       }`}
       style={{ left: relatedX, top: relatedY }}
     >
-      <TooltipContent task={task} fontSize={fontSize} fontFamily={fontFamily} />
+      <StandardTooltipContent task={props.task} />
     </div>
   );
 };
 
 type TooltipProps = {
   readonly task: BarTask;
-  readonly arrowIndent: number;
-  readonly rtl: boolean;
   readonly svgContainerHeight: number;
   readonly svgContainerWidth: number;
   readonly svgWidth: number;
-  readonly headerHeight: number;
   readonly taskListWidth: number;
   readonly scrollX: number;
   readonly scrollY: number;
-  readonly rowHeight: number;
-  readonly fontSize: string;
-  readonly fontFamily: string;
-  readonly TooltipContent: (props: {
-    readonly task: Task;
-    readonly fontSize: string;
-    readonly fontFamily: string;
-  }) => ReactNode;
 };

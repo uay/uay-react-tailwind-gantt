@@ -1,34 +1,13 @@
 import type { ReactNode } from 'react';
 import type { Task } from '~/model/public/Task';
 import { addToDate } from '~/helpers/date/addToDate';
+import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
 
 export const Grid = (props: GridProps) => {
-  return (
-    <g className="grid">
-      <GridBody {...props} />
-    </g>
-  );
-};
+  const display = useDisplayOptions();
+  const styling = useStylingOptions();
 
-type GridProps = {
-  readonly tasks: Task[];
-  readonly dates: Date[];
-  readonly svgWidth: number;
-  readonly rowHeight: number;
-  readonly columnWidth: number;
-  readonly todayColor: string;
-  readonly rtl: boolean;
-};
-
-const GridBody = ({
-  tasks,
-  dates,
-  rowHeight,
-  svgWidth,
-  columnWidth,
-  todayColor,
-  rtl,
-}: GridBodyProps) => {
   let y = 0;
   const gridRows: ReactNode[] = [];
   const rowLines: ReactNode[] = [
@@ -36,42 +15,44 @@ const GridBody = ({
       key="RowLineFirst"
       x="0"
       y1={0}
-      x2={svgWidth}
+      x2={props.svgWidth}
       y2={0}
       className="stroke-gray-200"
     />,
   ];
 
-  for (const task of tasks) {
+  for (const task of props.tasks) {
     gridRows.push(
       <rect
         key={'Row' + task.id}
         x="0"
         y={y}
-        width={svgWidth}
-        height={rowHeight}
-        className={y % (2 * rowHeight) === 0 ? 'fill-white' : 'fill-gray-100'}
+        width={props.svgWidth}
+        height={styling.rowHeight}
+        className={
+          y % (2 * styling.rowHeight) === 0 ? 'fill-white' : 'fill-gray-100'
+        }
       />,
     );
     rowLines.push(
       <line
         key={'RowLine' + task.id}
         x="0"
-        y1={y + rowHeight}
-        x2={svgWidth}
-        y2={y + rowHeight}
+        y1={y + styling.rowHeight}
+        x2={props.svgWidth}
+        y2={y + styling.rowHeight}
         className="stroke-gray-200"
       />,
     );
-    y += rowHeight;
+    y += styling.rowHeight;
   }
 
   const now = new Date();
   let tickX = 0;
   const ticks: ReactNode[] = [];
   let today: ReactNode = <rect />;
-  for (let i = 0; i < dates.length; i++) {
-    const date = dates[i];
+  for (let i = 0; i < props.dates.length; i++) {
+    const date = props.dates[i];
     ticks.push(
       <line
         key={date.getTime()}
@@ -84,15 +65,15 @@ const GridBody = ({
     );
 
     if (
-      (i + 1 !== dates.length &&
+      (i + 1 !== props.dates.length &&
         date.getTime() < now.getTime() &&
-        dates[i + 1].getTime() >= now.getTime()) ||
+        props.dates[i + 1].getTime() >= now.getTime()) ||
       (i !== 0 &&
-        i + 1 === dates.length &&
+        i + 1 === props.dates.length &&
         date.getTime() < now.getTime() &&
         addToDate(
           date,
-          date.getTime() - dates[i - 1].getTime(),
+          date.getTime() - props.dates[i - 1].getTime(),
           'millisecond',
         ).getTime() >= now.getTime())
     ) {
@@ -100,48 +81,46 @@ const GridBody = ({
         <rect
           x={tickX}
           y={0}
-          width={columnWidth}
+          width={styling.columnWidth}
           height={y}
-          fill={todayColor}
+          fill={styling.todayColor}
         />
       );
     }
-    // rtl for today
+
     if (
-      rtl &&
-      i + 1 !== dates.length &&
+      display.rtl &&
+      i + 1 !== props.dates.length &&
       date.getTime() >= now.getTime() &&
-      dates[i + 1].getTime() < now.getTime()
+      props.dates[i + 1].getTime() < now.getTime()
     ) {
       today = (
         <rect
-          x={tickX + columnWidth}
+          x={tickX + styling.columnWidth}
           y={0}
-          width={columnWidth}
+          width={styling.columnWidth}
           height={y}
-          fill={todayColor}
+          fill={styling.todayColor}
         />
       );
     }
-    tickX += columnWidth;
+    tickX += styling.columnWidth;
   }
 
   return (
-    <g className="gridBody">
-      <g className="rows">{gridRows}</g>
-      <g className="rowLines">{rowLines}</g>
-      <g className="ticks">{ticks}</g>
-      <g className="today">{today}</g>
+    <g className="grid">
+      <g className="gridBody">
+        <g className="rows">{gridRows}</g>
+        <g className="rowLines">{rowLines}</g>
+        <g className="ticks">{ticks}</g>
+        <g className="today">{today}</g>
+      </g>
     </g>
   );
 };
 
-type GridBodyProps = {
+type GridProps = {
   readonly tasks: Task[];
   readonly dates: Date[];
   readonly svgWidth: number;
-  readonly rowHeight: number;
-  readonly columnWidth: number;
-  readonly todayColor: string;
-  readonly rtl: boolean;
 };

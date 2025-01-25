@@ -1,22 +1,26 @@
 import type { Task } from '~/model/public/Task';
 
-export interface EventOption {
+export interface EventOptions {
   /**
    * Time step value for date changes.
    */
-  readonly timeStep?: number;
+  readonly timeStep: number;
+
   /**
    * Invokes on bar select on unselect.
    */
   readonly onSelect?: (task: Task, isSelected: boolean) => void;
+
   /**
    * Invokes on bar double click.
    */
   readonly onDoubleClick?: (task: Task) => void;
+
   /**
    * Invokes on bar click.
    */
   readonly onClick?: (task: Task) => void;
+
   /**
    * Invokes on end and start time change. Chart undoes operation if method return false or error.
    */
@@ -24,6 +28,7 @@ export interface EventOption {
     task: Task,
     children: Task[],
   ) => void | boolean | Promise<void> | Promise<boolean>;
+
   /**
    * Invokes on progress change. Chart undoes operation if method return false or error.
    */
@@ -31,12 +36,14 @@ export interface EventOption {
     task: Task,
     children: Task[],
   ) => void | boolean | Promise<void> | Promise<boolean>;
+
   /**
    * Invokes on delete selected task. Chart undoes operation if method return false or error.
    */
   readonly onDelete?: (
     task: Task,
   ) => void | boolean | Promise<void> | Promise<boolean>;
+
   /**
    * Invokes on expander on task list
    */

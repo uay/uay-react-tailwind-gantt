@@ -1,5 +1,5 @@
 import type { Task } from 'uay-react-tailwind-gantt';
-import { ViewMode, Gantt } from 'uay-react-tailwind-gantt';
+import { Gantt, ViewMode } from 'uay-react-tailwind-gantt';
 import { ViewSwitcher } from './components/ViewSwitcher';
 import { initTasks } from './helper/initTasks';
 import { getStartEndDateForProject } from './helper/getStartEndDateForProject';
@@ -21,22 +21,35 @@ export const App = () => {
   }
 
   const handleTaskChange = (task: Task) => {
-    console.log('On date change Id:' + task.id);
-    let newTasks = tasks.map(t => (t.id === task.id ? task : t));
-    if (task.project) {
-      const [start, end] = getStartEndDateForProject(newTasks, task.project);
-      const project = newTasks[newTasks.findIndex(t => t.id === task.project)];
-      if (
-        project.start.getTime() !== start.getTime() ||
-        project.end.getTime() !== end.getTime()
-      ) {
-        const changedProject = { ...project, start, end };
-        newTasks = newTasks.map(t =>
-          t.id === task.project ? changedProject : t,
-        );
-      }
+    console.log('handleTaskChange:', task.id, task.project);
+
+    const newTasks: Task[] = tasks.map(t => (t.id === task.id ? task : t));
+
+    if (!task.project) {
+      setTasks(newTasks);
+
+      return;
     }
-    setTasks(newTasks);
+
+    const [start, end] = getStartEndDateForProject(newTasks, task.project);
+
+    const project = newTasks[newTasks.findIndex(t => t.id === task.project)];
+
+    if (project.start?.getTime() === start && project.end?.getTime() === end) {
+      setTasks(newTasks);
+
+      return;
+    }
+
+    const changedProject: Task = {
+      ...project,
+      start: new Date(start),
+      end: new Date(end),
+    };
+
+    setTasks(newTasks.map(t =>
+      t.id === task.project ? changedProject : t,
+    ));
   };
 
   const handleTaskDelete = (task: Task) => {
@@ -71,42 +84,56 @@ export const App = () => {
 
   return (
     <div className="mb-8 flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">uay-react-tailwind-gantt-example</h1>
-      <ViewSwitcher
-        viewMode={view}
-        onViewModeChange={viewMode => setView(viewMode)}
-        onViewListChange={setIsChecked}
-        isChecked={isChecked}
-      />
-      <h2 className="text-xl font-bold">Gantt With Unlimited Height</h2>
-      <Gantt
-        tasks={tasks}
-        viewMode={view}
-        onDateChange={handleTaskChange}
-        onDelete={handleTaskDelete}
-        onProgressChange={handleProgressChange}
-        onDoubleClick={handleDblClick}
-        onClick={handleClick}
-        onSelect={handleSelect}
-        onExpanderClick={handleExpanderClick}
-        listCellWidth={isChecked ? '155px' : ''}
-        columnWidth={columnWidth}
-      />
-      <h2>Gantt With Limited Height</h2>
-      <Gantt
-        tasks={tasks}
-        viewMode={view}
-        onDateChange={handleTaskChange}
-        onDelete={handleTaskDelete}
-        onProgressChange={handleProgressChange}
-        onDoubleClick={handleDblClick}
-        onClick={handleClick}
-        onSelect={handleSelect}
-        onExpanderClick={handleExpanderClick}
-        listCellWidth={isChecked ? '155px' : ''}
-        ganttHeight={300}
-        columnWidth={columnWidth}
-      />
+      <div className="container mx-auto">
+        <h1 className="text-2xl font-bold">uay-react-tailwind-gantt-example</h1>
+        <ViewSwitcher
+          viewMode={view}
+          onViewModeChange={viewMode => setView(viewMode)}
+          onViewListChange={setIsChecked}
+          isChecked={isChecked}
+        />
+        <h2 className="text-xl font-bold">Gantt With Unlimited Height</h2>
+        <Gantt
+          tasks={tasks}
+          displayOptions={{
+            viewMode: view,
+          }}
+          stylingOptions={{
+            listCellWidth: isChecked ? '155px' : '',
+            columnWidth: columnWidth,
+          }}
+          eventOptions={{
+            onDateChange: handleTaskChange,
+            onDelete: handleTaskDelete,
+            onProgressChange: handleProgressChange,
+            onDoubleClick: handleDblClick,
+            onClick: handleClick,
+            onSelect: handleSelect,
+            onExpanderClick: handleExpanderClick,
+          }}
+        />
+        <h2>Gantt With Limited Height</h2>
+        <Gantt
+          tasks={tasks}
+          displayOptions={{
+            viewMode: view,
+          }}
+          stylingOptions={{
+            ganttHeight: 300,
+            listCellWidth: isChecked ? '155px' : '',
+            columnWidth: columnWidth,
+          }}
+          eventOptions={{
+            onDateChange: handleTaskChange,
+            onDelete: handleTaskDelete,
+            onProgressChange: handleProgressChange,
+            onDoubleClick: handleDblClick,
+            onClick: handleClick,
+            onSelect: handleSelect,
+            onExpanderClick: handleExpanderClick,
+          }}
+        />
+      </div>
     </div>
   );
 };

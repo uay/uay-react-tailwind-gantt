@@ -1,33 +1,24 @@
 import { useMemo } from 'react';
 import type { Task } from '~/model/public/Task';
+import { useDisplayOptions } from '~/helpers/hooks/useDisplayOptions';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
 
-export const TaskListTable = ({
-  rowHeight,
-  rowWidth,
-  tasks,
-  fontFamily,
-  fontSize,
-  locale,
-  onExpanderClick,
-}: TaskListTableDefaultProps) => {
+export const TaskListTable = (props: TaskListTableDefaultProps) => {
+  const displayOptions = useDisplayOptions();
+  const stylingOptions = useStylingOptions();
+
   const toLocaleDateString = useMemo(
-    () => toLocaleDateStringFactory(locale),
-    [locale],
+    () => toLocaleDateStringFactory(displayOptions.locale),
+    [displayOptions.locale],
   );
 
   return (
-    <div
-      className="table border-l border-b border-gray-200"
-      style={{
-        fontFamily: fontFamily,
-        fontSize: fontSize,
-      }}
-    >
-      {tasks.map((t, idx) => {
+    <div className="table border-l border-b border-gray-200">
+      {props.tasks.map((task, idx) => {
         let expanderSymbol = '';
-        if (t.hideChildren === false) {
+        if (task.hideChildren === false) {
           expanderSymbol = '▼';
-        } else if (t.hideChildren === true) {
+        } else if (task.hideChildren === true) {
           expanderSymbol = '▶';
         }
 
@@ -36,16 +27,16 @@ export const TaskListTable = ({
             className={`table-row text-ellipsis ${
               idx % 2 === 0 ? 'bg-gray-100' : ''
             }`}
-            style={{ height: rowHeight }}
-            key={`${t.id}row`}
+            style={{ height: stylingOptions.rowHeight }}
+            key={`${task.id}row`}
           >
             <div
               className="table-cell align-middle whitespace-nowrap overflow-hidden text-ellipsis"
               style={{
-                minWidth: rowWidth,
-                maxWidth: rowWidth,
+                minWidth: stylingOptions.listCellWidth,
+                maxWidth: stylingOptions.listCellWidth,
               }}
-              title={t.name}
+              title={task.name}
             >
               <div className="flex">
                 <div
@@ -54,30 +45,30 @@ export const TaskListTable = ({
                       ? 'text-gray-600 text-xs px-1 py-1 cursor-pointer select-none'
                       : 'text-xs pl-4 select-none'
                   }`}
-                  onClick={() => onExpanderClick(t)}
+                  onClick={() => props.onExpanderClick(task)}
                 >
                   {expanderSymbol}
                 </div>
-                <div>{t.name}</div>
+                <div>{task.name}</div>
               </div>
             </div>
             <div
               className="table-cell align-middle whitespace-nowrap overflow-hidden text-ellipsis"
               style={{
-                minWidth: rowWidth,
-                maxWidth: rowWidth,
+                minWidth: stylingOptions.listCellWidth,
+                maxWidth: stylingOptions.listCellWidth,
               }}
             >
-              &nbsp;{toLocaleDateString(t.start, dateTimeOptions)}
+              &nbsp;{toLocaleDateString(task.start, dateTimeOptions)}
             </div>
             <div
               className="table-cell align-middle whitespace-nowrap overflow-hidden text-ellipsis"
               style={{
-                minWidth: rowWidth,
-                maxWidth: rowWidth,
+                minWidth: stylingOptions.listCellWidth,
+                maxWidth: stylingOptions.listCellWidth,
               }}
             >
-              &nbsp;{toLocaleDateString(t.end, dateTimeOptions)}
+              &nbsp;{toLocaleDateString(task.end, dateTimeOptions)}
             </div>
           </div>
         );
@@ -87,11 +78,6 @@ export const TaskListTable = ({
 };
 
 type TaskListTableDefaultProps = {
-  readonly rowHeight: number;
-  readonly rowWidth: string;
-  readonly fontFamily: string;
-  readonly fontSize: string;
-  readonly locale: string;
   readonly tasks: Task[];
   readonly selectedTaskId: string;
   readonly setSelectedTask: (taskId: string) => void;

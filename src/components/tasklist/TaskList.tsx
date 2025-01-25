@@ -1,97 +1,53 @@
+import type { RefObject } from 'react';
 import { useEffect, useRef } from 'react';
-import type { ReactNode, RefObject } from 'react';
 import type { Task } from '~/model/public/Task';
 import type { BarTask } from '~/model/BarTask';
+import { useStylingOptions } from '~/helpers/hooks/useStylingOptions';
+import { TaskListHeader } from '~/components/tasklist/TaskListHeader';
+import { TaskListTable } from '~/components/tasklist/TaskListTable';
 
-export const TaskList = ({
-  headerHeight,
-  fontFamily,
-  fontSize,
-  rowWidth,
-  rowHeight,
-  scrollY,
-  tasks,
-  selectedTask,
-  setSelectedTask,
-  onExpanderClick,
-  locale,
-  ganttHeight,
-  taskListRef,
-  horizontalContainerClass,
-  TaskListHeader,
-  TaskListTable,
-}: TaskListProps) => {
+export const TaskList = (props: TaskListProps) => {
+  const stylingOptions = useStylingOptions();
+
   const horizontalContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (horizontalContainerRef.current) {
-      horizontalContainerRef.current.scrollTop = scrollY;
+      horizontalContainerRef.current.scrollTop = props.scrollY;
     }
-  }, [scrollY]);
+  }, [props.scrollY]);
 
-  const headerProps = {
-    headerHeight,
-    fontFamily,
-    fontSize,
-    rowWidth,
-  };
-  const selectedTaskId = selectedTask ? selectedTask.id : '';
-  const tableProps = {
-    rowHeight,
-    rowWidth,
-    fontFamily,
-    fontSize,
-    tasks,
-    locale,
-    selectedTaskId: selectedTaskId,
-    setSelectedTask,
-    onExpanderClick,
-  };
+  const selectedTaskId = props.selectedTask ? props.selectedTask.id : '';
 
   return (
-    <div ref={taskListRef}>
-      <TaskListHeader {...headerProps} />
+    <div ref={props.taskListRef}>
+      <TaskListHeader />
       <div
         ref={horizontalContainerRef}
-        className={horizontalContainerClass}
-        style={ganttHeight ? { height: ganttHeight } : {}}
+        className={props.horizontalContainerClass}
+        style={
+          stylingOptions.ganttHeight
+            ? { height: stylingOptions.ganttHeight }
+            : {}
+        }
       >
-        <TaskListTable {...tableProps} />
+        <TaskListTable
+          tasks={props.tasks}
+          selectedTaskId={selectedTaskId}
+          setSelectedTask={props.setSelectedTask}
+          onExpanderClick={props.onExpanderClick}
+        />
       </div>
     </div>
   );
 };
 
 type TaskListProps = {
-  readonly headerHeight: number;
-  readonly rowWidth: string;
-  readonly fontFamily: string;
-  readonly fontSize: string;
-  readonly rowHeight: number;
-  readonly ganttHeight: number;
-  readonly scrollY: number;
-  readonly locale: string;
   readonly tasks: Task[];
-  readonly taskListRef: RefObject<HTMLDivElement>;
+  readonly scrollY: number;
   readonly horizontalContainerClass?: string;
   readonly selectedTask: BarTask | undefined;
   readonly setSelectedTask: (task: string) => void;
+  readonly taskListRef: RefObject<HTMLDivElement>;
   readonly onExpanderClick: (task: Task) => void;
-  readonly TaskListHeader: (props: {
-    readonly headerHeight: number;
-    readonly rowWidth: string;
-    readonly fontFamily: string;
-    readonly fontSize: string;
-  }) => ReactNode;
-  readonly TaskListTable: (props: {
-    readonly rowHeight: number;
-    readonly rowWidth: string;
-    readonly fontFamily: string;
-    readonly fontSize: string;
-    readonly locale: string;
-    readonly tasks: Task[];
-    readonly selectedTaskId: string;
-    readonly setSelectedTask: (taskId: string) => void;
-    readonly onExpanderClick: (task: Task) => void;
-  }) => ReactNode;
 };
