@@ -9,6 +9,12 @@ export const TaskItem = (props: TaskItemProps) => {
   const [taskItem, setTaskItem] = useState<ReactElement>(<div />);
   const [isTextInside, setIsTextInside] = useState(true);
 
+  const { width: textBoxWidth, height: textBoxHeight } =
+    textRef.current?.getBBox() || {
+      width: 0,
+      height: 0,
+    };
+
   useEffect(() => {
     switch (props.task.typeInternal) {
       case 'milestone':
@@ -27,35 +33,35 @@ export const TaskItem = (props: TaskItemProps) => {
   }, [props.task, props.isSelected]);
 
   useEffect(() => {
-    if (textRef.current) {
-      setIsTextInside(
-        textRef.current.getBBox().width < props.task.x2 - props.task.x1,
-      );
+    if (textBoxWidth) {
+      setIsTextInside(textBoxWidth < props.task.x2 - props.task.x1);
     }
-  }, [textRef, props.task]);
+  }, [textBoxWidth, props.task]);
 
   const getX = () => {
-    const width = props.task.x2 - props.task.x1;
+    const taskWidth = props.task.x2 - props.task.x1;
     const hasChild = props.task.barChildren.length > 0;
     if (isTextInside) {
-      return props.task.x1 + width * 0.5;
+      return props.task.x1 + taskWidth * 0.5 - textBoxWidth * 0.5;
     }
     if (props.rtl && textRef.current) {
       return (
         props.task.x1 -
-        textRef.current.getBBox().width -
+        textBoxWidth -
         props.arrowIndent * +hasChild -
         props.arrowIndent * 0.2
       );
     } else {
       return (
         props.task.x1 +
-        width +
+        taskWidth +
         props.arrowIndent * +hasChild +
         props.arrowIndent * 0.2
       );
     }
   };
+
+  console.log('DEBUG', props.task.y, props.taskHeight);
 
   return (
     <g
@@ -74,10 +80,11 @@ export const TaskItem = (props: TaskItemProps) => {
       {taskItem}
       <text
         x={getX()}
-        y={props.task.y + props.taskHeight * 0.5}
+        y={props.task.y + props.taskHeight * 0.5 - textBoxHeight * 0.5}
+        dominantBaseline="hanging"
         className={`${
           isTextInside
-            ? 'fill-white text-center font-light select-none pointer-events-none'
+            ? 'fill-white text-center font-light select-none pointer-events-none bg-black'
             : 'fill-gray-700 text-start select-none pointer-events-none'
         }`}
         ref={textRef}
