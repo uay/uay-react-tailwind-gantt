@@ -64,7 +64,7 @@ export const TaskItem = (props: TaskItemProps) => {
   return (
     <g
       onKeyDown={e => {
-        if (e.key === 'Delete' && props.isDelete) {
+        if ((e.key === 'Delete' || e.key == 'Backspace') && props.isDelete) {
           props.onEventStart({
             action: 'delete',
             task: props.task,
